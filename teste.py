@@ -40,7 +40,7 @@ class BitStream():
         #   quick fix, to not allow reading from another byte
         # logger.error((self.bitsRead % 8) + no)
         logger.error((self.bitsRead % 8) + no)
-        # assert 0 < (self.bitsRead % 8) + no <= 8
+        assert 0 < (self.bitsRead % 8) + no <= 8
 
         temp_byte = 0
         for b in range(no):
@@ -52,6 +52,7 @@ class BitStream():
 
                 #   manage file pointer
                 self.byte = int.from_bytes(temp_file.read(1), sys.byteorder)  # reads a byte
+                logger.info("has been read: %s", self.byte)
                 self.filePointer = temp_file.tell()
                 logger.debug("tell: %s", self.filePointer)
                 temp_file.close()
@@ -74,12 +75,15 @@ class BitStream():
     def writeByte(self):
         return self.readBit(8)
 #
-#
+
 coiso = BitStream("new_town.txt")
 coiso.readBit(7)
 coiso.readBit(1)
 coiso.readBit(7)
-coiso.readBit(20)
+coiso.readBit(1)
+# coiso.readBit(8)
+# coiso.readBit(8)
+# coiso.readBit(8)
 # TODO: ignore but don't delete
 # # with open("old_town.txt", "rb") as file:
 # #     linha0 = file.readline()
@@ -103,18 +107,19 @@ coiso.readBit(20)
 # #         if not len(ola):
 # #             break
 #
-# with open("new_town.txt", "wb") as nfile:
-#     for i in range(2):
-#         r = 1 # random.randint(1, 10)
-#         nfile.write(struct.pack("<i", r))     #> big-endian / <nothing> or @ native; i integer
-#         print("writing: ", r)
-
-with open("new_town.txt", "rb") as nfile:
-    while True:
-        ola = nfile.read(4)
-        if not len(ola):
-            break
-        print("> ", int.from_bytes(ola, sys.byteorder))
+with open("new_town.txt", "wb") as nfile:
+    for i in range(2):
+        r = random.choice([1,118]) # random.randint(1, 10)
+        nfile.write(struct.pack("<B", r))     #> big-endian / <nothing> or @ native; i integer; B de unsigned char
+        print(bytes(r))
+        print("writing: ", r)
+#
+# with open("new_town.txt", "rb") as nfile:
+#     while True:
+#         ola = nfile.read(4)
+#         if not len(ola):
+#             break
+#         print("> (mal pk esta byte a byte)", int.from_bytes(ola, sys.byteorder))
 #
 #
 # # https://stackoverflow.com/questions/10365624/sys-getsizeofint-returns-an-unreasonably-large-value
