@@ -27,8 +27,8 @@ class BitStream():
         self.mask = 128  # aka 10000000
         self.byte = None  # byte actual
 
-    # Note: Not sure if this is what is meant to do, welp... verificar amanha
-    def readBit(self, no):
+    # Note: Not sure if this is what is meant to do, welp... ERRADO: é pa ir buscar literally a bit
+    def readBitObsolute(self, no):
         # if self.bitsRead % 8 == 0:
         #     logger.debug("Reading...")
         #     temp_file = open(self.fileName, "rb")
@@ -65,8 +65,18 @@ class BitStream():
         logger.debug("return %s", temp_byte)
         return temp_byte
 
-    def writeBit(self, no):
-        #   TODO: ask teacher if we can store the bits until a byte is formed
+    def readBit(self, no):
+        pass
+
+
+    def writeBit(self, number, no_bits):
+        """
+        :param number: number to write in the file
+        :param no_bits: number fo bits to be written into
+        """
+        temp_file = open(self.fileName, "wb")
+        temp_file.write(format(1, "b"))
+        temp_file.close()
         pass
 
     def readbyte(self):
@@ -74,13 +84,17 @@ class BitStream():
 
     def writeByte(self):
         return self.readBit(8)
-#
+
+
+
+
 
 coiso = BitStream("new_town.txt")
-coiso.readBit(7)
-coiso.readBit(1)
-coiso.readBit(7)
-coiso.readBit(1)
+coiso.writeBit(1,1)
+# coiso.readBit(7)
+# coiso.readBit(1)
+# coiso.readBit(7)
+# coiso.readBit(1)
 # coiso.readBit(8)
 # coiso.readBit(8)
 # coiso.readBit(8)
@@ -107,12 +121,12 @@ coiso.readBit(1)
 # #         if not len(ola):
 # #             break
 #
-with open("new_town.txt", "wb") as nfile:
-    for i in range(2):
-        r = random.choice([1,118]) # random.randint(1, 10)
-        nfile.write(struct.pack("<B", r))     #> big-endian / <nothing> or @ native; i integer; B de unsigned char
-        print(bytes(r))
-        print("writing: ", r)
+# with open("new_town.txt", "wb") as nfile:
+#     for i in range(2):
+#         r = random.choice([1,118]) # random.randint(1, 10)
+#         nfile.write(struct.pack("<B", r))     #> big-endian / <nothing> or @ native; i integer; B de unsigned char
+#         print(bytes(r))
+#         print("writing: ", r)
 #
 # with open("new_town.txt", "rb") as nfile:
 #     while True:
