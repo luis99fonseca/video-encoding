@@ -3,7 +3,7 @@ import struct
 import sys
 
 with open("new_town.txt", "wb") as f:
-    f.write((1).to_bytes(1,byteorder="big"))
+    f.write((200).to_bytes(1,byteorder="big"))
     # ou bytes([1])
 
 with open("new_town.txt", "rb") as f:
@@ -16,6 +16,12 @@ with open("new_town.txt", "rb") as f:
 byte = 0
 byte = 1 << 1
 print("..", bytes([byte]))
+
+try:
+    print((256).to_bytes(3, byteorder="big"))
+    print((2).bit_length())
+except OverflowError as e:
+    print("aaa", e)
 
 
 # buffer = 0
