@@ -11,6 +11,7 @@ logger.setLevel(logging.INFO)
 if test01:
     bitstream01 = BitStream("unitary_tests_out/test01.txt")
 
+    # TODO: verificar se da pa mais de 8
     assert bitstream01.readBit(8) == [1, 1, 0, 0, 1, 0, 0, 0]
     assert bitstream01.readBit(4) == [0, 1, 1, 1]
     assert bitstream01.readBit(4) == [1, 0, 0, 0]
