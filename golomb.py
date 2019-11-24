@@ -1,10 +1,16 @@
 import math
 
 class Golomb:
-    def __init__(self, m):
+    def __init__(self, m=2):
         assert m > 0
-        self.m = m
 
+        self.m = m
+        self.base2 = True if math.log2(m).is_integer() else False
+
+    def set_m(self, m):
+        assert m > 0
+
+        self.m = m
         self.base2 = True if math.log2(m).is_integer() else False
 
     def encode(self, n):
@@ -20,8 +26,8 @@ class Golomb:
         binary_code = self.decimal_to_binary(r, 1)
 
         golomb_code = unary_code + binary_code
-        s = ''
-        return s.join(golomb_code)
+
+        return ''.join(golomb_code)
     
     def truncated_encoder(self, n):
         b = math.ceil(math.log2(self.m))
@@ -38,8 +44,8 @@ class Golomb:
             binary_code = self.decimal_to_binary(r + 2**b - self.m, b)
         
         golomb_code = unary_code + binary_code
-        s = ''
-        return s.join(golomb_code)
+
+        return ''.join(golomb_code)
     
     def decode(self, bitstream):
         return self.base2decoder(str(bitstream)) if self.base2 else self.truncated_decoder(str(bitstream))
@@ -82,7 +88,6 @@ class Golomb:
             return decimal + q * self.m
         else:
             return decimal + self.m - 2**b + q * self.m
-        print(decimal)
 
 
     def quocient(self, n, m):
@@ -125,17 +130,3 @@ class Golomb:
         frequency = sorted(frequency.items(), reverse=True, key=lambda kv: kv[1])
         self.histogram = [(f[0], f[1] / len(text)) for f in frequency]
         return self.histogram
-
-
-if __name__ == '__main__':
-    golomb = Golomb(5)
-
-    codes = []
-    print("Golomb encoding with M = 5")
-    for i in range(16):
-        codes.append(golomb.encode(i))
-        print(i, codes[i])
-    
-    print("\nGolomb decoding with M = 5")
-    for code in codes:
-        print(code, golomb.decode(code))
