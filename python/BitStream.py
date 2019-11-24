@@ -50,7 +50,7 @@ class BitStream:
                     if not temp_byte:
                         self.read_eof = True
                         logger.info("EOF reached!! Cannot read any further.")
-                        return []
+                        return bit_list
                     else:
                         self.read_byte = int.from_bytes(temp_byte, sys.byteorder)
                         logger.debug("has been read: %s, aka %s", self.read_byte, bin(self.read_byte))
