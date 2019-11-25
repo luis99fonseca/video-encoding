@@ -1,11 +1,11 @@
 from BitStream import BitStream
 import logging
 
-test01 = False
+test01 = True
 test02 = True
 
 logger = logging.getLogger('root')
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 
 # ---------------READING TESTING--------------
 if test01:

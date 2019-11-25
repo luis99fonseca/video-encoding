@@ -32,11 +32,12 @@ class BitStream:
 
     def readBit(self, no):
         # see: https://stackoverflow.com/a/9885287
-        if self.read_eof:
-            logger.info("EOF reached!! Cannot read any further.")
-            return []
-
         bit_list = []
+        if self.read_eof:
+            logger.info("EOF reached!!! Cannot read any further.")
+            return bit_list
+
+
         for b in range(no):
             temp_bit = 0
             if self.read_byte_idx == -1:
@@ -45,13 +46,13 @@ class BitStream:
                 logger.debug("Reading Again")
                 #   read another file byte
                 with open(self.fileName, "rb") as temp_file:  # TODO: opening and closing this constantly might be bad
-                    temp_file.seek(self.filePointer)                 # unnecessary but required
+                    temp_file.seek(self.filePointer)
                     temp_byte = temp_file.read(1)
                     if not temp_byte:
                         self.read_eof = True
                         logger.info("EOF reached!! Cannot read any further.")
                         return bit_list
-                    else:
+                    else:                                           # irrelevant but required
                         self.read_byte = int.from_bytes(temp_byte, sys.byteorder)
                         logger.debug("has been read: %s, aka %s", self.read_byte, bin(self.read_byte))
                         self.filePointer = temp_file.tell()
@@ -82,7 +83,7 @@ class BitStream:
                 self.write_byte_idx = 7
                 self.write_byte = 0
             if temp_counter <= 0:
-                break
+                return True;
             self.write_byte_idx -= (no_bits % (8 + 1))  # subtracting from the idx the number of "available" bits / we can only write at max 8 bits at the time
             temp_counter -= (no_bits % (8 + 1))
             logger.debug("left: %s ; used: %s", self.write_byte_idx + 1,8 - self.write_byte_idx - 1)
