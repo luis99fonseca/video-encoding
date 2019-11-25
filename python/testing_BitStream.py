@@ -26,6 +26,8 @@ if test02:
 
     assert not bitstream02.writeBit(256, 1)
     assert not bitstream02.writeBit(3, 1)
+
+    # bitstream02.writeBit(3, 2) TODO: ver erro de quando se tem negative shift amount, AKA eu escrever e continuar com o buffer reiniciado
     bitstream02.writeBit(3, 2)
     bitstream02.writeBit(1, 2)
     bitstream02.writeBit(4, 4)
