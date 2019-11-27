@@ -49,6 +49,10 @@ int main(){
         bitstream02.writeBit(1, 3);
         bitstream02.writeBit(1, 4);
 
+        bitstream02.writeBit(1, 15);
+        bitstream02.writeBit(1, 1);
+        
+
         BitStream bitstream022("test02.txt");
         vector <bool> vecReading;
 
@@ -60,6 +64,14 @@ int main(){
 
         vecReading = {1, 0, 0, 1, 0, 0, 0, 1};
         assert (bitstream022.readBit(8) == vecReading); 
+
+        vecReading = {0, 0, 0, 0, 0, 0, 0, 0};
+        assert (bitstream022.readBit(8) == vecReading); 
+
+        vecReading = {0, 0, 0, 0, 0, 0, 1, 1};
+        assert (bitstream022.readBit(8) == vecReading); 
+
+
     }
 
     return 0;

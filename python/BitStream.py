@@ -73,6 +73,33 @@ class BitStream:
             logger.error("Unable to convert int {%s} into %s-bits word", number, no_bits)
             return False
 
+        for idx in range(no_bits - 1, -1, -1):
+            temp_bit = (number >> idx) & 1  # TODO: tentar simplificar os shifts, so para 1
+            logger.debug("idx: %s; temp_bit: %s, write_idx: %s; withShitft: %s; temp2: NONE", idx, temp_bit, self.write_byte_idx, (temp_bit << self.write_byte_idx))
+            self.write_byte |= (temp_bit << self.write_byte_idx)
+            self.write_byte_idx -= 1
+
+            if self.write_byte_idx == -1:
+                with open(self.fileName, self.write_mode) as temp_file:
+                    logger.warning("Writing: %s", bin(self.write_byte))
+                    temp_file.write(self.write_byte.to_bytes(1, byteorder="big"))
+                    self.write_mode = "ab"
+                self.write_byte_idx = 7
+                self.write_byte = 0
+
+        return True
+
+    # @obsolete
+    ## doesnt allow to split bytes aka, part of a writing in one byte and another part in the next
+    def writeBit2(self, number, no_bits = 8):
+        """
+        :param number: number to write in the file
+        :param no_bits: number fo bits to be written into
+        """
+        if (number.bit_length() > no_bits):
+            logger.error("Unable to convert int {%s} into %s-bits word", number, no_bits)
+            return False
+
         temp_counter = no_bits
         while True:
             if self.write_byte_idx == -1:

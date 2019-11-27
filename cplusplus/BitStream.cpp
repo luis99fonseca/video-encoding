@@ -81,6 +81,37 @@ class BitStream {
                 return false;
             }
 
+           
+            for (int idx = no_bits - 1; idx >= 0; idx--) {
+                cout << "MODE: " << write_mode << "\n";
+                unsigned char temp_bit = (number >> idx) & 1;
+                // TODO: tentar simplificar os shifts, so para 1
+
+                write_byte |= (temp_bit << write_byte_idx--);
+                
+                if (write_byte_idx == -1){
+                    fileF.open(fileName, ios::out | ios::binary | write_mode);
+                    cout << "[WARNING] Writing: " << bitset<8>(write_byte) << "\n";
+                    fileF.write(reinterpret_cast<char *> (&write_byte), 1);
+                    fileF.close();
+                    write_mode = std::ofstream::app;
+                    /* cout << "MODE2: " << write_mode << "\n"; */
+
+                    write_byte_idx = 7;
+                    write_byte = 0;
+                }
+            }
+            return true;
+        }
+
+        // obsolete
+        bool writeBit2(int number, int no_bits = 8){
+
+            if ((int)log2(number) + 1 > no_bits){
+                printf("[ERROR] to convert int {%d} into %d-bits word\n", number, no_bits);
+                return false;
+            }
+
             int temp_counter = no_bits;
             while (true){
                 cout << "MODE: " << write_mode << "\n";
