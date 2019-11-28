@@ -3,7 +3,7 @@ import logging
 
 test01 = False
 test02 = False
-test03 = False
+test03 = True
 
 logger = logging.getLogger('root')
 logger.setLevel(logging.DEBUG)
@@ -54,5 +54,6 @@ if test03:
     bitstream03.writeBit(1, 7)
     bitstream03.writeBit(3, 2)
 
+    print(bitstream03.readBit(10))
 
     pass

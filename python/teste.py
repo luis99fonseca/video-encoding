@@ -1,140 +1,14 @@
-import random
-import struct
-import sys
-import logging
+import cv2
+# https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_gui/py_image_display/py_image_display.html
 
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger('root')
-logger.setLevel(logging.DEBUG)
+path = "/home/luis/Desktop/CSLP/p04/video-encoding/python/media/img01.png"
 
-c_handler = logging.StreamHandler()
-c_format = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
-c_handler.setFormatter(logging.Formatter('%(name)s | %(levelname)s ->: %(message)s'))
+image = cv2.imread(path)
+assert image is not None
 
-logger.addHandler(c_handler)
-logger.propagate = False    #   https://stackoverflow.com/a/19561320
+window_name = "pic"
 
 
-class BitStream():
-    def __init__(self, fileName):
-
-        # file management
-        self.fileName = fileName
-        self.filePointer = 0  # NOTE: with bitsRead alone we could infer the pointer
-
-        # read control
-        self.bitsRead = 0
-        self.mask = 128  # aka 10000000
-        self.byte = None  # byte actual
-
-    # Note: Not sure if this is what is meant to do, welp... ERRADO: é pa ir buscar literally a bit
-    def readBitObsolute(self, no):
-        # if self.bitsRead % 8 == 0:
-        #     logger.debug("Reading...")
-        #     temp_file = open(self.fileName, "rb")
-        #     self.byte = int.from_bytes(temp_file.read(1), sys.byteorder)  # reads a byte
-        #     self.filePointer = temp_file.tell()
-        #     logger.debug("tell: %s", self.filePointer)
-        #     temp_file.close()
-
-        #   quick fix, to not allow reading from another byte
-        # logger.error((self.bitsRead % 8) + no)
-        logger.error((self.bitsRead % 8) + no)
-        assert 0 < (self.bitsRead % 8) + no <= 8
-
-        temp_byte = 0
-        for b in range(no):
-            if self.bitsRead % 8 == 0:
-                logger.debug("Reading Again")
-                #   read another file byte
-                temp_file = open(self.fileName, "rb")   # TODO: opening and closing this constantly might be bad
-                temp_file.seek(self.filePointer)
-
-                #   manage file pointer
-                self.byte = int.from_bytes(temp_file.read(1), sys.byteorder)  # reads a byte
-                logger.info("has been read: %s", self.byte)
-                self.filePointer = temp_file.tell()
-                logger.debug("tell: %s", self.filePointer)
-                temp_file.close()
-
-            #   work with bit at b'th
-            temp_byte |= self.byte & (self.mask >> (self.bitsRead % 8))
-            logger.warning("> b:    %s - bits_read: %s, rest: %s", b, self.bitsRead, (self.bitsRead % 8))
-            self.bitsRead += 1
-
-        logger.debug("return %s", temp_byte)
-        return temp_byte
-
-    def readBit(self, no):
-        pass
-
-
-    def writeBit(self, number, no_bits):
-        """
-        :param number: number to write in the file
-        :param no_bits: number fo bits to be written into
-        """
-        temp_file = open(self.fileName, "wb")
-        temp_file.write(format(1, "b"))
-        temp_file.close()
-        pass
-
-    def readbyte(self):
-        return self.readBit(8)
-
-    def writeByte(self):
-        return self.readBit(8)
-
-
-
-
-
-coiso = BitStream("new_town.txt")
-coiso.writeBit(1,1)
-# coiso.readBit(7)
-# coiso.readBit(1)
-# coiso.readBit(7)
-# coiso.readBit(1)
-# coiso.readBit(8)
-# coiso.readBit(8)
-# coiso.readBit(8)
-# TODO: ignore but don't delete
-# # with open("old_town.txt", "rb") as file:
-# #     linha0 = file.readline()
-# #     print("linha 1", linha0.decode().rstrip())
-# #     linha1 = file.readline()
-# #     print("linha 2", linha1.decode().rstrip())
-# #     linha2 = file.read(1)
-# #
-# #     '''
-# #     https://stackoverflow.com/questions/34009653/convert-bytes-to-int
-# #     '''
-# #     print("linha 3", int.from_bytes(linha2, "big"))
-# #     print((linha2))
-# #     for l in linha2:
-# #         print(">>", l)
-# #
-# #     while True:
-# #         ola = file.read(1)
-# #         # print("l ", len(ola))
-# #         print("> ", int.from_bytes(ola, "big"))
-# #         if not len(ola):
-# #             break
-#
-# with open("new_town.txt", "wb") as nfile:
-#     for i in range(2):
-#         r = random.choice([1,118]) # random.randint(1, 10)
-#         nfile.write(struct.pack("<B", r))     #> big-endian / <nothing> or @ native; i integer; B de unsigned char
-#         print(bytes(r))
-#         print("writing: ", r)
-#
-# with open("new_town.txt", "rb") as nfile:
-#     while True:
-#         ola = nfile.read(4)
-#         if not len(ola):
-#             break
-#         print("> (mal pk esta byte a byte)", int.from_bytes(ola, sys.byteorder))
-#
-#
-# # https://stackoverflow.com/questions/10365624/sys-getsizeofint-returns-an-unreasonably-large-value
-# print(sys.getsizeof(int()))
+cv2.imshow(window_name, image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()

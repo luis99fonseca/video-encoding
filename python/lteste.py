@@ -1,27 +1,30 @@
-import random
-import struct
-import sys
+import cv2
 
-# with open("new_town.txt", "wb") as f:
-#     f.write((200).to_bytes(1,byteorder="big"))
-#     f.write((120).to_bytes(1,byteorder="big"))
-#     f.write((99).to_bytes(1,byteorder="big"))
-#
-#     # ou bytes([1])
-#
-# with open("new_town.txt", "rb") as f:
-#     by = f.read(1)
-#     print(">>", by)
-#     print(">>", int.from_bytes(by, byteorder='little') << 1)
-#
-#
-#
-# byte = 0
-# byte = 1 << 1
-# print("..", bytes([byte]))
+with open("media/park_joy_444_720p50.y4m", "rb") as temp_file:
+    header = temp_file.readline().decode().split()
+    print("header: ", header)
+    imageWidth = int(header[1][1:])
+    print(imageWidth)
+    imageHeight = int(header[2][1:])
+    print(imageHeight)
+    yuvFormat = list(header[-1])[1:]
+    print([int(n) for n in yuvFormat])
 
-try:
-    print((256).to_bytes(3, byteorder="big"))
-    print((2).bit_length())
-except OverflowError as e:
-    print("aaa", e)
+    temp_file.readline()
+    yMatrix = temp_file.read(imageHeight * imageWidth)
+    temp_file.read(imageHeight * imageWidth)
+    temp_file.read(imageHeight * imageWidth)
+
+    print(temp_file.readline())
+
+    path = "/home/luis/Desktop/CSLP/p04/video-encoding/python/media/img01.png"
+
+    image = cv2.imread(path)
+    assert image is not None
+
+    window_name = "pic"
+
+    cv2.imshow(window_name, image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
