@@ -3,7 +3,7 @@
 #include <cstring>
 #include <cmath>
 #include <vector>
-#include<algorithm>
+#include <algorithm>
 
 using namespace std;
 
@@ -61,12 +61,77 @@ public:
 
         int first_values = pow(2, b) - this->m;
 
-        vector<int> binary_code = r < first_values ? this->binary_code(r, b-1) : this->binary_code(r + pow(2, b) - this->m, b);
+        vector<int> binary_code = r < first_values ? this->binary_code(r, b - 1) : this->binary_code(r + pow(2, b) - this->m, b);
 
         // golomb code
         unary_code.insert(unary_code.end(), binary_code.begin(), binary_code.end());
 
         return unary_code;
+    }
+
+    int decode(vector<int> bitstream)
+    {
+        assert(bitstream.size() > 0);
+        return this->isBase2 ? this->base2decoder(bitstream) : this->truncated_decoder(bitstream);
+    }
+
+    int base2decoder(vector<int> bitstream)
+    {
+        int q, r;
+        if (bitstream.at(0) == 0)
+        {
+            q = 0;
+            vector<int> aux;
+            for(int i = 1; i < bitstream.size(); i++) 
+                aux.push_back(bitstream.at(i));
+            r = this->binary_to_decimal(aux);
+        }
+        else
+        {
+            int i = 0;
+            while(bitstream.at(i) == 1) i++;
+            vector<int> unary_code, binary_code;
+            for(int j = 0; j < i + 1; j++) unary_code.push_back(bitstream.at(j));
+            for(int j = i + 1; j < bitstream.size(); j++) binary_code.push_back(bitstream.at(j));
+
+            q = i;
+            r = this->binary_to_decimal(binary_code);
+        }
+        return r + q * this->m;
+    }
+
+    int truncated_decoder(vector<int> bitstream)
+    {
+        int b = ceil(log2(this->m));
+        int q, r;
+        vector<int> binary_code;
+        if (bitstream.at(0) == 0) 
+        {
+            q = 0;
+            for(int i = 1; i < bitstream.size(); i++) 
+                binary_code.push_back(bitstream.at(i));
+        }
+        else 
+        {
+            int i = 0;
+            while (bitstream.at(i) == 1) i++;
+
+            q = i;
+            for(int j = i; j < bitstream.size(); j++) 
+                binary_code.push_back(bitstream.at(j));
+        }
+        int first_values = pow(2,b) - this->m;
+        int decimal = this->binary_to_decimal(binary_code);
+        return decimal < first_values ? decimal + q * this->m : decimal + this->m - pow(2,b) + q * this->m;
+    }
+
+    int binary_to_decimal(vector<int> bitstream)
+    {
+        int decimal = 0;
+        for (int i = 0; i < bitstream.size(); i++)
+            decimal += bitstream.at(i) * pow(2, bitstream.size() - 1 - i);
+            
+        return decimal;
     }
 
     vector<int> unary_code(int q)
@@ -92,32 +157,16 @@ public:
             int bit = n % 2;
             binary.push_back(bit);
             n = q;
-            
-            if(q == 0) break;
+
+            if (q == 0)
+                break;
         }
 
         while (binary.size() < bits)
             binary.push_back(0);
-        
 
         reverse(binary.begin(), binary.end());
 
         return binary;
     }
 };
-
-// main() is where program execution begins.
-int main()
-{
-    Golomb golomb(5);
-
-    vector<int> codes;
-    for(int i = 0; i < 15; i++) {
-        vector<int> code = golomb.encode(i);
-        codes.insert(codes.end(), code.begin(), code.end());
-    }
-    
-
-    for(int i = 0; i < codes.size(); i++)
-        cout << codes.at(i) << ";";
-}

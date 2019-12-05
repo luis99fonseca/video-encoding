@@ -48,6 +48,7 @@ class Golomb:
         return ''.join(golomb_code)
     
     def decode(self, bitstream):
+        assert len(bitstream) > 0
         return self.base2decoder(str(bitstream)) if self.base2 else self.truncated_decoder(str(bitstream))
 
     def base2decoder(self, bitstream):
