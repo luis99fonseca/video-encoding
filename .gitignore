@@ -1,4 +1,6 @@
 park_joy_444_720p50.y4m
+park_joy_422_720p50.y4m
+park_joy_420_720p50.y4m
 
 .vscode/*
 *.code-workspace
@@ -140,3 +142,5 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+
