@@ -14,8 +14,6 @@ class Golomb:
         self.base2 = True if math.log2(m).is_integer() else False
 
     def encode(self, n):
-        assert n >= 0
-
         return self.base2encoder(n) if self.base2 else self.truncated_encoder(n)
 
     def base2encoder(self, n):
@@ -26,8 +24,7 @@ class Golomb:
         binary_code = self.decimal_to_binary(r, 1)
 
         golomb_code = unary_code + binary_code
-
-        return ''.join(golomb_code)
+        return golomb_code
     
     def truncated_encoder(self, n):
         b = math.ceil(math.log2(self.m))
@@ -45,20 +42,20 @@ class Golomb:
         
         golomb_code = unary_code + binary_code
 
-        return ''.join(golomb_code)
+        return golomb_code
     
     def decode(self, bitstream):
         assert len(bitstream) > 0
-        return self.base2decoder(str(bitstream)) if self.base2 else self.truncated_decoder(str(bitstream))
+        return self.base2decoder(bitstream) if self.base2 else self.truncated_decoder(bitstream)
 
     def base2decoder(self, bitstream):
 
-        if bitstream[0] == '0':
+        if bitstream[0] == 0:
             q = 0
             r = self.binary_to_decimal(bitstream[1:])
         else:
             i = 0
-            while bitstream[i] == '1':
+            while bitstream[i] == 1:
                 i += 1
             
             unary_code = bitstream[0:i+1]
@@ -72,12 +69,12 @@ class Golomb:
     def truncated_decoder(self, bitstream):
         b = math.ceil(math.log2(self.m))
 
-        if bitstream[0] == '0':
+        if bitstream[0] == 0:
             q = 0
             binary_code = bitstream[1:]
         else:
             i = 0
-            while bitstream[i] == '1':
+            while bitstream[i] == 1:
                 i += 1
 
             q = i
@@ -98,7 +95,7 @@ class Golomb:
         return n % m
     
     def unary_code(self, q):
-        return [str(1) for i in range(q)] + ['0']
+        return [1 for i in range(q)] + [0]
     
     def decimal_to_binary(self, decimal, bits):
         binary = []
@@ -106,14 +103,14 @@ class Golomb:
         while True:
             q = math.floor(n / 2)
             bit = n % 2
-            binary.append(str(bit))
+            binary.append(bit)
             n = q
             if q == 0:
                 break
         
         binary = binary[::-1]
         if len(binary) < bits:
-            binary = ['0' for i in range(bits - len(binary))] + binary        
+            binary = [0 for i in range(bits - len(binary))] + binary        
         return binary
     
     def binary_to_decimal(self, binary):
@@ -131,3 +128,8 @@ class Golomb:
         frequency = sorted(frequency.items(), reverse=True, key=lambda kv: kv[1])
         self.histogram = [(f[0], f[1] / len(text)) for f in frequency]
         return self.histogram
+
+
+if __name__ == '__main__':
+    golomb = Golomb(4)
+    print(golomb.encode(1))
