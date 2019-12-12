@@ -17,10 +17,10 @@ logger.propagate = False  # https://stackoverflow.com/a/19561320
 
 
 class BitStream:
-    def __init__(self, fileName):
+    def __init__(self, fileName, mode):
         # file management
-        self.fileName = fileName
-        self.filePointer = 0
+        assert mode in ["wb", "rb"]
+        self.file = open(fileName, mode)
 
         self.read_byte = None   # buffer
         self.read_byte_idx = -1
@@ -29,6 +29,9 @@ class BitStream:
         self.write_byte = 0  # buffer
         self.write_byte_idx = 7
         self.write_mode = "wb"
+
+    def closeFile(self):
+        self.file.close()
 
     def readBit(self, no):
         # see: https://stackoverflow.com/a/9885287
@@ -44,19 +47,17 @@ class BitStream:
                 self.read_byte_idx = 7
 
                 logger.debug("Reading Again")
+
                 #   read another file byte
-                with open(self.fileName, "rb") as temp_file:  # TODO: opening and closing this constantly might be bad
-                    temp_file.seek(self.filePointer)
-                    temp_byte = temp_file.read(1)
-                    if not temp_byte:
-                        self.read_eof = True
-                        logger.info("EOF reached!! Cannot read any further.")
-                        return bit_list
-                    else:                                           # irrelevant but required
-                        self.read_byte = int.from_bytes(temp_byte, sys.byteorder)
-                        logger.debug("has been read: %s, aka %s", self.read_byte, bin(self.read_byte))
-                        self.filePointer = temp_file.tell()
-                        logger.debug("tell: %s", self.filePointer)
+                temp_byte = self.file.read(1)
+                if not temp_byte:
+                    self.read_eof = True
+                    logger.info("EOF reached!! Cannot read any further.")
+                    self.closeFile()
+                    return bit_list
+                else:                                           # irrelevant but required
+                    self.read_byte = int.from_bytes(temp_byte, sys.byteorder)
+                    logger.debug("has been read: %s, aka %s", self.read_byte, bin(self.read_byte))
             logger.debug("read idx: %s; byte: %s", self.read_byte_idx, self.read_byte)
             temp_bit |= (self.read_byte >> self.read_byte_idx) & 1
             self.read_byte_idx -= 1
@@ -80,10 +81,9 @@ class BitStream:
             self.write_byte_idx -= 1
 
             if self.write_byte_idx == -1:
-                with open(self.fileName, self.write_mode) as temp_file:
-                    logger.warning("Writing: %s", bin(self.write_byte))
-                    temp_file.write(self.write_byte.to_bytes(1, byteorder="big"))
-                    self.write_mode = "ab"
+                logger.warning("Writing: %s", bin(self.write_byte))
+                self.file.write(self.write_byte.to_bytes(1, byteorder="big"))
+                self.write_mode = "ab"
                 self.write_byte_idx = 7
                 self.write_byte = 0
 
