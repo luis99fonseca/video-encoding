@@ -105,7 +105,7 @@ class Golomb:
         if decimal < first_values:
             return decimal + q * self.m if not negative else -1 * (decimal + q * self.m)
         else:
-            return decimal + self.m - 2**b + q * self.m if negative else -1 * (decimal + self.m - 2**b + q * self.m)
+            return decimal + self.m - 2**b + q * self.m if not negative else -1 * (decimal + self.m - 2**b + q * self.m)
 
     def quocient(self, n, m):
         return math.floor(n / m)
@@ -150,7 +150,7 @@ class Golomb:
 
 
 if __name__ == '__main__':
-    golomb = Golomb(4)
+    golomb = Golomb(5)
     codes = []
     for i in range(-50,51):
         codes.append(golomb.encode(i))
