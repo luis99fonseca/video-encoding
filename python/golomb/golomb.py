@@ -59,12 +59,13 @@ class Golomb:
         assert len(bitstream) > 0
         return self.base2decoder(bitstream) if self.base2 else self.truncated_decoder(bitstream)
 
+    def isNegative(self, bitstream):
+        return bitstream[:2] == [0,0] and len(bitstream) > 3
+
     def base2decoder(self, bitstream):
         
-        positive = True
-        if bitstream[:2] == [0,0] and len(bitstream) > 3:
-            bitstream = bitstream[2:]
-            positive = False
+        negative = self.isNegative(bitstream)
+        bitstream = bitstream if not negative else bitstream[2:]
 
         if bitstream[0] == 0:
             q = 0
@@ -80,13 +81,11 @@ class Golomb:
             q = i
             r = self.binary_to_decimal(binary_code)
 
-        return r + q * self.m if positive else -1 * (r + q * self.m)
+        return r + q * self.m if not negative else -1 * (r + q * self.m)
     
     def truncated_decoder(self, bitstream):
-        positive = True
-        if bitstream[:2] == [0,0] and len(bitstream) > 3:
-            bitstream = bitstream[2:]
-            positive = False
+        negative = self.isNegative(bitstream)
+        bitstream = bitstream if not negative else bitstream[2:]
 
         b = math.ceil(math.log2(self.m))
 
@@ -104,9 +103,9 @@ class Golomb:
         first_values = 2**b - self.m
         decimal = self.binary_to_decimal(binary_code)
         if decimal < first_values:
-            return decimal + q * self.m if positive else -1 * (decimal + q * self.m)
+            return decimal + q * self.m if not negative else -1 * (decimal + q * self.m)
         else:
-            return decimal + self.m - 2**b + q * self.m if positive else -1 * (decimal + self.m - 2**b + q * self.m)
+            return decimal + self.m - 2**b + q * self.m if negative else -1 * (decimal + self.m - 2**b + q * self.m)
 
     def quocient(self, n, m):
         return math.floor(n / m)
@@ -153,7 +152,7 @@ class Golomb:
 if __name__ == '__main__':
     golomb = Golomb(4)
     codes = []
-    for i in range(-15,0):
+    for i in range(-50,51):
         codes.append(golomb.encode(i))
     
     for code in codes:
