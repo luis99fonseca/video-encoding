@@ -17,6 +17,12 @@ class Golomb:
         return self.base2encoder(n) if self.base2 else self.truncated_encoder(n)
 
     def base2encoder(self, n):
+        
+        negative = []
+        if n < 0:
+            n = abs(n)
+            negative += [0,0]
+
         q = self.quocient(n, self.m)
         r = self.remainder(n, self.m)
 
@@ -24,9 +30,14 @@ class Golomb:
         binary_code = self.decimal_to_binary(r, 1)
 
         golomb_code = unary_code + binary_code
-        return golomb_code
+        return negative + golomb_code
     
     def truncated_encoder(self, n):
+        negative = []
+        if n < 0:
+            n = abs(n)
+            negative += [0,0]
+
         b = math.ceil(math.log2(self.m))
 
         q = self.quocient(n, self.m)
@@ -42,13 +53,18 @@ class Golomb:
         
         golomb_code = unary_code + binary_code
 
-        return golomb_code
+        return negative + golomb_code
     
     def decode(self, bitstream):
         assert len(bitstream) > 0
         return self.base2decoder(bitstream) if self.base2 else self.truncated_decoder(bitstream)
 
     def base2decoder(self, bitstream):
+        
+        positive = True
+        if bitstream[:2] == [0,0] and len(bitstream) > 3:
+            bitstream = bitstream[2:]
+            positive = False
 
         if bitstream[0] == 0:
             q = 0
@@ -64,9 +80,14 @@ class Golomb:
             q = i
             r = self.binary_to_decimal(binary_code)
 
-        return r + q * self.m
+        return r + q * self.m if positive else -1 * (r + q * self.m)
     
     def truncated_decoder(self, bitstream):
+        positive = True
+        if bitstream[:2] == [0,0] and len(bitstream) > 3:
+            bitstream = bitstream[2:]
+            positive = False
+
         b = math.ceil(math.log2(self.m))
 
         if bitstream[0] == 0:
@@ -83,10 +104,9 @@ class Golomb:
         first_values = 2**b - self.m
         decimal = self.binary_to_decimal(binary_code)
         if decimal < first_values:
-            return decimal + q * self.m
+            return decimal + q * self.m if positive else -1 * (decimal + q * self.m)
         else:
-            return decimal + self.m - 2**b + q * self.m
-
+            return decimal + self.m - 2**b + q * self.m if positive else -1 * (decimal + self.m - 2**b + q * self.m)
 
     def quocient(self, n, m):
         return math.floor(n / m)
@@ -132,4 +152,9 @@ class Golomb:
 
 if __name__ == '__main__':
     golomb = Golomb(4)
-    print(golomb.encode(1))
+    codes = []
+    for i in range(-15,0):
+        codes.append(golomb.encode(i))
+    
+    for code in codes:
+        print(golomb.decode(code))
