@@ -18,10 +18,10 @@ class Golomb:
 
     def base2encoder(self, n):
         
-        negative = []
+        negative = [0]
         if n < 0:
             n = abs(n)
-            negative += [0,0]
+            negative = [1]
 
         q = self.quocient(n, self.m)
         r = self.remainder(n, self.m)
@@ -33,10 +33,10 @@ class Golomb:
         return negative + golomb_code
     
     def truncated_encoder(self, n):
-        negative = []
+        negative = [0]
         if n < 0:
             n = abs(n)
-            negative += [0,0]
+            negative = [1]
 
         b = math.ceil(math.log2(self.m))
 
@@ -60,12 +60,12 @@ class Golomb:
         return self.base2decoder(bitstream) if self.base2 else self.truncated_decoder(bitstream)
 
     def isNegative(self, bitstream):
-        return bitstream[:2] == [0,0] and len(bitstream) > 3
+        return bitstream[0] == 1
 
     def base2decoder(self, bitstream):
         
         negative = self.isNegative(bitstream)
-        bitstream = bitstream if not negative else bitstream[2:]
+        bitstream = bitstream[1:]
 
         if bitstream[0] == 0:
             q = 0
@@ -85,7 +85,7 @@ class Golomb:
     
     def truncated_decoder(self, bitstream):
         negative = self.isNegative(bitstream)
-        bitstream = bitstream if not negative else bitstream[2:]
+        bitstream = bitstream[1:]
 
         b = math.ceil(math.log2(self.m))
 
@@ -150,10 +150,13 @@ class Golomb:
 
 
 if __name__ == '__main__':
-    golomb = Golomb(5)
+    golomb = Golomb(2)
     codes = []
-    for i in range(-50,51):
+    c = 0
+    for i in range(-255,256):
         codes.append(golomb.encode(i))
+        print(codes[c])
+        c += 1
     
     for code in codes:
         print(golomb.decode(code))

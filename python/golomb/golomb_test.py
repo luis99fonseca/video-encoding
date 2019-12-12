@@ -9,7 +9,7 @@ if __name__ == '__main__':
 
     golomb.m = 4
 
-    codes = [[0,0], [0,1], [0,1,0], [0,1,1], [1,0,0], [1,0,1], [1,0,1,0], [1,0,1,1], [1,1,0,0], [1,1,0,1], [1,1,0,1,0], [1,1,0,1,1], [1,1,1,0,0], [1,1,1,0,1], [1,1,1,0,1,0], [1,1,1,0,1,1]]
+    codes = [[0,0,0], [0,0,1], [0,0,1,0], [0,0,1,1], [0,1,0,0], [0,1,0,1], [0,1,0,1,0], [0,1,0,1,1], [0,1,1,0,0], [0,1,1,0,1], [0,1,1,0,1,0], [0,1,1,0,1,1], [0,1,1,1,0,0], [0,1,1,1,0,1], [0,1,1,1,0,1,0], [0,1,1,1,0,1,1]]
     
     assert golomb.encode(0) == codes[0]
     assert golomb.encode(1) == codes[1]
@@ -59,7 +59,7 @@ if __name__ == '__main__':
 
     golomb.set_m(5)
     
-    codes = [[0,0,0], [0,0,1], [0,1,0], [0,1,1,0], [0,1,1,1], [1,0,0,0], [1,0,0,1], [1,0,1,0], [1,0,1,1,0], [1,0,1,1,1], [1,1,0,0,0], [1,1,0,0,1], [1,1,0,1,0], [1,1,0,1,1,0], [1,1,0,1,1,1], [1,1,1,0,0,0]]
+    codes = [[0,0,0,0], [0,0,0,1], [0,0,1,0], [0,0,1,1,0], [0,0,1,1,1], [0,1,0,0,0], [0,1,0,0,1], [0,1,0,1,0], [0,1,0,1,1,0], [0,1,0,1,1,1], [0,1,1,0,0,0], [0,1,1,0,0,1], [0,1,1,0,1,0], [0,1,1,0,1,1,0], [0,1,1,0,1,1,1], [0,1,1,1,0,0,0], [1,0,0,1], [1,0,1,0]]
 
     assert golomb.encode(0) == codes[0]
     assert golomb.encode(1) == codes[1]
@@ -77,6 +77,8 @@ if __name__ == '__main__':
     assert golomb.encode(13) == codes[13]
     assert golomb.encode(14) == codes[14]
     assert golomb.encode(15) == codes[15]
+    assert golomb.encode(-1) == codes[16]
+    assert golomb.encode(-2) == codes[17]
 
     print("Third test finished with success!")
 
@@ -100,5 +102,7 @@ if __name__ == '__main__':
     assert golomb.decode(codes[13]) == 13
     assert golomb.decode(codes[14]) == 14
     assert golomb.decode(codes[15]) == 15
+    assert golomb.decode(codes[16]) == -1
+    assert golomb.decode(codes[17]) == -2
 
     print("Fourth test finished with success!")
