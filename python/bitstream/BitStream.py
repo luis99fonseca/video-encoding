@@ -58,6 +58,7 @@ class BitStream:
                 else:                                           # irrelevant but required
                     self.read_byte = int.from_bytes(temp_byte, sys.byteorder)
                     logger.debug("has been read: %s, aka %s", self.read_byte, bin(self.read_byte))
+                    
             logger.debug("read idx: %s; byte: %s", self.read_byte_idx, self.read_byte)
             temp_bit |= (self.read_byte >> self.read_byte_idx) & 1
             self.read_byte_idx -= 1
