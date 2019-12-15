@@ -27,7 +27,7 @@ class Golomb:
         r = self.remainder(n, self.m)
 
         unary_code = self.unary_code(q)
-        binary_code = self.decimal_to_binary(r, 1)
+        binary_code = self.decimal_to_binary(r, 2)
 
         golomb_code = unary_code + binary_code
         return negative + golomb_code
@@ -54,6 +54,37 @@ class Golomb:
         golomb_code = unary_code + binary_code
 
         return negative + golomb_code
+    
+    def stream_decoder(self, bitstream):
+        decoded = []
+        while True:
+            sign = bitstream[0]
+            bitstream = bitstream[1:]
+
+            if bitstream[0] == 0:
+                unary_code = [bitstream[0]]
+                binary_code = bitstream[1:(1 + math.ceil(math.sqrt(self.m)))]
+                decimal = self.decode([sign] + unary_code + binary_code)
+                decoded.append(decimal)
+                bitstream = bitstream[(1 + math.ceil(math.sqrt(self.m))):]
+                if not bitstream:
+                    break
+            else:
+                unary_code = []
+                while True:
+                    bit = bitstream.pop(0)
+                    unary_code.append(bit)
+                    if bit == 0:
+                        break
+                binary_code = bitstream[0:math.ceil(math.sqrt(self.m))]
+                decimal = self.decode([sign] + unary_code + binary_code)
+                decoded.append(decimal)
+                bitstream = bitstream[math.ceil(math.sqrt(self.m)):]
+                if not bitstream:
+                    break
+
+        return decoded
+
     
     def decode(self, bitstream):
         assert len(bitstream) > 0
@@ -150,13 +181,6 @@ class Golomb:
 
 
 if __name__ == '__main__':
-    golomb = Golomb(2)
-    codes = []
-    c = 0
-    for i in range(-255,256):
-        codes.append(golomb.encode(i))
-        print(codes[c])
-        c += 1
-    
-    for code in codes:
-        print(golomb.decode(code))
+    golomb = Golomb(4)
+
+    print(golomb.stream_decoder([0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,1,0,1,0,0,0,0,1,0,0,1,0,1,0,1,0,0,1,0,1,1,0,1,1,0,0,0,0,1,1,0,0,1,0,1,1,0,1,0,0,1,1,0,1,1,0,1,1,1,0,0,0,0,1,1,1,0,0,1,0,1,1,1,0,1,1,0,1,1,1,0,1,0]))
