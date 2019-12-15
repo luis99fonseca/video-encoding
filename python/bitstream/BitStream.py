@@ -45,8 +45,11 @@ class BitStream:
         if self.closed:
             logger.error("Class closed! Can't operate any further!")
             return False
+        elif self.mode == "wb":
+            logger.error("Class defined of Writing only. Not allowed to Read!")
+            return False
 
-        if self.read_eof:
+        elif self.read_eof:
             logger.info("EOF reached!!! Cannot read any further.")
             return bit_list
 
@@ -84,7 +87,11 @@ class BitStream:
             logger.error("Class closed! Can't operate any further!")
             return False
 
-        if (number.bit_length() > no_bits):
+        elif self.mode == "rb":
+            logger.error("Class defined of Reading only. Not allowed to Write!")
+            return False
+
+        elif (number.bit_length() > no_bits):
             logger.error("Unable to convert int {%s} into %s-bits word", number, no_bits)
             return False
 
@@ -111,7 +118,6 @@ class BitStream:
         :param no_bits: number fo bits to be written into
         """
 
-
         if (number.bit_length() > no_bits):
             logger.error("Unable to convert int {%s} into %s-bits word", number, no_bits)
             return False
@@ -133,6 +139,19 @@ class BitStream:
             self.write_byte |= number << self.write_byte_idx + 1    # +1, because there are 8 bits in total, but the starting number is 7, so we adjust it
             logger.debug("i: %s - %s - %s", self.write_byte_idx, bin(self.write_byte), temp_counter)
 
+    def writeString(self, message):
+        try:
+            self.file.write((message + "\n").encode("utf-8"))
+            return True
+        except Exception as e:
+            logger.error("Could not write to file: ", e)
+            return True
+
+    def readString(self):
+        """
+        Reads and returns an entire line decoded in utf-8 format
+        """
+        return self.file.readline().decode("utf-8")
 
     def readByte(self):
         return self.readBit(8)
