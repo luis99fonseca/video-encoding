@@ -20,7 +20,8 @@ class BitStream:
     def __init__(self, fileName, mode):
         # file management
         assert mode in ["wb", "rb"]
-        self.file = open(fileName, mode)
+        self.mode = mode
+        self.file = open(fileName, self.mode)
 
         self.read_byte = None   # buffer
         self.read_byte_idx = -1
@@ -30,16 +31,24 @@ class BitStream:
         self.write_byte_idx = 7
         self.write_mode = "wb"
 
+        self.closed = False
+
     def closeFile(self):
+        if self.read_byte_idx != 7 and self.mode == "wb":
+            logger.warning("Writing: %s", bin(self.write_byte))
+            self.file.write(self.write_byte.to_bytes(1, byteorder="big"))
         self.file.close()
 
     def readBit(self, no):
         # see: https://stackoverflow.com/a/9885287
         bit_list = []
+        if self.closed:
+            logger.error("Class closed! Can't operate any further!")
+            return False
+
         if self.read_eof:
             logger.info("EOF reached!!! Cannot read any further.")
             return bit_list
-
 
         for b in range(no):
             temp_bit = 0
@@ -71,6 +80,10 @@ class BitStream:
         :param number: number to write in the file
         :param no_bits: number fo bits to be written into
         """
+        if self.closed:
+            logger.error("Class closed! Can't operate any further!")
+            return False
+
         if (number.bit_length() > no_bits):
             logger.error("Unable to convert int {%s} into %s-bits word", number, no_bits)
             return False
@@ -97,6 +110,8 @@ class BitStream:
         :param number: number to write in the file
         :param no_bits: number fo bits to be written into
         """
+
+
         if (number.bit_length() > no_bits):
             logger.error("Unable to convert int {%s} into %s-bits word", number, no_bits)
             return False

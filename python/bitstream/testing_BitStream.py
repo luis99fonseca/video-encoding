@@ -41,6 +41,9 @@ if test02:
     bitstream02.writeBit(1, 15)
     bitstream02.writeBit(1, 1)
 
+    bitstream02.writeBit(1, 1)
+    bitstream02.writeBit(2, 3)
+
     bitstream02.closeFile()
 
     bitstream02 = BitStream("../unitary_tests_out/test02.txt", "rb")
@@ -50,6 +53,8 @@ if test02:
 
     assert bitstream02.readBit(8) == [0, 0, 0, 0, 0, 0, 0, 0]
     assert bitstream02.readBit(8) == [0, 0, 0, 0, 0, 0, 1, 1]
+    assert bitstream02.readBit(8) == [1, 0, 1, 0, 0, 0, 0, 0]
+
 
     bitstream02.closeFile()
 
