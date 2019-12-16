@@ -31,7 +31,7 @@ class IntraFrameEncoder():
         # Golomb encoder
         self.golomb = Golomb(4)
         self.golomb_codes = self.golomb.load_golomb_codes()
-        self.bitstream = BitStream("./predictor.bin", "wb")
+        self.bitstream = BitStream("./encoded_park_joy_444_720p50.bin", "wb")
     
     def write_code(self, code):
         for bit in code:
@@ -73,23 +73,17 @@ class IntraFrameEncoder():
 
 if __name__ == "__main__":
     frame = Frame444(1280, 720, "../media/park_joy_444_720p50.y4m")
-    frame.advance()
-    matrix2 = frame.getY()
-    print(matrix2)
-    print("-----")
-    # matrix2 = np.zeros([12, 10])
-    # matrix2[0,0] = 20
-    # matrix2[0,1] = 30
-    # matrix2[0,2] = 32
-    # matrix2[0,3] = 33
-    # matrix2[0,4] = 34
-    # matrix2[1,0] = 25
-    # matrix2[1,1] = 10
-    # matrix2[1,2] = 12
-    # matrix2[2,0] = 40
-    # print(matrix2)
-    print("------")
-    ife = IntraFrameEncoder(matrix2, "Y", [4,4,4], Predictors.JPEG1)
-    ife.encode()
-    print(ife.encoded_matrix)
-
+    
+    while True:
+        playing = frame.advance()
+        if not playing:
+            break
+        matrix = frame.getY()
+        ife = IntraFrameEncoder(matrix, "Y", [4,4,4], Predictors.JPEG1)
+        ife.encode()
+        matrix = frame.getU()
+        ife = IntraFrameEncoder(matrix, "U", [4,4,4], Predictors.JPEG2)
+        ife.encode()
+        matrix = frame.getV()
+        ife = IntraFrameEncoder(matrix, "V", [4,4,4], Predictors.JPEG3)
+        ife.encode()
