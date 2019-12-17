@@ -166,7 +166,7 @@ if __name__ == "__main__":
         print("Decoded: {}".format(decoded))
         ifd = IntraFrameDecoder(decoded, matrixes.pop(0), [4,4,4], predictors.JPEG1)
         ifd.decode()
-        decoded_matrixes.appen(ifd.decoded_matrix) # UTILIZA ESTA LISTA COM AS MATRIZES PARA DAR DISPLAY
+        decoded_matrixes.append(ifd.decoded_matrix) # UTILIZA ESTA LISTA COM AS MATRIZES PARA DAR DISPLAY
         print("Original matrix: {}".format(ifd.decoded_matrix))
 
 
