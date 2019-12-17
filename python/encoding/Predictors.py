@@ -20,25 +20,25 @@ class JPEG3:
 class JPEG4:
     @staticmethod
     def predict(a, b, c):
-        return a + b - c
+        return int(a) + int(b) - c
 
 
 class JPEG5:
     @staticmethod
     def predict(a, b, c):
-        return a + ((b - c) // 2)  # TODO: ver se tem de ser inteiro
+        return int(a) + int((b - c) // 2)  # TODO: ver se tem de ser inteiro
 
 
 class JPEG6():
     @staticmethod
     def predict(a, b, c):
-        return b + ((a - b) // 2)
+        return int(b)+ ((int(a) - int(b)) // 2)
 
 
 class JPEG7:
     @staticmethod
     def predict(a, b, c):
-        return (a + b) // 2
+        return (int(a) + int(b)) // 2
 
 ## TODO: falta non-linear
 
