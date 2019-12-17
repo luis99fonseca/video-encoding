@@ -107,7 +107,6 @@ class IntraFrameDecoder():
                     self.decoded_matrix[line, col] = int(self.original_matrix[line, col]) + self.predictor.predict(
                         self.decoded_matrix[line, col - 1], self.decoded_matrix[line - 1, col],
                         self.decoded_matrix[line - 1, col - 1])
-                    
 if __name__ == "__main__":
     frame = Frame444(720,1280, "../media/park_joy_444_720p50.y4m")
     
