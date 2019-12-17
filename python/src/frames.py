@@ -8,10 +8,12 @@ logger.setLevel(logging.DEBUG)
 
 c_handler = logging.StreamHandler()
 c_format = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
-c_handler.setFormatter(logging.Formatter('%(name)s | %(levelname)s ->: %(message)s'))
+c_handler.setFormatter(logging.Formatter(
+    '%(name)s | %(levelname)s ->: %(message)s'))
 
 logger.addHandler(c_handler)
 logger.propagate = False  # https://stackoverflow.com/a/19561320
+
 
 class Frame(ABC):
     def __init__(self, height, width, fileName):
@@ -29,9 +31,9 @@ class Frame(ABC):
     @abstractmethod
     def advance(self):
         """
-                Advances and consumes the current bunch of data, so that it can refresh the current set of matrices with new
-                ones.
-                :return whether or not the reading (and setting operation was successful)
+        Advances and consumes the current bunch of data, so that it can refresh the current set of matrices with new
+        ones.
+        :return whether or not the reading (and setting operation was successful)
         """
         pass
 
@@ -88,6 +90,7 @@ class Frame444(Frame):
     def __str__(self):
         return "Frame ( format= {}; height={}; width={} )".format("444", self.height, self.width)
 
+
 class Frame422(Frame):
     def __init__(self, height, width, fileName):
         super().__init__(height, width, fileName)
@@ -115,7 +118,6 @@ class Frame422(Frame):
 
         return True
 
-
     def getY(self):
         return super().getY()
 
@@ -127,6 +129,7 @@ class Frame422(Frame):
 
     def __str__(self):
         return "Frame ( format= {}; height={}; width={} )".format("422", self.height, self.width)
+
 
 class Frame420(Frame):
     def __init__(self, height, width, fileName):
@@ -166,7 +169,3 @@ class Frame420(Frame):
 
     def __str__(self):
         return "Frame ( format= {}; height={}; width={} )".format("420", self.height, self.width)
-
-if __name__ == "__main__":
-    ola = Frame420(1280,720 , "media/park_joy_420_720p50.y4m")
-    ola.advance()

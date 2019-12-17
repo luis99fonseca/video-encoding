@@ -1,18 +1,45 @@
 import math
 
+"""
+This class implements the Golomb codification to compress information.
+It encodes an integer based on a given value of M. 
+The codification is the result of the concatenation of an unary code with a binary code,
+given by the quotient and remainder of the division between integer value and M, respectively.
+"""
 class Golomb:
+    """
+    The constructor.
+
+    @param m: value of M (default = 2)
+    """
     def __init__(self, m=2):
         assert m > 0
 
         self.m = m
+
+        # Check if M is a power of 2 or not
         self.base2 = True if math.log2(m).is_integer() else False
 
+        # Initialization of two dictionary with encoded and decoded values from -255 to 255,
+        # in order to avoid constant coding and decoding and increase performance
+        self.encoded_values = {i:self.encode(i) for i in range(-255,256)}
+        self.decoded_values = {''.join(str(bit) for bit in self.encoded_values[i]):i for i in range(-255,256)}
+
+    """
+    This method updates the value of M.
+
+    @param m: new M
+    """
     def set_m(self, m):
         assert m > 0
 
         self.m = m
         self.base2 = True if math.log2(m).is_integer() else False
-
+    
+    """
+    This method, depending on the value of M, calls the respective method to encode the given value 'n'.
+    If M is a power of two, it calls the base2encoder() method. Else, it calls the truncated_encoder() method.
+    """
     def encode(self, n):
         return self.base2encoder(n) if self.base2 else self.truncated_encoder(n)
 
@@ -55,33 +82,39 @@ class Golomb:
 
         return negative + golomb_code
     
-    def stream_decoder(self, bitstream):
+    def stream_decoder(self, bitstream, i=0):
+        
+        if not bitstream:
+            return []
+
         decoded = []
         while True:
-            sign = bitstream[0]
-            bitstream = bitstream[1:]
+            sign = bitstream[i]
+            i+=1
 
-            if bitstream[0] == 0:
-                unary_code = [bitstream[0]]
-                binary_code = bitstream[1:(1 + math.ceil(math.sqrt(self.m)))]
-                decimal = self.decode([sign] + unary_code + binary_code)
+            if bitstream[i] == 0:
+                unary_code = [bitstream[i]]
+                i += 1
+                binary_code = bitstream[i:(i + math.ceil(math.sqrt(self.m)))]
+                i += math.ceil(math.sqrt(self.m))
+                decimal = self.decoded_values[''.join(str(bit) for bit in [sign] + unary_code + binary_code)]
                 decoded.append(decimal)
-                bitstream = bitstream[(1 + math.ceil(math.sqrt(self.m))):]
-                if not bitstream:
-                    break
+
             else:
                 unary_code = []
                 while True:
-                    bit = bitstream.pop(0)
+                    bit = bitstream[i]
                     unary_code.append(bit)
+                    i += 1
                     if bit == 0:
                         break
-                binary_code = bitstream[0:math.ceil(math.sqrt(self.m))]
-                decimal = self.decode([sign] + unary_code + binary_code)
+                binary_code = bitstream[i:i + math.ceil(math.sqrt(self.m))]
+                i += math.ceil(math.sqrt(self.m))
+                decimal = self.decoded_values[''.join(str(bit) for bit in [sign] + unary_code + binary_code)]
                 decoded.append(decimal)
-                bitstream = bitstream[math.ceil(math.sqrt(self.m)):]
-                if not bitstream:
-                    break
+            
+            if i >= len(bitstream):
+                break
 
         return decoded
 
@@ -179,8 +212,4 @@ class Golomb:
         self.histogram = [(f[0], f[1] / len(text)) for f in frequency]
         return self.histogram
 
-
-if __name__ == '__main__':
-    golomb = Golomb(4)
-
-    print(golomb.stream_decoder([0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,1,0,1,0,0,0,0,1,0,0,1,0,1,0,1,0,0,1,0,1,1,0,1,1,0,0,0,0,1,1,0,0,1,0,1,1,0,1,0,0,1,1,0,1,1,0,1,1,1,0,0,0,0,1,1,1,0,0,1,0,1,1,1,0,1,1,0,1,1,1,0,1,0]))
+    
