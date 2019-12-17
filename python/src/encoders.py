@@ -82,8 +82,7 @@ class IntraFrameDecoder():
         self.type = type if type in ["Y", "U", "V"] else None
         self.format = format  # TODO veririfcar se é array naqules 3 formatos
         self.decoded_matrix = np.empty(self.original_matrix.shape)  # sighly faster
-        # self.encoded = False
-
+        
     def decode(self):
         if not self.type:
             logger.error("Matrix Type {} not valid; Must be one of ['Y', 'U', 'V']. Aborting.".format(self.type))
@@ -103,13 +102,12 @@ class IntraFrameDecoder():
                 self.decoded_matrix[line, 0] = int(self.original_matrix[line, 0]) + self.predictor.predict(0,
                                                                                 self.decoded_matrix[line - 1, 0],0)
 
-            print("1 ", self.original_matrix.shape[1])
             for line in range(1, self.original_matrix.shape[0]):
                 for col in range(1, self.original_matrix.shape[1]):
-                    # print("line: ", line, ", col: ", col, "; original: ", self.original_matrix[line, col], ", predict: ", self.original_matrix[line, col - 1], self.original_matrix[line - 1, col], self.original_matrix[col - 1, line -1])
                     self.decoded_matrix[line, col] = int(self.original_matrix[line, col]) + self.predictor.predict(
                         self.decoded_matrix[line, col - 1], self.decoded_matrix[line - 1, col],
                         self.decoded_matrix[line - 1, col - 1])
+            
         
 if __name__ == "__main__":
     frame = Frame444(720,1280, "../media/park_joy_444_720p50.y4m")
@@ -132,32 +130,42 @@ if __name__ == "__main__":
 
         # encode Y matrix
         matrix = frame.getY()
+        print("Matrix 'Y': {}".format(matrix))
         ife = IntraFrameEncoder(matrix, "Y", [4,4,4], predictors.JPEG1)
         ife.encode()
         codes.append(ife.codes)
-        print(ife.encoded_matrix)
+        print("Encoded Matrix 'Y': {}".format(ife.encoded_matrix))
         
         # encode U matrix
         matrix = frame.getU()
+        print("Matrix 'U': {}".format(matrix))
         ife = IntraFrameEncoder(matrix, "U", [4,4,4], predictors.JPEG1)
         ife.encode()
         codes.append(ife.codes)
-        print(ife.encoded_matrix)
+        print("Encoded Matrix 'U': {}".format(ife.encoded_matrix))
 
         # encode V matrix
         matrix = frame.getV()
+        print("Matrix 'V': {}".format(matrix))
         ife = IntraFrameEncoder(matrix, "V", [4,4,4], predictors.JPEG1)
         ife.encode()
         codes.append(ife.codes)
-        print(ife.encoded_matrix)
+        print("Encoded Matrix 'V': {}".format(ife.encoded_matrix))
         
         end = datetime.datetime.now() - start
         print("Compressed frame in {} s. Total bits: {}".format(end.seconds, ife.written_bits))
         total += end.seconds
         break
 
+    matrixes = ["Y", "U", "V"]
     for code in codes:
         decoded = ife.golomb.stream_decoder(code)
         decoded = np.array(decoded, dtype=np.int8).reshape((720,1280))
-        print(decoded)
+        print("Decoded: {}".format(decoded))
+        ifd = IntraFrameDecoder(decoded, matrixes.pop(0), [4,4,4], predictors.JPEG1)
+        ifd.decode()
+        print("Original matrix: {}".format(ifd.decoded_matrix))
+
+
+
     
