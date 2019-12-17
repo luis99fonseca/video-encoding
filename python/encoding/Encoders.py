@@ -137,3 +137,10 @@ if __name__ == "__main__":
     end = datetime.datetime.now() - start
     print("Compressed in {} s".format(end.seconds))
     """
+
+    ## para decode: (exemplo)
+
+    """
+    ifd = IntraFrameDecoder(ife.encoded_matrix, "V", [4,4,4], Predictors.JPEG3)
+    ifd.decode()
+    print(ifd.decoded_matrix) """
