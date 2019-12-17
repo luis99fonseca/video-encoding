@@ -31,9 +31,11 @@ class IntraFrameEncoder():
         # Golomb encoder
         self.golomb = Golomb(4)
         self.bitstream = BitStream("../out/encoded_park_joy_444_720p50.bin", "wb")
-    
+        self.written_bits = 0 # TODO: tira isto
+
     def write_code(self, code):
         for bit in code:
+            self.written_bits += 1
             self.bitstream.writeBit(bit,1)
 
     def encode(self):
@@ -69,7 +71,7 @@ class IntraFrameEncoder():
         
 if __name__ == "__main__":
     frame = Frame444(720,1280, "../media/park_joy_444_720p50.y4m")
-    
+    """
     frame.advance()
     matrix = frame.getY()
     ife = IntraFrameEncoder(matrix, "Y", [4,4,4], predictors.JPEG1)
@@ -78,20 +80,34 @@ if __name__ == "__main__":
     print(ife.encoded_matrix)
     """
     import datetime
-    start = datetime.datetime.now()
-    #while True:
-    playing = frame.advance()
-    if not playing:
-        pass # break
-    matrix = frame.getY()
-    ife = IntraFrameEncoder(matrix, "Y", [4,4,4], Predictors.JPEG1)
-    ife.encode()
-    matrix = frame.getU()
-    ife = IntraFrameEncoder(matrix, "U", [4,4,4], Predictors.JPEG2)
-    ife.encode()
-    matrix = frame.getV()
-    ife = IntraFrameEncoder(matrix, "V", [4,4,4], Predictors.JPEG3)
-    ife.encode()
-    end = datetime.datetime.now() - start
-    print("Compressed in {} s".format(end.seconds))
-    """
+    total = 0
+    while True:
+        start = datetime.datetime.now()
+        playing = frame.advance()
+        if not playing:
+            break
+
+        # encode Y matrix
+        matrix = frame.getY()
+        ife = IntraFrameEncoder(matrix, "Y", [4,4,4], predictors.JPEG1)
+        ife.encode()
+        
+        # encode U matrix
+        matrix = frame.getU()
+        ife = IntraFrameEncoder(matrix, "U", [4,4,4], predictors.JPEG1)
+        ife.encode()
+
+        # encode V matrix
+        matrix = frame.getV()
+        ife = IntraFrameEncoder(matrix, "V", [4,4,4], predictors.JPEG1)
+        ife.encode()
+        
+        end = datetime.datetime.now() - start
+        print("Compressed frame in {} s. Total bits: {}".format(end.seconds, ife.written_bits))
+        total += end.seconds
+
+        ife.bitstream.writeString("\nFRAME")
+        break
+    
+    print("Compressed file in {} s".format(total))
+    
