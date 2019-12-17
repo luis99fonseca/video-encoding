@@ -1,20 +1,45 @@
 import math
 
+"""
+This class implements the Golomb codification to compress information.
+It encodes an integer based on a given value of M. 
+The codification is the result of the concatenation of an unary code with a binary code,
+given by the quotient and remainder of the division between integer value and M, respectively.
+"""
 class Golomb:
+    """
+    The constructor.
+
+    @param m: value of M (default = 2)
+    """
     def __init__(self, m=2):
         assert m > 0
 
         self.m = m
-        self.base2 = True if math.log2(m).is_integer() else False
-        self.encoded_values = {i:self.encode(i) for i in range(-255,256)}
-        self.decoded_values = {''.join(str(bit) for bit in self.encode(i)):i for i in range(-255,256)}
 
+        # Check if M is a power of 2 or not
+        self.base2 = True if math.log2(m).is_integer() else False
+
+        # Initialization of two dictionary with encoded and decoded values from -255 to 255,
+        # in order to avoid constant coding and decoding and increase performance
+        self.encoded_values = {i:self.encode(i) for i in range(-255,256)}
+        self.decoded_values = {''.join(str(bit) for bit in self.encoded_values(i)):i for i in range(-255,256)}
+
+    """
+    This method updates the value of M.
+
+    @param m: new M
+    """
     def set_m(self, m):
         assert m > 0
 
         self.m = m
         self.base2 = True if math.log2(m).is_integer() else False
     
+    """
+    This method, depending on the value of M, calls the respective method to encode the given value 'n'.
+    If M is a power of two, it calls the base2encoder() method. Else, it calls the truncated_encoder() method.
+    """
     def encode(self, n):
         return self.base2encoder(n) if self.base2 else self.truncated_encoder(n)
 
