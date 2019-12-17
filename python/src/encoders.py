@@ -155,15 +155,18 @@ if __name__ == "__main__":
         end = datetime.datetime.now() - start
         print("Compressed frame in {} s. Total bits: {}".format(end.seconds, ife.written_bits))
         total += end.seconds
+        break # com este break só codifica um frame
         
 
     matrixes = ["Y", "U", "V"]
+    decoded_matrixes = []
     for code in codes:
         decoded = ife.golomb.stream_decoder(code)
         decoded = np.array(decoded, dtype=np.int16).reshape((720,1280))
         print("Decoded: {}".format(decoded))
         ifd = IntraFrameDecoder(decoded, matrixes.pop(0), [4,4,4], predictors.JPEG1)
         ifd.decode()
+        decoded_matrixes.appen(ifd.decoded_matrix) # UTILIZA ESTA LISTA COM AS MATRIZES PARA DAR DISPLAY
         print("Original matrix: {}".format(ifd.decoded_matrix))
 
 
