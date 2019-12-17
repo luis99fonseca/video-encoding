@@ -23,7 +23,7 @@ class Golomb:
         # Initialization of two dictionary with encoded and decoded values from -255 to 255,
         # in order to avoid constant coding and decoding and increase performance
         self.encoded_values = {i:self.encode(i) for i in range(-255,256)}
-        self.decoded_values = {''.join(str(bit) for bit in self.encoded_values(i)):i for i in range(-255,256)}
+        #self.decoded_values = {''.join(str(bit) for bit in self.encoded_values(i)):i for i in range(-255,256)}
 
     """
     This method updates the value of M.
