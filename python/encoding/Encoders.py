@@ -79,7 +79,7 @@ class IntraFrameDecoder():
         self.predictor = predictor
         self.decoded_matrix = np.empty(self.original_matrix.shape)  # sighly faster
         # self.encoded = False
-
+    
     def setMatrix(self, new_matrix):
         self.original_matrix = new_matrix
     
