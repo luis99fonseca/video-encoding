@@ -4,9 +4,9 @@ import sys
 import logging
 import math
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('root')
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 c_handler = logging.StreamHandler()
 c_format = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
