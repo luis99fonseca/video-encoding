@@ -30,7 +30,6 @@ class IntraFrameEncoder():
         self.encoded_matrix = np.empty(self.original_matrix.shape)  # sighly faster
         # Golomb encoder
         self.golomb = Golomb(4)
-        self.golomb_codes = {i:self.golomb.encode(i) for i in range(-255,256)}
         self.bitstream = BitStream("./encoded_park_joy_444_720p50.bin", "wb")
     
     def write_code(self, code):
@@ -66,30 +65,33 @@ class IntraFrameEncoder():
             
             for line in range(self.encoded_matrix.shape[0]):
                 for col in range(self.encoded_matrix.shape[1]):
-                    self.write_code(self.golomb_codes[self.encoded_matrix[line, col]])
+                    self.write_code(self.golomb.encoded_values[self.encoded_matrix[line, col]])
         
 if __name__ == "__main__":
     frame = Frame444(720,1280, "../media/park_joy_444_720p50.y4m")
-
+    
     frame.advance()
     matrix = frame.getY()
     ife = IntraFrameEncoder(matrix, "Y", [4,4,4], Predictors.JPEG1)
     ife.encode()
 
     print(ife.encoded_matrix)
-
     """
-    while True:
-        playing = frame.advance()
-        if not playing:
-            break
-        matrix = frame.getY()
-        ife = IntraFrameEncoder(matrix, "Y", [4,4,4], Predictors.JPEG1)
-        ife.encode()
-        matrix = frame.getU()
-        ife = IntraFrameEncoder(matrix, "U", [4,4,4], Predictors.JPEG2)
-        ife.encode()
-        matrix = frame.getV()
-        ife = IntraFrameEncoder(matrix, "V", [4,4,4], Predictors.JPEG3)
-        ife.encode()
+    import datetime
+    start = datetime.datetime.now()
+    #while True:
+    playing = frame.advance()
+    if not playing:
+        pass # break
+    matrix = frame.getY()
+    ife = IntraFrameEncoder(matrix, "Y", [4,4,4], Predictors.JPEG1)
+    ife.encode()
+    matrix = frame.getU()
+    ife = IntraFrameEncoder(matrix, "U", [4,4,4], Predictors.JPEG2)
+    ife.encode()
+    matrix = frame.getV()
+    ife = IntraFrameEncoder(matrix, "V", [4,4,4], Predictors.JPEG3)
+    ife.encode()
+    end = datetime.datetime.now() - start
+    print("Compressed in {} s".format(end.seconds))
     """

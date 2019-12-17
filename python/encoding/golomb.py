@@ -6,8 +6,8 @@ class Golomb:
 
         self.m = m
         self.base2 = True if math.log2(m).is_integer() else False
-        self.golomb_codes = dict()
-        self.decoded_codes = dict()
+        self.encoded_values = {i:self.encode(i) for i in range(-255,256)}
+        self.decoded_values = {''.join(str(bit) for bit in self.encode(i)):i for i in range(-255,256)}
 
     def set_m(self, m):
         assert m > 0
@@ -15,14 +15,6 @@ class Golomb:
         self.m = m
         self.base2 = True if math.log2(m).is_integer() else False
     
-    def load_golomb_codes(self):
-        with open('golomb_codes.csv', 'r') as f:
-            header = f.readline()
-            self.golomb_codes = {int(line.split("\t")[0]):[int(n) for n in list(line.rstrip().split("\t")[1]) if n.isdigit()] for line in f}
-       
-        return self.golomb_codes
-
-
     def encode(self, n):
         return self.base2encoder(n) if self.base2 else self.truncated_encoder(n)
 
@@ -80,7 +72,7 @@ class Golomb:
                 i += 1
                 binary_code = bitstream[i:(i + math.ceil(math.sqrt(self.m)))]
                 i += math.ceil(math.sqrt(self.m))
-                decimal = self.decode([sign] + unary_code + binary_code)
+                decimal = self.decoded_values[''.join(str(bit) for bit in [sign] + unary_code + binary_code)]
                 decoded.append(decimal)
 
             else:
@@ -93,7 +85,7 @@ class Golomb:
                         break
                 binary_code = bitstream[i:i + math.ceil(math.sqrt(self.m))]
                 i += math.ceil(math.sqrt(self.m))
-                decimal = self.decode([sign] + unary_code + binary_code)
+                decimal = self.decoded_values[''.join(str(bit) for bit in [sign] + unary_code + binary_code)]
                 decoded.append(decimal)
             
             if i >= len(bitstream):
