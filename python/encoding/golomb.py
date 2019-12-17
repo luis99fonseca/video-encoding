@@ -19,9 +19,7 @@ class Golomb:
         with open('golomb_codes.csv', 'r') as f:
             header = f.readline()
             self.golomb_codes = {int(line.split("\t")[0]):[int(n) for n in list(line.rstrip().split("\t")[1]) if n.isdigit()] for line in f}
-        with open('golomb_codes.csv', 'r') as f:
-            header = f.readline()
-            self.decoded_codes = {''.join([n for n in list(line.rstrip().split("\t")[1]) if n.isdigit()]):int(line.split("\t")[0]) for line in f}
+       
         return self.golomb_codes
 
 
@@ -67,37 +65,39 @@ class Golomb:
 
         return negative + golomb_code
     
-    def stream_decoder(self, bitstream):
+    def stream_decoder(self, bitstream, i=0):
+        
         if not bitstream:
             return []
+
         decoded = []
         while True:
-            sign = bitstream[0]
-            bitstream = bitstream[1:]
+            sign = bitstream[i]
+            i+=1
 
-            if bitstream[0] == 0:
-                unary_code = [bitstream[0]]
-                binary_code = bitstream[1:(1 + math.ceil(math.sqrt(self.m)))]
-                s = ''
-                for b in [sign] + unary_code + binary_code:
-                    s += str(b)
-                decoded.append(self.decoded_codes[s])
-                bitstream = bitstream[(1 + math.ceil(math.sqrt(self.m))):]
-                return decoded, bitstream
+            if bitstream[i] == 0:
+                unary_code = [bitstream[i]]
+                i += 1
+                binary_code = bitstream[i:(i + math.ceil(math.sqrt(self.m)))]
+                i += math.ceil(math.sqrt(self.m))
+                decimal = self.decode([sign] + unary_code + binary_code)
+                decoded.append(decimal)
+
             else:
                 unary_code = []
                 while True:
-                    bit = bitstream.pop(0)
+                    bit = bitstream[i]
                     unary_code.append(bit)
+                    i += 1
                     if bit == 0:
                         break
-                binary_code = bitstream[0:math.ceil(math.sqrt(self.m))]
-                s = ''
-                for b in [sign] + unary_code + binary_code:
-                    s += str(b)
-                decoded.append(self.decoded_codes[s])
-                bitstream = bitstream[math.ceil(math.sqrt(self.m)):]
-                return decoded, bitstream
+                binary_code = bitstream[i:i + math.ceil(math.sqrt(self.m))]
+                i += math.ceil(math.sqrt(self.m))
+                decimal = self.decode([sign] + unary_code + binary_code)
+                decoded.append(decimal)
+            
+            if i >= len(bitstream):
+                break
 
         return decoded
 
@@ -194,3 +194,5 @@ class Golomb:
         frequency = sorted(frequency.items(), reverse=True, key=lambda kv: kv[1])
         self.histogram = [(f[0], f[1] / len(text)) for f in frequency]
         return self.histogram
+
+    

@@ -30,7 +30,7 @@ class IntraFrameEncoder():
         self.encoded_matrix = np.empty(self.original_matrix.shape)  # sighly faster
         # Golomb encoder
         self.golomb = Golomb(4)
-        self.golomb_codes = self.golomb.load_golomb_codes()
+        self.golomb_codes = {i:self.golomb.encode(i) for i in range(-255,256)}
         self.bitstream = BitStream("./encoded_park_joy_444_720p50.bin", "wb")
     
     def write_code(self, code):
@@ -50,30 +50,35 @@ class IntraFrameEncoder():
 
             # matrix size/shape is the same no mather which one
 
-            self.encoded_matrix[0, 0] = self.original_matrix[0,0] - self.predictor.predict(0,0,0)
-            self.write_code(self.golomb_codes[self.encoded_matrix[0, 0]])
+            self.encoded_matrix[0, 0] = int(self.original_matrix[0,0] - self.predictor.predict(0,0,0))
 
             for col in range(1, self.original_matrix.shape[1]):
                 self.encoded_matrix[0, col] = int(self.original_matrix[0, col]) - self.predictor.predict(self.original_matrix[0, col -1], 0, 0)
-                self.write_code(self.golomb_codes[self.encoded_matrix[0, col]])
 
             for line in range(1, self.original_matrix.shape[0]):
                 self.encoded_matrix[line, 0] = int(self.original_matrix[line, 0]) - self.predictor.predict(0, self.original_matrix[line - 1, 0], 0)
-                self.write_code(self.golomb_codes[self.encoded_matrix[line, 0]])
-
-
+   
             for line in range(1, self.original_matrix.shape[0]):
                 for col in range(1, self.original_matrix.shape[1]):
                     # print("line: ", line, ", col: ", col, "; original: ", self.original_matrix[line, col], ", predict: ", self.original_matrix[line, col - 1], self.original_matrix[line - 1, col], self.original_matrix[col - 1, line -1])
                     self.encoded_matrix[line, col] = int(self.original_matrix[line, col]) - self.predictor.predict(
                         self.original_matrix[line, col - 1], self.original_matrix[line - 1, col], self.original_matrix[line - 1, col -1])
+            
+            for line in range(self.encoded_matrix.shape[0]):
+                for col in range(self.encoded_matrix.shape[1]):
                     self.write_code(self.golomb_codes[self.encoded_matrix[line, col]])
-            
-            
-
+        
 if __name__ == "__main__":
-    frame = Frame444(1280, 720, "../media/park_joy_444_720p50.y4m")
-    
+    frame = Frame444(720,1280, "../media/park_joy_444_720p50.y4m")
+
+    frame.advance()
+    matrix = frame.getY()
+    ife = IntraFrameEncoder(matrix, "Y", [4,4,4], Predictors.JPEG1)
+    ife.encode()
+
+    print(ife.encoded_matrix)
+
+    """
     while True:
         playing = frame.advance()
         if not playing:
@@ -87,3 +92,4 @@ if __name__ == "__main__":
         matrix = frame.getV()
         ife = IntraFrameEncoder(matrix, "V", [4,4,4], Predictors.JPEG3)
         ife.encode()
+    """

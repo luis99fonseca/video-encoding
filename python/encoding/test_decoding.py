@@ -1,10 +1,12 @@
 from BitStream import BitStream
 from golomb import Golomb 
 
+import numpy as np
+
 if __name__ == '__main__':
     golomb = Golomb(4)
     a = golomb.load_golomb_codes()
-    bitstream = BitStream("./predictor.bin", "rb")
+    bitstream = BitStream("./encoded_park_joy_444_720p50.bin", "rb")
     print(bitstream.readString())
     codes = []
     while True:
@@ -12,12 +14,7 @@ if __name__ == '__main__':
         if not bit:
             break 
         codes += bit
-    
-    c = []
-    b = codes
-    while True:
-        decoded, b = golomb.stream_decoder(b)
-        c.append(decoded)
-        if not b or len(c) > 720:
-            break
-        print(decoded)
+
+    decoded = golomb.stream_decoder(codes)
+    decoded = np.array(decoded, dtype=np.int8).reshape((720,1280))
+    print(decoded)

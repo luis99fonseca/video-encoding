@@ -35,7 +35,7 @@ class BitStream:
 
     def closeFile(self):
         if self.read_byte_idx != 7 and self.mode == "wb":
-            logger.warning("Writing: %s", bin(self.write_byte))
+            #logger.warning("Writing: %s", bin(self.write_byte))
             self.file.write(self.write_byte.to_bytes(1, byteorder="big"))
         self.file.close()
 
@@ -102,7 +102,7 @@ class BitStream:
             self.write_byte_idx -= 1
 
             if self.write_byte_idx == -1:
-                logger.warning("Writing: %s", bin(self.write_byte))
+                #logger.warning("Writing: %s", bin(self.write_byte))
                 self.file.write(self.write_byte.to_bytes(1, byteorder="big"))
                 self.write_mode = "ab"
                 self.write_byte_idx = 7
@@ -126,7 +126,7 @@ class BitStream:
         while True:
             if self.write_byte_idx == -1:
                 with open(self.fileName, self.write_mode) as temp_file:
-                    logger.warning("Writing: %s", bin(self.write_byte))
+                    #logger.warning("Writing: %s", bin(self.write_byte))
                     temp_file.write(self.write_byte.to_bytes(1, byteorder="big"))
                     self.write_mode = "ab"
                 self.write_byte_idx = 7
