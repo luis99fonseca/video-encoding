@@ -1,4 +1,4 @@
-from BitStream import BitStream
+from bitStream import BitStream
 import logging
 
 test01 = True
@@ -10,7 +10,7 @@ logger.setLevel(logging.DEBUG)
 
 # ---------------READING TESTING--------------
 if test01:
-    bitstream01 = BitStream("../unitary_tests_out/test01.txt", "rb")
+    bitstream01 = BitStream("./out/test01.txt", "rb")
 
     # TODO: verificar se da pa mais de 8
     assert bitstream01.readBit(8) == [1, 1, 0, 0, 1, 0, 0, 0]
@@ -25,7 +25,7 @@ if test01:
 # ---------------WRITING TESTING--------------
 
 if test02:
-    bitstream02 = BitStream("../unitary_tests_out/test02.txt", "wb")
+    bitstream02 = BitStream("./out/test02.txt", "wb")
 
     assert not bitstream02.writeBit(256, 1)
     assert not bitstream02.writeBit(3, 1)
@@ -48,7 +48,7 @@ if test02:
 
     bitstream02.closeFile()
 
-    bitstream02 = BitStream("../unitary_tests_out/test02.txt", "rb")
+    bitstream02 = BitStream("./out/test02.txt", "rb")
     assert bitstream02.readBit(8) == [1, 1, 0, 1, 0, 1, 0, 0]
     assert bitstream02.readBit(8) == [0, 0, 0, 0, 0, 0, 0, 1]
     assert bitstream02.readBit(8) == [1, 0, 0, 1, 0, 0, 0, 1]
@@ -64,13 +64,13 @@ if test02:
 
 if test03:
 
-    bitstream03 = BitStream("../unitary_tests_out/test03.txt", "wb")
+    bitstream03 = BitStream("./out/test03.txt", "wb")
 
     bitstream03.writeString("ola")
     bitstream03.writeString("adeus")
     bitstream03.closeFile()
 
-    bitstream03 = BitStream("../unitary_tests_out/test03.txt", "rb")
+    bitstream03 = BitStream("./out/test03.txt", "rb")
 
     print(bitstream03.readString(), end="")
     print(bitstream03.readString(), end="")

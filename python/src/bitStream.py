@@ -35,7 +35,7 @@ class BitStream:
 
     def closeFile(self):
         if self.read_byte_idx != 7 and self.mode == "wb":
-            logger.warning("Writing: %s", bin(self.write_byte))
+            #logger.warning("Writing: %s", bin(self.write_byte))
             self.file.write(self.write_byte.to_bytes(1, byteorder="big"))
         self.file.close()
 
@@ -50,7 +50,7 @@ class BitStream:
             return False
 
         elif self.read_eof:
-            logger.info("EOF reached!!! Cannot read any further.")
+            logger.debug("EOF reached!!! Cannot read any further.")
             return bit_list
 
         for b in range(no):
@@ -64,7 +64,7 @@ class BitStream:
                 temp_byte = self.file.read(1)
                 if not temp_byte:
                     self.read_eof = True
-                    logger.info("EOF reached!! Cannot read any further.")
+                    logger.debug("EOF reached!! Cannot read any further.")
                     self.closeFile()
                     return bit_list
                 else:                                           # irrelevant but required
@@ -102,7 +102,7 @@ class BitStream:
             self.write_byte_idx -= 1
 
             if self.write_byte_idx == -1:
-                logger.warning("Writing: %s", bin(self.write_byte))
+                #logger.warning("Writing: %s", bin(self.write_byte))
                 self.file.write(self.write_byte.to_bytes(1, byteorder="big"))
                 self.write_mode = "ab"
                 self.write_byte_idx = 7
@@ -126,13 +126,13 @@ class BitStream:
         while True:
             if self.write_byte_idx == -1:
                 with open(self.fileName, self.write_mode) as temp_file:
-                    logger.warning("Writing: %s", bin(self.write_byte))
+                    #logger.warning("Writing: %s", bin(self.write_byte))
                     temp_file.write(self.write_byte.to_bytes(1, byteorder="big"))
                     self.write_mode = "ab"
                 self.write_byte_idx = 7
                 self.write_byte = 0
             if temp_counter <= 0:
-                return True;
+                return True
             self.write_byte_idx -= (no_bits % (8 + 1))  # subtracting from the idx the number of "available" bits / we can only write at max 8 bits at the time
             temp_counter -= (no_bits % (8 + 1))
             logger.debug("left: %s ; used: %s", self.write_byte_idx + 1,8 - self.write_byte_idx - 1)
@@ -158,3 +158,4 @@ class BitStream:
 
     def writeByte(self, number):
         return self.writeBit(number, 8)
+        
