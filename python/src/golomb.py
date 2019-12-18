@@ -200,7 +200,7 @@ class Golomb:
         return sum([int(binary[i]) * 2**(len(binary) - 1 - i) for i in range(len(binary))])
     
     def histogram(self, text):
-        frequency = dict() 
+        frequency = dict()
 
         for symbol in text:
             if symbol not in frequency:
