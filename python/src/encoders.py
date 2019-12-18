@@ -47,7 +47,7 @@ class IntraFrameEncoder():
 
         # TODO: ver o que é aquele K do stor
         # write header with bitstream
-        self.bitstream.writeString("{}\t{}".format(self.original_matrix.shape[0],self.original_matrix.shape[1]))
+        #self.bitstream.writeString("{}\t{}".format(self.original_matrix.shape[0],self.original_matrix.shape[1]))
 
         # matrix size/shape is the same no mather which one
         self.encoded_matrix[0, 0] = int(self.original_matrix[0,0] - self.predictor.predict(0,0,0))
@@ -149,8 +149,7 @@ if __name__ == "__main__":
         total += end.seconds
         break # com este break só codifica um frame
 
-
-
+    """
     decoded_matrixes = []
     for code in codes:
         decoded = ife.golomb.stream_decoder(code)
@@ -210,3 +209,5 @@ if __name__ == "__main__":
     #     10000)  # I found that it works if i press the key whilst the window is in focus. If the command line is
     # # in focus then nothing happens;
     # # Its in milliseconds
+
+    """
