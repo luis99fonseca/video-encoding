@@ -6,6 +6,7 @@ from frames import *
 from golomb import Golomb
 from bitStream import BitStream
 import cv2
+import sys
 
 
 logging.basicConfig(level=logging.INFO)
@@ -35,9 +36,13 @@ class IntraFrameEncoder():
         self.codes = []
 
     def write_code(self, code):
-        for bit in code:
-            self.written_bits += 1
-            self.bitstream.writeBit(bit,1)
+        # for bit in code:
+        #     self.written_bits += 1
+        #     self.bitstream.writeBit(bit,1)
+
+
+            self.written_bits += len(code)
+            self.bitstream.writeArray(code)
 
     def setMatrix(self, new_matrix):
         print(">> ", new_matrix.shape)
@@ -65,8 +70,9 @@ class IntraFrameEncoder():
 
         for line in range(self.encoded_matrix.shape[0]):
             for col in range(self.encoded_matrix.shape[1]):
-                #self.write_code(self.golomb.encoded_values[self.encoded_matrix[line, col]])
-                self.codes += self.golomb.encoded_values[self.encoded_matrix[line, col]]
+                self.write_code(self.golomb.encoded_values[self.encoded_matrix[line, col]])
+                # self.codes += self.golomb.encoded_values[self.encoded_matrix[line, col]]
+
 
 class IntraFrameDecoder():
     """
@@ -148,9 +154,10 @@ if __name__ == "__main__":
         print("Compressed frame in {} s. Total bits: {}".format(end.seconds, ife.written_bits))
         total += end.seconds
         break # com este break só codifica um frame
+    ife.bitstream.closeFile()
 
 
-
+    sys.exit(-1)
     decoded_matrixes = []
     for code in codes:
         decoded = ife.golomb.stream_decoder(code)

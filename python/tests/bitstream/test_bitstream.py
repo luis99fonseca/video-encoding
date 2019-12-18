@@ -93,3 +93,5 @@ if test04:
     bitstream04 = BitStream("./out/test04.txt", "rb")
 
     assert bitstream04.readBit(len(t_array01)) == t_array01
+
+    bitstream04.closeFile()
