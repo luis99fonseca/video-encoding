@@ -4,6 +4,7 @@ import logging
 test01 = True
 test02 = True
 test03 = True
+test04 = True
 
 logger = logging.getLogger('root')
 logger.setLevel(logging.DEBUG)
@@ -62,6 +63,7 @@ if test02:
 
     bitstream02.closeFile()
 
+# ---------------STRING TESTING--------------
 if test03:
 
     bitstream03 = BitStream("./out/test03.txt", "wb")
@@ -72,8 +74,24 @@ if test03:
 
     bitstream03 = BitStream("./out/test03.txt", "rb")
 
-    print(bitstream03.readString(), end="")
-    print(bitstream03.readString(), end="")
+    assert (bitstream03.readString()) == "ola\n"
+    assert (bitstream03.readString()) == "adeus\n"
     print(bitstream03.readString(), end="")
 
     bitstream03.closeFile()
+
+# ---------------WRITING TESTING--------------
+if test04:
+
+    bitstream04 = BitStream("./out/test04.txt", "wb")
+
+    t_array01 = [1,0,1,1,1,1,0,1,0,1,1]
+    bitstream04.writeArray(t_array01)
+
+    bitstream04.closeFile()
+
+    bitstream04 = BitStream("./out/test04.txt", "rb")
+
+    assert bitstream04.readBit(len(t_array01)) == t_array01
+
+    bitstream04.closeFile()
