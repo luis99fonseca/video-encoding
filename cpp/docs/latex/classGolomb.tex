@@ -1,0 +1,65 @@
+\hypertarget{classGolomb}{}\section{Golomb Class Reference}
+\label{classGolomb}\index{Golomb@{Golomb}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classGolomb_aa6103d56ebec9decc11a69bf6be83208}{Golomb} ()
+\item 
+\hyperlink{classGolomb_aca358c8c3c8706b470c74f64f9509a64}{Golomb} (double m)
+\item 
+\mbox{\Hypertarget{classGolomb_a8d8c2f271ad2e3716ddbba7fcde15619}\label{classGolomb_a8d8c2f271ad2e3716ddbba7fcde15619}} 
+void {\bfseries set\+\_\+m} (double m)
+\item 
+\mbox{\Hypertarget{classGolomb_aa45900c84d473bbfc3d0de0b8879d10e}\label{classGolomb_aa45900c84d473bbfc3d0de0b8879d10e}} 
+int {\bfseries get\+\_\+m} ()
+\item 
+\mbox{\Hypertarget{classGolomb_a39581a9a0a9a68cce93fdb09005a3b3c}\label{classGolomb_a39581a9a0a9a68cce93fdb09005a3b3c}} 
+vector$<$ int $>$ {\bfseries encode} (int n)
+\item 
+\mbox{\Hypertarget{classGolomb_a91927ef00d074201fba0a176c7e11925}\label{classGolomb_a91927ef00d074201fba0a176c7e11925}} 
+vector$<$ int $>$ {\bfseries base2encoder} (int n)
+\item 
+\mbox{\Hypertarget{classGolomb_a2a12ea7e114395b3c20268a68ede3e29}\label{classGolomb_a2a12ea7e114395b3c20268a68ede3e29}} 
+vector$<$ int $>$ {\bfseries truncated\+\_\+encoder} (int n)
+\item 
+\mbox{\Hypertarget{classGolomb_a6591f253a23651ae961e6cc9e9d26177}\label{classGolomb_a6591f253a23651ae961e6cc9e9d26177}} 
+int {\bfseries decode} (vector$<$ int $>$ bitstream)
+\item 
+\mbox{\Hypertarget{classGolomb_a789cca4aa2ebfb18e2acd50565099ac9}\label{classGolomb_a789cca4aa2ebfb18e2acd50565099ac9}} 
+int {\bfseries base2decoder} (vector$<$ int $>$ bitstream)
+\item 
+\mbox{\Hypertarget{classGolomb_a395b68ea88abe771d02ba62aff2c559a}\label{classGolomb_a395b68ea88abe771d02ba62aff2c559a}} 
+int {\bfseries truncated\+\_\+decoder} (vector$<$ int $>$ bitstream)
+\item 
+\mbox{\Hypertarget{classGolomb_a13a756ac1e640acdccab04cead87d77b}\label{classGolomb_a13a756ac1e640acdccab04cead87d77b}} 
+int {\bfseries binary\+\_\+to\+\_\+decimal} (vector$<$ int $>$ bitstream)
+\item 
+\mbox{\Hypertarget{classGolomb_aa5f4148a661789fb5035a4ed7e1aa133}\label{classGolomb_aa5f4148a661789fb5035a4ed7e1aa133}} 
+vector$<$ int $>$ {\bfseries unary\+\_\+code} (int q)
+\item 
+\mbox{\Hypertarget{classGolomb_a4ce5ce960d0e30505eb5b39e5dc84a6a}\label{classGolomb_a4ce5ce960d0e30505eb5b39e5dc84a6a}} 
+vector$<$ int $>$ {\bfseries binary\+\_\+code} (int decimal, int bits)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class implements the \hyperlink{classGolomb}{Golomb} codification to compress information. It encodes an integer based on a given value of M. The codification is the result of the concatenation of an unary code with a binary code, given by the quotient and remainder of the division between integer value and M, respectively. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classGolomb_aa6103d56ebec9decc11a69bf6be83208}\label{classGolomb_aa6103d56ebec9decc11a69bf6be83208}} 
+\index{Golomb@{Golomb}!Golomb@{Golomb}}
+\index{Golomb@{Golomb}!Golomb@{Golomb}}
+\subsubsection{\texorpdfstring{Golomb()}{Golomb()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Golomb\+::\+Golomb (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Default constructor. \mbox{\Hypertarget{classGolomb_aca358c8c3c8706b470c74f64f9509a64}\label{classGolomb_aca358c8c3c8706b470c74f64f9509a64}} 
+\index{Golomb@{Golomb}!Golomb@{Golomb}}
+\index{Golomb@{Golomb}!Golomb@{Golomb}}
+\subsubsection{\texorpdfstring{Golomb()}{Golomb()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Golomb\+::\+Golomb (\begin{DoxyParamCaption}\item[{double}]{m }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Constructor with a given value of \textquotesingle{}M\textquotesingle{}. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/golomb.\+cpp\end{DoxyCompactItemize}

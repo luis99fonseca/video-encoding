@@ -7,6 +7,12 @@
 
 using namespace std;
 
+/**
+ * This class implements the Golomb codification to compress information.
+ * It encodes an integer based on a given value of M. 
+ * The codification is the result of the concatenation of an unary code with a binary code,
+ * given by the quotient and remainder of the division between integer value and M, respectively.
+*/
 class Golomb
 {
     private:
@@ -15,10 +21,17 @@ class Golomb
 
     public:
 
+        /**
+         * Default constructor. 
+         */
         Golomb() {
             this->m = 4;    // default value
+            this->isBase2 = true;
         }
 
+        /**
+         * Constructor with a given value of 'M'. 
+         */
         Golomb(double m)
         {
             assert(m > 0);
@@ -27,6 +40,11 @@ class Golomb
             this->isBase2 = log2(this->m) == (int)log2(this->m) ? true : false;
         }
 
+        /**
+         * This method updates the value of 'M'.
+         * 
+         * @param m: new M
+         */
         void set_m(double m)
         {
             assert(m > 0);
@@ -35,6 +53,9 @@ class Golomb
             this->isBase2 = log2(this->m) == (int)log2(this->m) ? true : false;
         }
 
+        /**
+         * Get the value of 'M'.
+         */
         int get_m() { return this->m; }
 
         vector<int> encode(int n)
@@ -46,16 +67,27 @@ class Golomb
 
         vector<int> base2encoder(int n)
         {
+
+            //check 'n' sign (0 - positive, 1 - negative)
+            vector<int> golomb_code;
+            golomb_code.push_back(0);
+            if(n < 0) {
+                n = abs(n);
+                golomb_code.at(0) = 1;
+            }
+
+            // computes values of 'q' and 'r'
             int q = floor(n / this->m);
             int r = n % (int)this->m;
 
+            // computes unary and binary codes of 'q' and 'r', respectively.
             vector<int> unary_code = this->unary_code(q);
             vector<int> binary_code = this->binary_code(r, 1);
 
-            // golomb code
-            unary_code.insert(unary_code.end(), binary_code.begin(), binary_code.end());
+            golomb_code.insert(golomb_code.end(), unary_code.begin(), unary_code.end());
+            golomb_code.insert(golomb_code.end(), binary_code.begin(), binary_code.end());
 
-            return unary_code;
+            return golomb_code;
         }
 
         vector<int> truncated_encoder(int n)
