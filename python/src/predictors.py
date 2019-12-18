@@ -29,7 +29,7 @@ class JPEG4:
     """
     @staticmethod
     def predict(a, b, c):
-        return a + b - c
+        return int(a) + int(b) - int(c)
 
 class JPEG5:
     """
@@ -37,7 +37,7 @@ class JPEG5:
     """
     @staticmethod
     def predict(a, b, c):
-        return a + ((b - c) // 2)  # TODO: ver se tem de ser inteiro
+        return int(a) + ((int(b) - int(c)) // 2)  # TODO: ver se tem de ser inteiro
 
 class JPEG6():
     """
@@ -45,7 +45,7 @@ class JPEG6():
     """
     @staticmethod
     def predict(a, b, c):
-        return b + ((a - b) // 2)
+        return int(b) + ((int(a) - int(b)) // 2)
 
 class JPEG7:
     """
@@ -53,4 +53,16 @@ class JPEG7:
     """
     @staticmethod
     def predict(a, b, c):
-        return (a + b) // 2
+        return (int(a) + int(b)) // 2
+
+class JPEGLS:
+    """
+    JPEG-LS predictor
+    """
+    @staticmethod
+    def predict(a, b, c):
+        if c >= max([a, b]):
+            return min([a, b])
+        elif c <= min([a, b]):
+            return max([a, b])
+        return int(a) + int(b) - int(c)

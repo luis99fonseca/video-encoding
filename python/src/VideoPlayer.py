@@ -15,7 +15,7 @@ logger.propagate = False  # https://stackoverflow.com/a/19561320
 
 class VideoPlayer:
     """
-    This class implements a video player.
+    Class that implements a video player.
     It reads a file in 'y4m' format and display it on a window, frame by frame.
     """
     def __init__(self, filename):
