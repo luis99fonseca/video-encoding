@@ -7,6 +7,7 @@ from golomb import Golomb
 from bitStream import BitStream
 import cv2
 import sys
+import threading
 
 
 logging.basicConfig(level=logging.INFO)
@@ -70,8 +71,8 @@ class IntraFrameEncoder():
 
         for line in range(self.encoded_matrix.shape[0]):
             for col in range(self.encoded_matrix.shape[1]):
-                self.write_code(self.golomb.encoded_values[self.encoded_matrix[line, col]])
-                # self.codes += self.golomb.encoded_values[self.encoded_matrix[line, col]]
+                # self.write_code(self.golomb.encoded_values[self.encoded_matrix[line, col]])
+                self.codes += self.golomb.encoded_values[self.encoded_matrix[line, col]]
 
 
 class IntraFrameDecoder():
@@ -133,7 +134,7 @@ if __name__ == "__main__":
         ife.encode()
         codes.append(ife.codes)
         print("Encoded Matrix 'Y': {}".format(ife.encoded_matrix))
-        
+
         # encode U matrix
         matrix = frame.getU()
         print("Matrix 'U': {}".format(matrix))
@@ -149,12 +150,60 @@ if __name__ == "__main__":
         ife.encode()
         codes.append(ife.codes)
         print("Encoded Matrix 'V': {}".format(ife.encoded_matrix))
-        
+
         end = datetime.datetime.now() - start
         print("Compressed frame in {} s. Total bits: {}".format(end.seconds, ife.written_bits))
         total += end.seconds
         break # com este break só codifica um frame
     ife.bitstream.closeFile()
+    # while True:
+    #     start = datetime.datetime.now()
+    #     playing = frame.advance()
+    #     if not playing:
+    #         break
+    #
+    #     # encode Y matrix
+    #     matrix = frame.getY()
+    #     # print("Matrix 'Y': {}".format(matrix))
+    #     ifeY = IntraFrameEncoder(matrix, predictors.JPEG1)
+    #     # ifeY.encode()
+    #     # codes.append(ife.codes)
+    #     # print("Encoded Matrix 'Y': {}".format(ifeY.encoded_matrix))
+    #
+    #     # encode U matrix
+    #     matrix = frame.getU()
+    #     # print("Matrix 'U': {}".format(matrix))
+    #     ifeU = IntraFrameEncoder(matrix, predictors.JPEG1)  # ife.setMatrix(matrix)
+    #     # ifeU.encode()
+    #     # codes.append(ifeU.codes)
+    #     # print("Encoded Matrix 'U': {}".format(ifeU.encoded_matrix))
+    #
+    #     # encode V matrix
+    #     matrix = frame.getV()
+    #     # print("Matrix 'V': {}".format(matrix))
+    #     ifeV = IntraFrameEncoder(matrix, predictors.JPEG1)  # ife.setMatrix(matrix)
+    #     # ifeV.encode()
+    #     # codes.append(ifeV.codes)
+    #     # print("Encoded Matrix 'V': {}".format(ifeV.encoded_matrix))
+    #
+    #     tY = threading.Thread(name='Y-thread', target=ifeY.encode)
+    #     tU = threading.Thread(name='U-thread', target=ifeU.encode)
+    #     tV = threading.Thread(name='V-thread', target=ifeV.encode)
+    #
+    #     tY.start()
+    #     tU.start()
+    #     tV.start()
+    #
+    #     tY.join()
+    #     tU.join()
+    #     tV.join()
+    #
+    #     end = datetime.datetime.now() - start
+    #     print("Compressed frame in {} s. Total bits: {}".format(end.seconds, 0))
+    #     # print(ifeY.codes)
+    #     total += end.seconds
+    #     break  # com este break só codifica um frame
+    # ife.bitstream.closeFile()
 
 
     sys.exit(-1)

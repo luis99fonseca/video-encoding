@@ -4,14 +4,19 @@
     <list default="true" id="980de7ee-6b22-4a86-84aa-b7edc119c0ab" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/encoded_park_joy_444_720p50.bin" beforeDir="false" afterPath="$PROJECT_DIR$/out/encoded_park_joy_444_720p50.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bitStream.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bitStream.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/encoders.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/encoders.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/bitstream/test_bitstream.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/bitstream/test_bitstream.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -87,6 +92,10 @@
     </state>
     <state x="2241" y="516" key="com.intellij.ide.util.TipDialog/1920.312.1366.768/0.339.1920.741@1920.312.1366.768" timestamp="1576638406171" />
     <state x="372" y="224" key="com.intellij.ide.util.TipDialog/67.27.1299.741@67.27.1299.741" timestamp="1576595667180" />
+    <state x="1476" y="484" width="1276" height="530" key="dock-window-1" timestamp="1576682772421">
+      <screen x="1920" y="312" width="1366" height="768" />
+    </state>
+    <state x="1476" y="484" width="1276" height="530" key="dock-window-1/1920.312.1366.768/0.339.1920.741@1920.312.1366.768" timestamp="1576682772421" />
     <state x="2361" y="622" width="540" height="172" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1576608402601">
       <screen x="1920" y="312" width="1366" height="768" />
     </state>
