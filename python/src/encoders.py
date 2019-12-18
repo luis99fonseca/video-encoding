@@ -19,11 +19,18 @@ c_handler.setFormatter(logging.Formatter('%(name)s | %(levelname)s ->: %(message
 logger.addHandler(c_handler)
 logger.propagate = False  # https://stackoverflow.com/a/19561320
 
+
 class IntraFrameEncoder():
     """
-    Lossless intra-frame encoder
+    This class implements a lossless intra-frame encoder, using 7PEG linear predictors.
     """
     def __init__(self, matrix, predictor):
+        """
+        Default constructor.
+
+        @param matrix: initial matrix
+        @param predictor: linear predictor
+        """
         self.original_matrix = matrix
         self.predictor = predictor
         self.encoded_matrix = np.empty(self.original_matrix.shape)  # sighly faster
@@ -35,19 +42,32 @@ class IntraFrameEncoder():
         self.codes = []
 
     def write_code(self, code):
+        """
+        This method writes a list of bits on file, using the Bitstream class.
+
+        @param code: list with bits to encode.
+        """
         for bit in code:
             self.written_bits += 1
             self.bitstream.writeBit(bit,1)
 
     def setMatrix(self, new_matrix):
-        print(">> ", new_matrix.shape)
-        self.original_matrix = new_matrix
+        """
+        This method sets current matrix of the encoder to 'new_matrix'.
 
+        @param new_matrix: new matrix of type Y,U or V.
+        """
+        self.original_matrix = new_matrix
+    
     def encode(self):
+        """
+        This method encodes the original matrix in a new one, based on the current predictor.
+        It also uses golomb codification for the entropy encoding.
+        """
 
         # TODO: ver o que é aquele K do stor
         # write header with bitstream
-        self.bitstream.writeString("{}\t{}".format(self.original_matrix.shape[0],self.original_matrix.shape[1]))
+        #self.bitstream.writeString("{}\t{}".format(self.original_matrix.shape[0],self.original_matrix.shape[1]))
 
         # matrix size/shape is the same no mather which one
         self.encoded_matrix[0, 0] = int(self.original_matrix[0,0] - self.predictor.predict(0,0,0))
@@ -70,18 +90,31 @@ class IntraFrameEncoder():
 
 class IntraFrameDecoder():
     """
-    Lossless intra-frame decoder, complementing the one analogous encoder
+    This class implements a lossless intra-frame decoder, using 7PEG linear predictors.
     """
-
     def __init__(self, matrix, predictor):
+        """
+        Default constructor.
+
+        @param matrix: initial matrix
+        @param predictor: linear predictor
+        """
         self.original_matrix = matrix
         self.predictor = predictor
         self.decoded_matrix = np.empty(self.original_matrix.shape)  # sighly faster
 
     def setMatrix(self, new_matrix):
+        """
+        This method sets current matrix of the encoder to 'new_matrix'.
+
+        @param new_matrix: new matrix of type Y,U or V.
+        """
         self.original_matrix = new_matrix
 
     def decode(self):
+        """
+        This method decodes a predicted matrix in the original one, based on the current predictor.
+        """
 
         # matrix size/shape is the same no mather which one
         self.decoded_matrix[0, 0] = self.original_matrix[0, 0] + self.predictor.predict(0, 0, 0)
@@ -149,8 +182,7 @@ if __name__ == "__main__":
         total += end.seconds
         break # com este break só codifica um frame
 
-
-
+    """
     decoded_matrixes = []
     for code in codes:
         decoded = ife.golomb.stream_decoder(code)
@@ -210,3 +242,5 @@ if __name__ == "__main__":
     #     10000)  # I found that it works if i press the key whilst the window is in focus. If the command line is
     # # in focus then nothing happens;
     # # Its in milliseconds
+
+    """
