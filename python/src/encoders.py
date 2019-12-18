@@ -132,7 +132,7 @@ if __name__ == "__main__":
         print("Matrix 'Y': {}".format(matrix))
         ife = IntraFrameEncoder(matrix, predictors.JPEG1)
         ife.encode()
-        codes.append(ife.codes)
+        # codes.append(ife.codes)
         print("Encoded Matrix 'Y': {}".format(ife.encoded_matrix))
 
         # encode U matrix
@@ -140,22 +140,23 @@ if __name__ == "__main__":
         print("Matrix 'U': {}".format(matrix))
         ife = IntraFrameEncoder(matrix, predictors.JPEG1) # ife.setMatrix(matrix)
         ife.encode()
-        codes.append(ife.codes)
-        print("Encoded Matrix 'U': {}".format(ife.encoded_matrix))
+        # codes.append(ife.codes)
+        # print("Encoded Matrix 'U': {}".format(ife.encoded_matrix))
 
         # encode V matrix
         matrix = frame.getV()
         print("Matrix 'V': {}".format(matrix))
         ife = IntraFrameEncoder(matrix, predictors.JPEG1)   # ife.setMatrix(matrix)
         ife.encode()
-        codes.append(ife.codes)
+        # codes.append(ife.codes)
         print("Encoded Matrix 'V': {}".format(ife.encoded_matrix))
 
         end = datetime.datetime.now() - start
         print("Compressed frame in {} s. Total bits: {}".format(end.seconds, ife.written_bits))
         total += end.seconds
-        break # com este break só codifica um frame
+         # com este break só codifica um frame
     ife.bitstream.closeFile()
+    print("Compressed frames in {} s.".format(total))
     # while True:
     #     start = datetime.datetime.now()
     #     playing = frame.advance()
