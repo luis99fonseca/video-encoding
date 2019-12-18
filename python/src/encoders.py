@@ -23,12 +23,11 @@ class IntraFrameEncoder():
     """
     Lossless intra-frame encoder
     """
-    def __init__(self, matrix, type, format, predictor):
+    def __init__(self, matrix, predictor):
         self.original_matrix = matrix
         self.predictor = predictor
-        self.type = type if type in ["Y", "U", "V"] else None
-        self.format = format    # TODO veririfcar se é array naqules 3 formatos
         self.encoded_matrix = np.empty(self.original_matrix.shape)  # sighly faster
+        print(">> ", matrix.shape)
         # Golomb encoder
         self.golomb = Golomb(4)
         self.bitstream = BitStream("../out/encoded_park_joy_444_720p50.bin", "wb")
@@ -40,76 +39,68 @@ class IntraFrameEncoder():
             self.written_bits += 1
             self.bitstream.writeBit(bit,1)
 
+    def setMatrix(self, new_matrix):
+        print(">> ", new_matrix.shape)
+        self.original_matrix = new_matrix
+
     def encode(self):
-        if not self.type:
-            logger.error("Matrix Type {} not valid; Must be one of ['Y', 'U', 'V']. Aborting.".format(self.type))
-            return False
-            
+
         # TODO: ver o que é aquele K do stor
-        if self.format == [4,4,4]:
+        # write header with bitstream
+        self.bitstream.writeString("{}\t{}".format(self.original_matrix.shape[0],self.original_matrix.shape[1]))
 
-            # write header with bitstream
-            self.bitstream.writeString("{}\t{}".format(self.original_matrix.shape[0],self.original_matrix.shape[1]))
+        # matrix size/shape is the same no mather which one
+        self.encoded_matrix[0, 0] = int(self.original_matrix[0,0] - self.predictor.predict(0,0,0))
 
-            # matrix size/shape is the same no mather which one
+        for col in range(1, self.original_matrix.shape[1]):
+            self.encoded_matrix[0, col] = int(self.original_matrix[0, col]) - self.predictor.predict(self.original_matrix[0, col -1], 0, 0)
 
-            self.encoded_matrix[0, 0] = int(self.original_matrix[0,0] - self.predictor.predict(0,0,0))
+        for line in range(1, self.original_matrix.shape[0]):
+            self.encoded_matrix[line, 0] = int(self.original_matrix[line, 0]) - self.predictor.predict(0, self.original_matrix[line - 1, 0], 0)
 
+        for line in range(1, self.original_matrix.shape[0]):
             for col in range(1, self.original_matrix.shape[1]):
-                self.encoded_matrix[0, col] = int(self.original_matrix[0, col]) - self.predictor.predict(self.original_matrix[0, col -1], 0, 0)
+               self.encoded_matrix[line, col] = int(self.original_matrix[line, col]) - self.predictor.predict(
+                    self.original_matrix[line, col - 1], self.original_matrix[line - 1, col], self.original_matrix[line - 1, col -1])
 
-            for line in range(1, self.original_matrix.shape[0]):
-                self.encoded_matrix[line, 0] = int(self.original_matrix[line, 0]) - self.predictor.predict(0, self.original_matrix[line - 1, 0], 0)
-   
-            for line in range(1, self.original_matrix.shape[0]):
-                for col in range(1, self.original_matrix.shape[1]):
-                    # print("line: ", line, ", col: ", col, "; original: ", self.original_matrix[line, col], ", predict: ", self.original_matrix[line, col - 1], self.original_matrix[line - 1, col], self.original_matrix[col - 1, line -1])
-                    self.encoded_matrix[line, col] = int(self.original_matrix[line, col]) - self.predictor.predict(
-                        self.original_matrix[line, col - 1], self.original_matrix[line - 1, col], self.original_matrix[line - 1, col -1])
-            
-            for line in range(self.encoded_matrix.shape[0]):
-                for col in range(self.encoded_matrix.shape[1]):
-                    #self.write_code(self.golomb.encoded_values[self.encoded_matrix[line, col]])
-                    self.codes += self.golomb.encoded_values[self.encoded_matrix[line, col]]
-                
+        for line in range(self.encoded_matrix.shape[0]):
+            for col in range(self.encoded_matrix.shape[1]):
+                #self.write_code(self.golomb.encoded_values[self.encoded_matrix[line, col]])
+                self.codes += self.golomb.encoded_values[self.encoded_matrix[line, col]]
+
 class IntraFrameDecoder():
     """
     Lossless intra-frame decoder, complementing the one analogous encoder
     """
 
-    def __init__(self, matrix, type, format, predictor):
+    def __init__(self, matrix, predictor):
         self.original_matrix = matrix
         self.predictor = predictor
-        self.type = type if type in ["Y", "U", "V"] else None
-        self.format = format  # TODO veririfcar se é array naqules 3 formatos
         self.decoded_matrix = np.empty(self.original_matrix.shape)  # sighly faster
-        
+
+    def setMatrix(self, new_matrix):
+        self.original_matrix = new_matrix
+
     def decode(self):
-        if not self.type:
-            logger.error("Matrix Type {} not valid; Must be one of ['Y', 'U', 'V']. Aborting.".format(self.type))
-            return False
 
-        # TODO: ver o que é aquele K do stor
-        if self.format == [4, 4, 4]:
-            # matrix size/shape is the same no mather which one
+        # matrix size/shape is the same no mather which one
+        self.decoded_matrix[0, 0] = self.original_matrix[0, 0] + self.predictor.predict(0, 0, 0)
 
-            self.decoded_matrix[0, 0] = self.original_matrix[0, 0] + self.predictor.predict(0, 0, 0)
+        for col in range(1, self.original_matrix.shape[1]):
+            self.decoded_matrix[0, col] = int(self.original_matrix[0, col]) + self.predictor.predict(
+                self.decoded_matrix[0, col - 1], 0, 0)
 
+        for line in range(1, self.original_matrix.shape[0]):
+            self.decoded_matrix[line, 0] = int(self.original_matrix[line, 0]) + self.predictor.predict(0,
+                                                                            self.decoded_matrix[line - 1, 0],0)
+
+        for line in range(1, self.original_matrix.shape[0]):
             for col in range(1, self.original_matrix.shape[1]):
-                self.decoded_matrix[0, col] = int(self.original_matrix[0, col]) + self.predictor.predict(
-                    self.decoded_matrix[0, col - 1], 0, 0)
+                self.decoded_matrix[line, col] = int(self.original_matrix[line, col]) + self.predictor.predict(
+                    self.decoded_matrix[line, col - 1], self.decoded_matrix[line - 1, col],
+                    self.decoded_matrix[line - 1, col - 1])
 
-            for line in range(1, self.original_matrix.shape[0]):
-                self.decoded_matrix[line, 0] = int(self.original_matrix[line, 0]) + self.predictor.predict(0,
-                                                                                self.decoded_matrix[line - 1, 0],0)
 
-            for line in range(1, self.original_matrix.shape[0]):
-                for col in range(1, self.original_matrix.shape[1]):
-                    self.decoded_matrix[line, col] = int(self.original_matrix[line, col]) + self.predictor.predict(
-                        self.decoded_matrix[line, col - 1], self.decoded_matrix[line - 1, col],
-                        self.decoded_matrix[line - 1, col - 1])
-            
-        
 if __name__ == "__main__":
     frame = Frame444(720,1280, "../media/park_joy_444_720p50.y4m")
     """
@@ -132,7 +123,7 @@ if __name__ == "__main__":
         # encode Y matrix
         matrix = frame.getY()
         print("Matrix 'Y': {}".format(matrix))
-        ife = IntraFrameEncoder(matrix, "Y", [4,4,4], predictors.JPEG1)
+        ife = IntraFrameEncoder(matrix, predictors.JPEG1)
         ife.encode()
         codes.append(ife.codes)
         print("Encoded Matrix 'Y': {}".format(ife.encoded_matrix))
@@ -140,7 +131,7 @@ if __name__ == "__main__":
         # encode U matrix
         matrix = frame.getU()
         print("Matrix 'U': {}".format(matrix))
-        ife = IntraFrameEncoder(matrix, "U", [4,4,4], predictors.JPEG1)
+        ife = IntraFrameEncoder(matrix, predictors.JPEG1) # ife.setMatrix(matrix)
         ife.encode()
         codes.append(ife.codes)
         print("Encoded Matrix 'U': {}".format(ife.encoded_matrix))
@@ -148,7 +139,7 @@ if __name__ == "__main__":
         # encode V matrix
         matrix = frame.getV()
         print("Matrix 'V': {}".format(matrix))
-        ife = IntraFrameEncoder(matrix, "V", [4,4,4], predictors.JPEG1)
+        ife = IntraFrameEncoder(matrix, predictors.JPEG1)   # ife.setMatrix(matrix)
         ife.encode()
         codes.append(ife.codes)
         print("Encoded Matrix 'V': {}".format(ife.encoded_matrix))
@@ -157,15 +148,15 @@ if __name__ == "__main__":
         print("Compressed frame in {} s. Total bits: {}".format(end.seconds, ife.written_bits))
         total += end.seconds
         break # com este break só codifica um frame
-        
 
-    matrixes = ["Y", "U", "V"]
+
+
     decoded_matrixes = []
     for code in codes:
         decoded = ife.golomb.stream_decoder(code)
         decoded = np.array(decoded, dtype=np.int16).reshape((720,1280))
         print("Decoded: {}".format(decoded))
-        ifd = IntraFrameDecoder(decoded, matrixes.pop(0), [4,4,4], predictors.JPEG1)
+        ifd = IntraFrameDecoder(decoded, predictors.JPEG1)
         ifd.decode()
         decoded_matrixes.append(ifd.decoded_matrix) # UTILIZA ESTA LISTA COM AS MATRIZES PARA DAR DISPLAY
         print("Original matrix: {}".format(ifd.decoded_matrix))
