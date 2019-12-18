@@ -5,6 +5,7 @@ import logging
 from frames import *
 from golomb import Golomb
 from bitStream import BitStream
+import cv2
 
 
 logging.basicConfig(level=logging.INFO)
@@ -169,6 +170,52 @@ if __name__ == "__main__":
         decoded_matrixes.append(ifd.decoded_matrix) # UTILIZA ESTA LISTA COM AS MATRIZES PARA DAR DISPLAY
         print("Original matrix: {}".format(ifd.decoded_matrix))
 
+    Y = decoded_matrixes[0]
+    U = decoded_matrixes[1]
+    V = decoded_matrixes[2]
+    YUV = np.dstack((Y, U, V))[:720, :1280, :].astype(np.float)
+    YUV[:, :, 0] = YUV[:, :, 0] - 16  # Offset Y by 16
+    YUV[:, :, 1:] = YUV[:, :, 1:] - 128  # Offset UV by 128
+    # YUV conversion matrix from ITU-R BT.601 version (SDTV)
+    # Note the swapped R and B planes!
+    #              Y       U       V
+    # https://en.wikipedia.org/wiki/YUV#Conversion_to/from_RGB
+    M = np.array([[1.164, 2.017, 0.000],  # B
+                  [1.164, -0.392, -0.813],  # G
+                  [1.164, 0.000, 1.596]])  # R
+    # Take the dot product with the matrix to produce BGR output, clamp the
+    # results to byte range and convert to bytes
+    BGR = YUV.dot(M.T).clip(0, 255).astype(np.uint8)
+    # Display the image with OpenCV
+    cv2.imshow('image', BGR)
+    cv2.waitKey(  # TODO: por waitKey time dinamico: aka ir buscar os FPS
+        10000)  # I found that it works if i press the key whilst the window is in focus. If the command line is
+    # in focus then nothing happens;
+    # Its in milliseconds
 
-
-    
+    # print("--------------bem-------------")
+    # frame = Frame444(720, 1280, "../media/park_joy_444_720p50.y4m")
+    # frame.advance()
+    # Y = frame.getY()
+    # U = frame.getU()
+    # V = frame.getV()
+    #
+    # YUV = np.dstack((Y, U, V))[:720, :1280, :].astype(np.float)
+    # YUV[:, :, 0] = YUV[:, :, 0] - 16  # Offset Y by 16
+    # YUV[:, :, 1:] = YUV[:, :, 1:] - 128  # Offset UV by 128
+    # # YUV conversion matrix from ITU-R BT.601 version (SDTV)
+    # # Note the swapped R and B planes!
+    # #              Y       U       V
+    # # https://en.wikipedia.org/wiki/YUV#Conversion_to/from_RGB
+    # M = np.array([[1.164, 2.017, 0.000],  # B
+    #               [1.164, -0.392, -0.813],  # G
+    #               [1.164, 0.000, 1.596]])  # R
+    # # Take the dot product with the matrix to produce BGR output, clamp the
+    # # results to byte range and convert to bytes
+    # BGR = YUV.dot(M.T).clip(0, 255).astype(np.uint8)
+    # # Display the image with OpenCV
+    # cv2.imshow('image', BGR)
+    # cv2.waitKey(  # TODO: por waitKey time dinamico: aka ir buscar os FPS
+    #     10000)  # I found that it works if i press the key whilst the window is in focus. If the command line is
+    # # in focus then nothing happens;
+    # # Its in milliseconds
