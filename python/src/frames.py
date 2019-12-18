@@ -16,6 +16,9 @@ logger.propagate = False  # https://stackoverflow.com/a/19561320
 
 
 class Frame(ABC):
+    """
+    Abstract class of a Frame.
+    """
     def __init__(self, height, width, fileName):
         self.height = height
         self.width = width
@@ -51,6 +54,9 @@ class Frame(ABC):
 
 
 class Frame444(Frame):
+    """
+    This class, derived from 'Frame', implements a 4:4:4 frame.
+    """
     def __init__(self, height, width, fileName):
         super().__init__(height, width, fileName)
 
@@ -92,6 +98,9 @@ class Frame444(Frame):
 
 
 class Frame422(Frame):
+    """
+    This class, derived from 'Frame', implements a 4:2:2 frame.
+    """
     def __init__(self, height, width, fileName):
         super().__init__(height, width, fileName)
 
@@ -132,6 +141,9 @@ class Frame422(Frame):
 
 
 class Frame420(Frame):
+    """
+    This class, derived from 'Frame', implements a 4:2:0 frame.
+    """
     def __init__(self, height, width, fileName):
         super().__init__(height, width, fileName)
 

@@ -1,18 +1,19 @@
 import math
 
-"""
-This class implements the Golomb codification to compress information.
-It encodes an integer based on a given value of M. 
-The codification is the result of the concatenation of an unary code with a binary code,
-given by the quotient and remainder of the division between integer value and M, respectively.
-"""
+
 class Golomb:
     """
-    The constructor.
-
-    @param m: value of M (default = 2)
+    This class implements the Golomb codification to compress information.
+    It encodes an integer based on a given value of M. 
+    The codification is the result of the concatenation of an unary code with a binary code,
+    given by the quotient and remainder of the division between integer value and M, respectively.
     """
     def __init__(self, m=2):
+        """
+        The constructor.
+
+        @param m: value of M (default = 2)
+        """
         assert m > 0
 
         self.m = m
@@ -25,30 +26,30 @@ class Golomb:
         self.encoded_values = {i:self.encode(i) for i in range(-255,256)}
         self.decoded_values = {''.join(str(bit) for bit in self.encoded_values[i]):i for i in range(-255,256)}
 
-    """
-    This method updates the value of M.
-
-    @param m: new M
-    """
     def set_m(self, m):
+        """
+        This method updates the value of M.
+
+        @param m: new M
+        """
         assert m > 0
 
         self.m = m
         self.base2 = True if math.log2(m).is_integer() else False
     
-    """
-    This method, depending on the value of M, calls the respective method to encode the given value 'n'.
-    If M is a power of two, it calls the base2encoder() method. Else, it calls the truncated_encoder() method.
-    """
     def encode(self, n):
+        """
+        This method, depending on the value of M, calls the respective method to encode the given value 'n'.
+        If M is a power of two, it calls the base2encoder() method. Else, it calls the truncated_encoder() method.
+        """
         return self.base2encoder(n) if self.base2 else self.truncated_encoder(n)
 
-    """
-    This method encodes a given integer 'n' with Golomb encoding, using a power of two value of 'M'.
-
-    @param n: integer to encode
-    """
     def base2encoder(self, n):
+        """
+        This method encodes a given integer 'n' with Golomb encoding, using a power of two value of 'M'.
+
+        @param n: integer to encode
+        """
         
         # check 'n' sign (0 - positive, 1 - negative)
         sign = [0]  
@@ -67,12 +68,12 @@ class Golomb:
         # returns the golomb code of 'n'
         return  sign + unary_code + binary_code
     
-    """
-    This method encodes a given integer 'n' with truncated Golomb encoding.
-
-    @param n: integer to encode
-    """
     def truncated_encoder(self, n):
+        """
+        This method encodes a given integer 'n' with truncated Golomb encoding.
+
+        @param n: integer to encode
+        """
 
         # check 'n' sign (0 - positive, 1 - negative)
         sign = [0]
@@ -96,13 +97,13 @@ class Golomb:
         # return the truncated golomb code of 'n'
         return sign + unary_code + binary_code
     
-    """
-    This method decodes a bitstream with multiple integers.
-    Example: stream_decoder([0,0,0,1,0,0,1,0,0,0,0,0]) -> [1,2,0]
-
-    @param bitstream: a list of bits
-    """
     def stream_decoder(self, bitstream, i=0):
+        """
+        This method decodes a bitstream with multiple integers.
+        Example: stream_decoder([0,0,0,1,0,0,1,0,0,0,0,0]) -> [1,2,0]
+
+        @param bitstream: a list of bits
+        """
         
         if not bitstream:
             return []
@@ -141,22 +142,22 @@ class Golomb:
 
         return decoded
 
-    """
-    This method, depending on the value of M, calls the respective method to decode a given list of bits.
-    If M is a power of two, it calls the base2decoder() method. Else, it calls the truncated_decoder() method.
-
-    @param bitstream: list of bits to decode
-    """
     def decode(self, bitstream):
+        """
+        This method, depending on the value of M, calls the respective method to decode a given list of bits.
+        If M is a power of two, it calls the base2decoder() method. Else, it calls the truncated_decoder() method.
+
+        @param bitstream: list of bits to decode
+        """
         assert len(bitstream) > 0
         return self.base2decoder(bitstream) if self.base2 else self.truncated_decoder(bitstream)
 
-    """
-    This method decodes a given list of bits, encoded with Golomb encoding.
-
-    @param bitstream: list of bits to decode
-    """
     def base2decoder(self, bitstream):
+        """
+        This method decodes a given list of bits, encoded with Golomb encoding.
+
+        @param bitstream: list of bits to decode
+        """
         
         negative = bitstream[0] == 1
         bitstream = bitstream[1:]
@@ -177,12 +178,12 @@ class Golomb:
 
         return r + q * self.m if not negative else -1 * (r + q * self.m)
     
-    """
-    This method decodes a given list of bits, encoded with truncated Golomb encoding.
-
-    @param bitstream: list of bits to decode
-    """
     def truncated_decoder(self, bitstream):
+        """
+        This method decodes a given list of bits, encoded with truncated Golomb encoding.
+
+        @param bitstream: list of bits to decode
+        """
         negative = bitstream[0] == 1
         bitstream = bitstream[1:]
 
@@ -206,10 +207,10 @@ class Golomb:
         else:
             return decimal + self.m - 2**b + q * self.m if not negative else -1 * (decimal + self.m - 2**b + q * self.m)
 
-    """
-    This method, given a natural number, converts it into base2 with a given number of bits.
-    """
     def decimal_to_binary(self, decimal, bits):
+        """
+        This method, given a natural number, converts it into base2 with a given number of bits.
+        """
         binary = []
         n = decimal
         while True:
@@ -225,16 +226,16 @@ class Golomb:
             binary = [0 for i in range(bits - len(binary))] + binary        
         return binary
     
-    """
-    This method, given a base2 number, converts it into a natural number.
-    """
     def binary_to_decimal(self, binary):
+        """
+        This method, given a base2 number, converts it into a natural number.
+        """
         return sum([int(binary[i]) * 2**(len(binary) - 1 - i) for i in range(len(binary))])
     
-    """
-    This method, given a set of symbols in 'text', computes the frequency of each symbol.
-    """
     def frequency(self, text):
+        """
+        This method, given a set of symbols in 'text', computes the frequency of each symbol.
+        """
         frequency = dict()
 
         for symbol in text:

@@ -13,11 +13,11 @@ c_handler.setFormatter(logging.Formatter('%(name)s | %(levelname)s ->: %(message
 logger.addHandler(c_handler)
 logger.propagate = False  # https://stackoverflow.com/a/19561320
 
-"""
-This class implements a video player.
-It reads a file in 'y4m' format and display it on a window, frame by frame.
-"""
 class VideoPlayer:
+    """
+    This class implements a video player.
+    It reads a file in 'y4m' format and display it on a window, frame by frame.
+    """
     def __init__(self, filename):
         self.fileName = filename
         # self.filePointer = 0
@@ -48,10 +48,10 @@ class VideoPlayer:
         else:
             logger.error("File already opened!!")
 
-    """
-    This method, as its name suggest, reads one frame from a video and displays it in a window.
-    """
     def readFrame(self):
+        """
+        This method, as its name suggest, reads one frame from a video and displays it in a window.
+        """
         if self.mediaFormat:
 
             if not self.frame.advance():

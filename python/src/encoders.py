@@ -19,17 +19,18 @@ c_handler.setFormatter(logging.Formatter('%(name)s | %(levelname)s ->: %(message
 logger.addHandler(c_handler)
 logger.propagate = False  # https://stackoverflow.com/a/19561320
 
-"""
-This class implements a lossless intra-frame encoder, using 7PEG linear predictors.
-"""
+
 class IntraFrameEncoder():
     """
-    Default constructor.
-
-    @param matrix: initial matrix
-    @param predictor: linear predictor
+    This class implements a lossless intra-frame encoder, using 7PEG linear predictors.
     """
     def __init__(self, matrix, predictor):
+        """
+        Default constructor.
+
+        @param matrix: initial matrix
+        @param predictor: linear predictor
+        """
         self.original_matrix = matrix
         self.predictor = predictor
         self.encoded_matrix = np.empty(self.original_matrix.shape)  # sighly faster
@@ -40,29 +41,29 @@ class IntraFrameEncoder():
         self.written_bits = 0 # TODO: tira isto
         self.codes = []
 
-    """
-    This method writes a list of bits on file, using the Bitstream class.
-
-    @param code: list with bits to encode.
-    """
     def write_code(self, code):
+        """
+        This method writes a list of bits on file, using the Bitstream class.
+
+        @param code: list with bits to encode.
+        """
         for bit in code:
             self.written_bits += 1
             self.bitstream.writeBit(bit,1)
 
-    """
-    This method sets current matrix of the encoder to 'new_matrix'.
-
-    @param new_matrix: new matrix of type Y,U or V.
-    """
     def setMatrix(self, new_matrix):
+        """
+        This method sets current matrix of the encoder to 'new_matrix'.
+
+        @param new_matrix: new matrix of type Y,U or V.
+        """
         self.original_matrix = new_matrix
     
-    """
-    This method encodes the original matrix in a new one, based on the current predictor.
-    It also uses golomb codification for the entropy encoding.
-    """
     def encode(self):
+        """
+        This method encodes the original matrix in a new one, based on the current predictor.
+        It also uses golomb codification for the entropy encoding.
+        """
 
         # TODO: ver o que é aquele K do stor
         # write header with bitstream
@@ -87,33 +88,33 @@ class IntraFrameEncoder():
                 #self.write_code(self.golomb.encoded_values[self.encoded_matrix[line, col]])
                 self.codes += self.golomb.encoded_values[self.encoded_matrix[line, col]]
 
-"""
-This class implements a lossless intra-frame decoder, using 7PEG linear predictors.
-"""
 class IntraFrameDecoder():
     """
-    Default constructor.
-
-    @param matrix: initial matrix
-    @param predictor: linear predictor
+    This class implements a lossless intra-frame decoder, using 7PEG linear predictors.
     """
     def __init__(self, matrix, predictor):
+        """
+        Default constructor.
+
+        @param matrix: initial matrix
+        @param predictor: linear predictor
+        """
         self.original_matrix = matrix
         self.predictor = predictor
         self.decoded_matrix = np.empty(self.original_matrix.shape)  # sighly faster
 
-    """
-    This method sets current matrix of the encoder to 'new_matrix'.
-
-    @param new_matrix: new matrix of type Y,U or V.
-    """
     def setMatrix(self, new_matrix):
+        """
+        This method sets current matrix of the encoder to 'new_matrix'.
+
+        @param new_matrix: new matrix of type Y,U or V.
+        """
         self.original_matrix = new_matrix
 
-    """
-    This method decodes a predicted matrix in the original one, based on the current predictor.
-    """
     def decode(self):
+        """
+        This method decodes a predicted matrix in the original one, based on the current predictor.
+        """
 
         # matrix size/shape is the same no mather which one
         self.decoded_matrix[0, 0] = self.original_matrix[0, 0] + self.predictor.predict(0, 0, 0)
