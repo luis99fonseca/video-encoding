@@ -20,7 +20,7 @@ logger.propagate = False  # https://stackoverflow.com/a/19561320
 
 class IntraFrameEncoder():
     """
-    Lossless intra-frame encoder
+    Lossless intra-frame encoder.
     """
     def __init__(self, matrix, type, format, predictor):
         self.original_matrix = matrix

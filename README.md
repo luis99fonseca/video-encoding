@@ -1,5 +1,5 @@
 # Video Encoding
-Video for enconding binary files in Python and C++.
+Repository to implement Golomb entropy codification and a lossless intra-frame video encoder and decoder.
 
 ## Authors
 
