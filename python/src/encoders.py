@@ -158,6 +158,6 @@ if __name__ == "__main__":
 
     for code in codes:
         decoded = ife.golomb.stream_decoder(code)
-        decoded = np.array(decoded, dtype=np.int8).reshape((720,1280))
+        decoded = np.array(decoded, dtype=np.int16).reshape((720,1280))
         print(decoded)
     
