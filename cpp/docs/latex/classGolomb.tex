@@ -7,38 +7,31 @@
 \item 
 \hyperlink{classGolomb_aca358c8c3c8706b470c74f64f9509a64}{Golomb} (double m)
 \item 
-\mbox{\Hypertarget{classGolomb_a8d8c2f271ad2e3716ddbba7fcde15619}\label{classGolomb_a8d8c2f271ad2e3716ddbba7fcde15619}} 
-void {\bfseries set\+\_\+m} (double m)
+void \hyperlink{classGolomb_a8d8c2f271ad2e3716ddbba7fcde15619}{set\+\_\+m} (double m)
 \item 
-\mbox{\Hypertarget{classGolomb_aa45900c84d473bbfc3d0de0b8879d10e}\label{classGolomb_aa45900c84d473bbfc3d0de0b8879d10e}} 
-int {\bfseries get\+\_\+m} ()
+int \hyperlink{classGolomb_aa45900c84d473bbfc3d0de0b8879d10e}{get\+\_\+m} ()
 \item 
 \mbox{\Hypertarget{classGolomb_a39581a9a0a9a68cce93fdb09005a3b3c}\label{classGolomb_a39581a9a0a9a68cce93fdb09005a3b3c}} 
 vector$<$ int $>$ {\bfseries encode} (int n)
 \item 
-\mbox{\Hypertarget{classGolomb_a91927ef00d074201fba0a176c7e11925}\label{classGolomb_a91927ef00d074201fba0a176c7e11925}} 
-vector$<$ int $>$ {\bfseries base2encoder} (int n)
+vector$<$ int $>$ \hyperlink{classGolomb_a91927ef00d074201fba0a176c7e11925}{base2encoder} (int n)
 \item 
-\mbox{\Hypertarget{classGolomb_a2a12ea7e114395b3c20268a68ede3e29}\label{classGolomb_a2a12ea7e114395b3c20268a68ede3e29}} 
-vector$<$ int $>$ {\bfseries truncated\+\_\+encoder} (int n)
+vector$<$ int $>$ \hyperlink{classGolomb_a2a12ea7e114395b3c20268a68ede3e29}{truncated\+\_\+encoder} (int n)
 \item 
 \mbox{\Hypertarget{classGolomb_a6591f253a23651ae961e6cc9e9d26177}\label{classGolomb_a6591f253a23651ae961e6cc9e9d26177}} 
 int {\bfseries decode} (vector$<$ int $>$ bitstream)
 \item 
-\mbox{\Hypertarget{classGolomb_a789cca4aa2ebfb18e2acd50565099ac9}\label{classGolomb_a789cca4aa2ebfb18e2acd50565099ac9}} 
-int {\bfseries base2decoder} (vector$<$ int $>$ bitstream)
+vector$<$ int $>$ \hyperlink{classGolomb_a5116ab2ba314226543257204c66ced62}{stream\+\_\+decoder} (vector$<$ int $>$ bitstream)
 \item 
-\mbox{\Hypertarget{classGolomb_a395b68ea88abe771d02ba62aff2c559a}\label{classGolomb_a395b68ea88abe771d02ba62aff2c559a}} 
-int {\bfseries truncated\+\_\+decoder} (vector$<$ int $>$ bitstream)
+int \hyperlink{classGolomb_a789cca4aa2ebfb18e2acd50565099ac9}{base2decoder} (vector$<$ int $>$ bitstream)
 \item 
-\mbox{\Hypertarget{classGolomb_a13a756ac1e640acdccab04cead87d77b}\label{classGolomb_a13a756ac1e640acdccab04cead87d77b}} 
-int {\bfseries binary\+\_\+to\+\_\+decimal} (vector$<$ int $>$ bitstream)
+int \hyperlink{classGolomb_a395b68ea88abe771d02ba62aff2c559a}{truncated\+\_\+decoder} (vector$<$ int $>$ bitstream)
 \item 
-\mbox{\Hypertarget{classGolomb_aa5f4148a661789fb5035a4ed7e1aa133}\label{classGolomb_aa5f4148a661789fb5035a4ed7e1aa133}} 
-vector$<$ int $>$ {\bfseries unary\+\_\+code} (int q)
+int \hyperlink{classGolomb_a13a756ac1e640acdccab04cead87d77b}{binary\+\_\+to\+\_\+decimal} (vector$<$ int $>$ bitstream)
 \item 
-\mbox{\Hypertarget{classGolomb_a4ce5ce960d0e30505eb5b39e5dc84a6a}\label{classGolomb_a4ce5ce960d0e30505eb5b39e5dc84a6a}} 
-vector$<$ int $>$ {\bfseries binary\+\_\+code} (int decimal, int bits)
+vector$<$ int $>$ \hyperlink{classGolomb_aa5f4148a661789fb5035a4ed7e1aa133}{unary\+\_\+code} (int q)
+\item 
+vector$<$ int $>$ \hyperlink{classGolomb_a4ce5ce960d0e30505eb5b39e5dc84a6a}{binary\+\_\+code} (int decimal, int bits)
 \end{DoxyCompactItemize}
 
 
@@ -59,6 +52,120 @@ Default constructor. \mbox{\Hypertarget{classGolomb_aca358c8c3c8706b470c74f64f95
 {\footnotesize\ttfamily Golomb\+::\+Golomb (\begin{DoxyParamCaption}\item[{double}]{m }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 Constructor with a given value of \textquotesingle{}M\textquotesingle{}. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classGolomb_a789cca4aa2ebfb18e2acd50565099ac9}\label{classGolomb_a789cca4aa2ebfb18e2acd50565099ac9}} 
+\index{Golomb@{Golomb}!base2decoder@{base2decoder}}
+\index{base2decoder@{base2decoder}!Golomb@{Golomb}}
+\subsubsection{\texorpdfstring{base2decoder()}{base2decoder()}}
+{\footnotesize\ttfamily int Golomb\+::base2decoder (\begin{DoxyParamCaption}\item[{vector$<$ int $>$}]{bitstream }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+This method decodes a given list of bits, encoded with \hyperlink{classGolomb}{Golomb} encoding.
+
+
+\begin{DoxyParams}{Parameters}
+{\em bitstream} & list of bits to decode \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGolomb_a91927ef00d074201fba0a176c7e11925}\label{classGolomb_a91927ef00d074201fba0a176c7e11925}} 
+\index{Golomb@{Golomb}!base2encoder@{base2encoder}}
+\index{base2encoder@{base2encoder}!Golomb@{Golomb}}
+\subsubsection{\texorpdfstring{base2encoder()}{base2encoder()}}
+{\footnotesize\ttfamily vector$<$int$>$ Golomb\+::base2encoder (\begin{DoxyParamCaption}\item[{int}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+This method encodes a given integer \textquotesingle{}n\textquotesingle{} with \hyperlink{classGolomb}{Golomb} encoding, using a power of two value of \textquotesingle{}M\textquotesingle{}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & integer to encode \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGolomb_a4ce5ce960d0e30505eb5b39e5dc84a6a}\label{classGolomb_a4ce5ce960d0e30505eb5b39e5dc84a6a}} 
+\index{Golomb@{Golomb}!binary\+\_\+code@{binary\+\_\+code}}
+\index{binary\+\_\+code@{binary\+\_\+code}!Golomb@{Golomb}}
+\subsubsection{\texorpdfstring{binary\+\_\+code()}{binary\_code()}}
+{\footnotesize\ttfamily vector$<$int$>$ Golomb\+::binary\+\_\+code (\begin{DoxyParamCaption}\item[{int}]{decimal,  }\item[{int}]{bits }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+This method, given a natural number, converts it into base2 with a given number of bits.
+
+
+\begin{DoxyParams}{Parameters}
+{\em decimal} & natural number \\
+\hline
+{\em bits} & number of bits \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGolomb_a13a756ac1e640acdccab04cead87d77b}\label{classGolomb_a13a756ac1e640acdccab04cead87d77b}} 
+\index{Golomb@{Golomb}!binary\+\_\+to\+\_\+decimal@{binary\+\_\+to\+\_\+decimal}}
+\index{binary\+\_\+to\+\_\+decimal@{binary\+\_\+to\+\_\+decimal}!Golomb@{Golomb}}
+\subsubsection{\texorpdfstring{binary\+\_\+to\+\_\+decimal()}{binary\_to\_decimal()}}
+{\footnotesize\ttfamily int Golomb\+::binary\+\_\+to\+\_\+decimal (\begin{DoxyParamCaption}\item[{vector$<$ int $>$}]{bitstream }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+This method, given a binary number, converts it into a natural number. \mbox{\Hypertarget{classGolomb_aa45900c84d473bbfc3d0de0b8879d10e}\label{classGolomb_aa45900c84d473bbfc3d0de0b8879d10e}} 
+\index{Golomb@{Golomb}!get\+\_\+m@{get\+\_\+m}}
+\index{get\+\_\+m@{get\+\_\+m}!Golomb@{Golomb}}
+\subsubsection{\texorpdfstring{get\+\_\+m()}{get\_m()}}
+{\footnotesize\ttfamily int Golomb\+::get\+\_\+m (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Get the value of \textquotesingle{}M\textquotesingle{}. \mbox{\Hypertarget{classGolomb_a8d8c2f271ad2e3716ddbba7fcde15619}\label{classGolomb_a8d8c2f271ad2e3716ddbba7fcde15619}} 
+\index{Golomb@{Golomb}!set\+\_\+m@{set\+\_\+m}}
+\index{set\+\_\+m@{set\+\_\+m}!Golomb@{Golomb}}
+\subsubsection{\texorpdfstring{set\+\_\+m()}{set\_m()}}
+{\footnotesize\ttfamily void Golomb\+::set\+\_\+m (\begin{DoxyParamCaption}\item[{double}]{m }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+This method updates the value of \textquotesingle{}M\textquotesingle{}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & new M \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGolomb_a5116ab2ba314226543257204c66ced62}\label{classGolomb_a5116ab2ba314226543257204c66ced62}} 
+\index{Golomb@{Golomb}!stream\+\_\+decoder@{stream\+\_\+decoder}}
+\index{stream\+\_\+decoder@{stream\+\_\+decoder}!Golomb@{Golomb}}
+\subsubsection{\texorpdfstring{stream\+\_\+decoder()}{stream\_decoder()}}
+{\footnotesize\ttfamily vector$<$int$>$ Golomb\+::stream\+\_\+decoder (\begin{DoxyParamCaption}\item[{vector$<$ int $>$}]{bitstream }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+This method decodes a bitstream with multiple integers. Example\+: stream\+\_\+decoder(\mbox{[}0,0,0,1,0,0,1,0,0,0,0,0\mbox{]}) -\/$>$ \mbox{[}1,2,0\mbox{]}
+
+
+\begin{DoxyParams}{Parameters}
+{\em bitstream} & a list of bits \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGolomb_a395b68ea88abe771d02ba62aff2c559a}\label{classGolomb_a395b68ea88abe771d02ba62aff2c559a}} 
+\index{Golomb@{Golomb}!truncated\+\_\+decoder@{truncated\+\_\+decoder}}
+\index{truncated\+\_\+decoder@{truncated\+\_\+decoder}!Golomb@{Golomb}}
+\subsubsection{\texorpdfstring{truncated\+\_\+decoder()}{truncated\_decoder()}}
+{\footnotesize\ttfamily int Golomb\+::truncated\+\_\+decoder (\begin{DoxyParamCaption}\item[{vector$<$ int $>$}]{bitstream }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+This method decodes a given list of bits, encoded with truncated \hyperlink{classGolomb}{Golomb} encoding.
+
+
+\begin{DoxyParams}{Parameters}
+{\em bitstream} & list of bits to decode \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGolomb_a2a12ea7e114395b3c20268a68ede3e29}\label{classGolomb_a2a12ea7e114395b3c20268a68ede3e29}} 
+\index{Golomb@{Golomb}!truncated\+\_\+encoder@{truncated\+\_\+encoder}}
+\index{truncated\+\_\+encoder@{truncated\+\_\+encoder}!Golomb@{Golomb}}
+\subsubsection{\texorpdfstring{truncated\+\_\+encoder()}{truncated\_encoder()}}
+{\footnotesize\ttfamily vector$<$int$>$ Golomb\+::truncated\+\_\+encoder (\begin{DoxyParamCaption}\item[{int}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+This method encodes a given integer \textquotesingle{}n\textquotesingle{} with truncated \hyperlink{classGolomb}{Golomb} encoding.
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & integer to encode \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classGolomb_aa5f4148a661789fb5035a4ed7e1aa133}\label{classGolomb_aa5f4148a661789fb5035a4ed7e1aa133}} 
+\index{Golomb@{Golomb}!unary\+\_\+code@{unary\+\_\+code}}
+\index{unary\+\_\+code@{unary\+\_\+code}!Golomb@{Golomb}}
+\subsubsection{\texorpdfstring{unary\+\_\+code()}{unary\_code()}}
+{\footnotesize\ttfamily vector$<$int$>$ Golomb\+::unary\+\_\+code (\begin{DoxyParamCaption}\item[{int}]{q }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+This method, given an integer \textquotesingle{}q\textquotesingle{}, convert it into unary code of 1\textquotesingle{}s followed by one 0. 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
