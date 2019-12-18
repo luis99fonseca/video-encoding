@@ -1,18 +1,22 @@
-from Frames import *
+from frames import *
 import cv2
+import logging
 
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger('root')
+logger.setLevel(logging.DEBUG)
 
-# logging.basicConfig(level=logging.DEBUG)
-# logger = logging.getLogger('root')
-# logger.setLevel(logging.DEBUG)
-#
-# c_handler = logging.StreamHandler()
-# c_format = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
-# c_handler.setFormatter(logging.Formatter('%(name)s | %(levelname)s ->: %(message)s'))
-#
-# logger.addHandler(c_handler)
-# logger.propagate = False  # https://stackoverflow.com/a/19561320
+c_handler = logging.StreamHandler()
+c_format = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
+c_handler.setFormatter(logging.Formatter('%(name)s | %(levelname)s ->: %(message)s'))
 
+logger.addHandler(c_handler)
+logger.propagate = False  # https://stackoverflow.com/a/19561320
+
+"""
+This class implements a video player.
+It reads a file in 'y4m' format and display it on a window, frame by frame.
+"""
 class VideoPlayer:
     def __init__(self, filename):
         self.fileName = filename
@@ -44,6 +48,9 @@ class VideoPlayer:
         else:
             logger.error("File already opened!!")
 
+    """
+    This method, as its name suggest, reads one frame from a video and displays it in a window.
+    """
     def readFrame(self):
         if self.mediaFormat:
 
@@ -57,7 +64,7 @@ class VideoPlayer:
 
             V = self.frame.getV()
 
-            # Note: here we are implying there are only these 3 formats, so that this "if" can make sense
+            # Note: here we are implying that there are only these 3 formats, so that this "if" can make sense
             if self.mediaFormat[-1] == 2:
                 # logger.debug("Frame (4,2,2): ")
 
@@ -106,13 +113,10 @@ class VideoPlayer:
 
 
 if __name__ == "__main__":
-    videoPlayer01 = VideoPlayer("media/park_joy_444_720p50.y4m")
+    videoPlayer01 = VideoPlayer("../media/park_joy_444_720p50.y4m")
     videoPlayer01.openYUV()
     print(videoPlayer01)
 
     print("for more, see: https://wiki.multimedia.cx/index.php?title=YUV4MPEG2")
     while (videoPlayer01.readFrame()):
         pass
-
-
-
