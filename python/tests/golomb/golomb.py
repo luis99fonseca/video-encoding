@@ -130,7 +130,7 @@ class Golomb:
                     unary_code.append(bit)
                     i += 1
                     if bit == 0:
-                        break
+                        break 
                 binary_code = bitstream[i:i + math.ceil(math.sqrt(self.m))]
                 i += math.ceil(math.sqrt(self.m))
                 decimal = self.decoded_values[''.join(str(bit) for bit in [sign] + unary_code + binary_code)]
@@ -169,7 +169,6 @@ class Golomb:
             while bitstream[i] == 1:
                 i += 1
             
-            unary_code = bitstream[0:i+1]
             binary_code = bitstream[i+1:]
             
             q = i
@@ -226,7 +225,7 @@ class Golomb:
         return binary
     
     """
-    This method, given a base2 number, converts it into a natural number.
+    This method, given a binary number, converts it into a natural number.
     """
     def binary_to_decimal(self, binary):
         return sum([int(binary[i]) * 2**(len(binary) - 1 - i) for i in range(len(binary))])
