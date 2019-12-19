@@ -29,12 +29,11 @@ class BitStream:
 
         self.write_byte = 0  # buffer
         self.write_byte_idx = 7
-        self.write_mode = "wb"
 
         self.closed = False
 
     def closeFile(self):
-        if self.read_byte_idx != 7 and self.mode == "wb":
+        if self.write_byte_idx != 7 and self.mode == "wb":
             #logger.warning("Writing: %s", bin(self.write_byte))
             self.file.write(self.write_byte.to_bytes(1, byteorder="big"))
         self.file.close()
@@ -96,7 +95,7 @@ class BitStream:
             return False
 
         for idx in range(no_bits - 1, -1, -1):
-            temp_bit = (number >> idx) & 1  # TODO: tentar simplificar os shifts, so para 1
+            temp_bit = (number >> idx) & 1
             logger.debug("idx: %s; temp_bit: %s, write_idx: %s; withShitft: %s; temp2: NONE", idx, temp_bit, self.write_byte_idx, (temp_bit << self.write_byte_idx))
             self.write_byte |= (temp_bit << self.write_byte_idx)
             self.write_byte_idx -= 1
@@ -104,40 +103,10 @@ class BitStream:
             if self.write_byte_idx == -1:
                 #logger.warning("Writing: %s", bin(self.write_byte))
                 self.file.write(self.write_byte.to_bytes(1, byteorder="big"))
-                self.write_mode = "ab"
                 self.write_byte_idx = 7
                 self.write_byte = 0
 
         return True
-
-    # @obsolete
-    ## doesnt allow to split bytes aka, part of a writing in one byte and another part in the next
-    def writeBit2(self, number, no_bits = 8):
-        """
-        :param number: number to write in the file
-        :param no_bits: number fo bits to be written into
-        """
-
-        if (number.bit_length() > no_bits):
-            logger.error("Unable to convert int {%s} into %s-bits word", number, no_bits)
-            return False
-
-        temp_counter = no_bits
-        while True:
-            if self.write_byte_idx == -1:
-                with open(self.fileName, self.write_mode) as temp_file:
-                    #logger.warning("Writing: %s", bin(self.write_byte))
-                    temp_file.write(self.write_byte.to_bytes(1, byteorder="big"))
-                    self.write_mode = "ab"
-                self.write_byte_idx = 7
-                self.write_byte = 0
-            if temp_counter <= 0:
-                return True
-            self.write_byte_idx -= (no_bits % (8 + 1))  # subtracting from the idx the number of "available" bits / we can only write at max 8 bits at the time
-            temp_counter -= (no_bits % (8 + 1))
-            logger.debug("left: %s ; used: %s", self.write_byte_idx + 1,8 - self.write_byte_idx - 1)
-            self.write_byte |= number << self.write_byte_idx + 1    # +1, because there are 8 bits in total, but the starting number is 7, so we adjust it
-            logger.debug("i: %s - %s - %s", self.write_byte_idx, bin(self.write_byte), temp_counter)
 
     def writeString(self, message):
         try:

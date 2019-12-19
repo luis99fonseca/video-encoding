@@ -5,6 +5,7 @@ test01 = True
 test02 = True
 test03 = True
 test04 = True
+test05 = True
 
 logger = logging.getLogger('root')
 logger.setLevel(logging.DEBUG)
@@ -95,3 +96,37 @@ if test04:
     assert bitstream04.readBit(len(t_array01)) == t_array01
 
     bitstream04.closeFile()
+
+# ---------------INCOMPLETE WRITING/READING TESTING--------------
+if test05:
+    bitstream05 = BitStream("./out/test05.txt", "wb")
+
+    t_array01 = [1, 0, 1]
+    bitstream05.writeArray(t_array01)
+
+    bitstream05.closeFile()
+
+    bitstream05 = BitStream("./out/test05.txt", "rb")
+
+    assert bitstream05.readBit(5) == t_array01 + [0, 0]
+    bitstream05.readBit(3)
+    bitstream05.readBit(1)
+    bitstream05.readBit(1)
+    bitstream05.closeFile()
+
+    # -------------------------------
+    print("----------------")
+    bitstream05 = BitStream("./out/test05.txt", "wb")
+
+    t_array01 = [1,1,1,1,1,1,1]
+    bitstream05.writeArray(t_array01)
+
+    bitstream05.closeFile()
+
+    bitstream05 = BitStream("./out/test05.txt", "rb")
+
+    assert bitstream05.readBit(7) == t_array01
+    bitstream05.readBit(1)
+    bitstream05.readBit(1)
+    bitstream05.readBit(1)
+    bitstream05.closeFile()

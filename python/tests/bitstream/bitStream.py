@@ -17,6 +17,9 @@ logger.propagate = False  # https://stackoverflow.com/a/19561320
 
 
 class BitStream:
+    """
+    Class optimised to read/write bits from/to a file
+    """
     def __init__(self, fileName, mode):
         # file management
         assert mode in ["wb", "rb"]
@@ -29,29 +32,38 @@ class BitStream:
 
         self.write_byte = 0  # buffer
         self.write_byte_idx = 7
-        self.write_mode = "wb"
 
         self.closed = False
 
     def closeFile(self):
-        if self.read_byte_idx != 7 and self.mode == "wb":
+        """
+        Closes the file, such that no further operations can be done.
+        If there is a incomplete byte to be written, writes it
+        """
+        if self.write_byte_idx != 7 and self.mode == "wb":
             # logger.warning("Writing: %s", bin(self.write_byte))
             self.file.write(self.write_byte.to_bytes(1, byteorder="big"))
         self.file.close()
 
     def readBit(self, no):
+        """
+        @param no: number of bits to read
+        @return: list of bits read
+        """
         # see: https://stackoverflow.com/a/9885287
         bit_list = []
-        if self.closed:
-            logger.error("Class closed! Can't operate any further!")
-            return False
-        elif self.mode == "wb":
+
+        if self.mode == "wb":
             logger.error("Class defined of Writing only. Not allowed to Read!")
             return False
 
         elif self.read_eof:
             logger.debug("EOF reached!!! Cannot read any further.")
             return bit_list
+
+        elif self.closed:
+            logger.error("Class closed! Can't operate any further!")
+            return False
 
         for b in range(no):
             temp_bit = 0
@@ -65,6 +77,7 @@ class BitStream:
                 if not temp_byte:
                     self.read_eof = True
                     logger.debug("EOF reached!! Cannot read any further.")
+                    self.closed = True
                     self.closeFile()
                     return bit_list
                 else:  # irrelevant but required
@@ -75,19 +88,16 @@ class BitStream:
             temp_bit |= (self.read_byte >> self.read_byte_idx) & 1
             self.read_byte_idx -= 1
             bit_list.append(temp_bit)
-
+        print("retorning: ", bit_list)
         return bit_list
 
     def writeBit(self, number, no_bits=8):
         """
-        :param number: number to write in the file
-        :param no_bits: number fo bits to be written into
+        :@param number: number to write in the file
+        :@param no_bits: number fo bits to be written into
         """
-        if self.closed:
-            logger.error("Class closed! Can't operate any further!")
-            return False
 
-        elif self.mode == "rb":
+        if self.mode == "rb":
             logger.error("Class defined of Reading only. Not allowed to Write!")
             return False
 
@@ -95,8 +105,12 @@ class BitStream:
             logger.error("Unable to convert int {%s} into %s-bits word", number, no_bits)
             return False
 
+        elif self.closed:
+            logger.error("Class closed! Can't operate any further!")
+            return False
+
         for idx in range(no_bits - 1, -1, -1):
-            temp_bit = (number >> idx) & 1  # TODO: tentar simplificar os shifts, so para 1
+            temp_bit = (number >> idx) & 1
             logger.debug("idx: %s; temp_bit: %s, write_idx: %s; withShitft: %s; temp2: NONE", idx, temp_bit,
                          self.write_byte_idx, (temp_bit << self.write_byte_idx))
             self.write_byte |= (temp_bit << self.write_byte_idx)
@@ -105,17 +119,18 @@ class BitStream:
             if self.write_byte_idx == -1:
                 # logger.warning("Writing: %s", bin(self.write_byte))
                 self.file.write(self.write_byte.to_bytes(1, byteorder="big"))
-                self.write_mode = "ab"
                 self.write_byte_idx = 7
                 self.write_byte = 0
 
         return True
 
-    def writeArray(self, array, no_bits=1):
+    def writeArray(self, array):
         """
-                :param array: array of numbers to write in the file
-                :param no_bits: number fo bits to be written into
+                :@param array: array of numbers to write in the file
+                :@param no_bits: number fo bits to be written into
+                :@return
         """
+        no_bits = 1
         if self.closed:
             logger.error("Class closed! Can't operate any further!")
             return False
@@ -130,7 +145,7 @@ class BitStream:
                 return False
 
             for idx in range(no_bits - 1, -1, -1):
-                temp_bit = (number >> idx) & 1  # TODO: tentar simplificar os shifts, so para 1
+                temp_bit = (number >> idx) & 1
                 logger.debug("idx: %s; temp_bit: %s, write_idx: %s; withShitft: %s; temp2: NONE", idx, temp_bit,
                              self.write_byte_idx, (temp_bit << self.write_byte_idx))
                 self.write_byte |= (temp_bit << self.write_byte_idx)
@@ -139,19 +154,23 @@ class BitStream:
                 if self.write_byte_idx == -1:
                     # logger.warning("Writing: %s", bin(self.write_byte))
                     self.file.write(self.write_byte.to_bytes(1, byteorder="big"))
-                    self.write_mode = "ab"
                     self.write_byte_idx = 7
                     self.write_byte = 0
 
         return True
 
     def writeString(self, message):
+        """
+        Writes an entire line decoded in utf-8 format; Line breaker is appended
+        :@param message: String to write
+        :@return Whether or not the writing was successful
+        """
         try:
             self.file.write((message + "\n").encode("utf-8"))
             return True
         except Exception as e:
             logger.error("Could not write to file: ", e)
-            return True
+            return False
 
     def readString(self):
         """

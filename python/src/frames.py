@@ -71,7 +71,7 @@ class Frame444(Frame):
             self.YComponent = np.fromfile(self.file, dtype=np.uint8, count=self.width * self.height). \
                 reshape((self.height, self.width))
 
-        except Exception as e:  # todo, por aqui o erro que se tem em EOF, e outro except para o resto deles
+        except Exception as e:
             logger.error(e)
             self.file.close()
             return False
@@ -114,7 +114,7 @@ class Frame422(Frame):
         try:
             self.YComponent = np.fromfile(self.file, dtype=np.uint8, count=self.width * self.height). \
                 reshape((self.height, self.width))
-        except Exception as e:  # todo, por aqui o erro que se tem em EOF, e outro except para o resto deles
+        except Exception as e:
             logger.error(e)
             self.file.close()
             return False
@@ -157,7 +157,7 @@ class Frame420(Frame):
         try:
             self.YComponent = np.fromfile(self.file, dtype=np.uint8, count=self.width * self.height). \
                 reshape((self.height, self.width))
-        except Exception as e:  # todo, por aqui o erro que se tem em EOF, e outro except para o resto deles
+        except Exception as e:
             logger.error(e)
             self.file.close()
             return False
