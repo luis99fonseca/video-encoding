@@ -77,22 +77,26 @@ class IntraFrameEncoder():
 
         # matrix size/shape is the same no mather which one
         self.encoded_matrix[0, 0] = int(self.original_matrix[0,0] - self.predictor.predict(0,0,0))
+        # self.codes += self.golomb.encoded_values[self.encoded_matrix[0, 0]]
 
         for col in range(1, self.original_matrix.shape[1]):
             self.encoded_matrix[0, col] = int(self.original_matrix[0, col]) - self.predictor.predict(self.original_matrix[0, col -1], 0, 0)
+            # self.codes += self.golomb.encoded_values[self.encoded_matrix[0, col]]
 
         for line in range(1, self.original_matrix.shape[0]):
             self.encoded_matrix[line, 0] = int(self.original_matrix[line, 0]) - self.predictor.predict(0, self.original_matrix[line - 1, 0], 0)
+            # self.codes += self.golomb.encoded_values[self.encoded_matrix[line, 0]]
 
         for line in range(1, self.original_matrix.shape[0]):
             for col in range(1, self.original_matrix.shape[1]):
                self.encoded_matrix[line, col] = int(self.original_matrix[line, col]) - self.predictor.predict(
                     self.original_matrix[line, col - 1], self.original_matrix[line - 1, col], self.original_matrix[line - 1, col -1])
+               # self.codes += self.golomb.encoded_values[self.encoded_matrix[line, col]]
 
         for line in range(self.encoded_matrix.shape[0]):
             for col in range(self.encoded_matrix.shape[1]):
-                # self.write_code(self.golomb.encoded_values[self.encoded_matrix[line, col]])
-                self.codes += self.golomb.encoded_values[self.encoded_matrix[line, col]]
+                self.write_code(self.golomb.encoded_values[self.encoded_matrix[line, col]])
+                # self.codes += self.golomb.encoded_values[self.encoded_matrix[line, col]]
 
 
 class IntraFrameDecoder():
@@ -241,7 +245,7 @@ if __name__ == "__main__":
     # ife.bitstream.closeFile()
 
 
-    # sys.exit(-1)
+    sys.exit(-1)
     decoded_matrixes = []
     for code in codes:
         decoded = ife.golomb.stream_decoder(code)

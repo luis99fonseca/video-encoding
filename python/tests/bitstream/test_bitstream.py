@@ -6,6 +6,7 @@ test02 = True
 test03 = True
 test04 = True
 test05 = True
+test06 = True
 
 logger = logging.getLogger('root')
 logger.setLevel(logging.DEBUG)
@@ -130,3 +131,37 @@ if test05:
     bitstream05.readBit(1)
     bitstream05.readBit(1)
     bitstream05.closeFile()
+
+# ---------------ADD NUMBER FEATURE (TO GET MORE EFFICIENCY)--------------
+if test06:
+    bitstream06 = BitStream("./out/test06.txt", "wbs")
+
+    t_array01 = [1, 1, 1, 1, 1, 1, 1, 1]
+    t_array02 = [0, 0, 0, 0, 0, 0, 0, 0]
+    t_array03 = [1, 1, 1, 1]
+    t_array04 = [1, 1, 1, 1]
+    t_array05 = [1, 1, 1, 1, 1, 1, 1, 1, 1]
+    t_array06 = [0, 0, 0, 0, 0, 0, 0]
+
+    bitstream06.addNumber(t_array01)
+    bitstream06.addNumber(t_array02)
+    bitstream06.addNumber(t_array03)
+    bitstream06.addNumber(t_array04)
+    bitstream06.addNumber(t_array05)
+    bitstream06.addNumber(t_array06)
+
+    print(bitstream06.write_array_final)
+
+    bitstream06.closeFile()
+
+    bitstream06 = BitStream("./out/test06.txt", "rb")
+
+    assert bitstream06.readBit(8) == [1, 1, 1, 1, 1, 1, 1, 1]
+    assert bitstream06.readBit(8) == [0, 0, 0, 0, 0, 0, 0, 0]
+    assert bitstream06.readBit(8) == [1, 1, 1, 1, 1, 1, 1, 1]
+    assert bitstream06.readBit(8) == [1, 1, 1, 1, 1, 1, 1, 1]
+    assert bitstream06.readBit(8) == [1, 0, 0, 0, 0, 0, 0, 0]
+
+
+
+
