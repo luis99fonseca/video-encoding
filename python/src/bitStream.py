@@ -22,9 +22,9 @@ class BitStream:
     """
     def __init__(self, fileName, mode):
         # file management
-        assert mode in ["wb", "rb"]
+        assert mode in ["wb", "rb", "wbs"]
         self.mode = mode
-        self.file = open(fileName, self.mode)
+        self.file = open(fileName, self.mode[:2])
 
         self.read_byte = None  # buffer
         self.read_byte_idx = -1
@@ -32,6 +32,9 @@ class BitStream:
 
         self.write_byte = 0  # buffer
         self.write_byte_idx = 7
+
+        self.write_array_last = []
+        self.write_array_final = []
 
         self.closed = False
 
@@ -43,6 +46,9 @@ class BitStream:
         if self.write_byte_idx != 7 and self.mode == "wb":
             # logger.warning("Writing: %s", bin(self.write_byte))
             self.file.write(self.write_byte.to_bytes(1, byteorder="big"))
+        if len(self.write_array_final) and self.mode == "wbs":
+            self.file.write(bytearray(self.write_array_final))
+
         self.file.close()
 
     def readBit(self, no):
@@ -90,6 +96,39 @@ class BitStream:
             bit_list.append(temp_bit)
         print("retorning: ", bit_list)
         return bit_list
+
+    def addNumber(self, listOfBits):
+        """
+        Receives a list of bits to convert into byte(s) and add to on-going array
+
+        @param listOfBits: list of bits to convert and register
+        """
+
+        # print("Received: ", listOfBits, " ; last: ", self.write_array_last)
+        listOfBits = [str(i) for i in listOfBits]
+        len_last = len(self.write_array_last)   # will never be bigger than 8
+        control_idx = 0
+        temp_list = self.write_array_last + listOfBits[control_idx : 8 - len_last]
+
+        if len(temp_list) == 8:
+            # print("temp_l ", temp_list)
+            self.write_array_final.append(int("".join(temp_list), 2))
+            control_idx = 8 - len_last
+            self.write_array_last = []
+
+        # print("lenList: ", len(listOfBits), " ; control: ", control_idx)
+
+        while len(listOfBits) - control_idx >= 8:
+            # print("temp_l2 ", "".join(listOfBits[control_idx : (control_idx + 8)]))
+            self.write_array_final.append(int("".join(listOfBits[control_idx : (control_idx + 8)]), 2))
+            control_idx += 8
+
+        # print("Control2: ", control_idx)
+        if len(self.write_array_last) == 8: # TODO: acho que nunca chega aqui
+            # print("temp_l3 ", "".join(listOfBits[control_idx:]))
+            pass
+        self.write_array_last = self.write_array_last + listOfBits[control_idx:]
+        # print("----")
 
     def writeBit(self, number, no_bits=8):
         """

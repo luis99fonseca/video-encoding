@@ -39,7 +39,7 @@ class IntraFrameEncoder():
         print(">> ", matrix.shape)
         # Golomb encoder
         self.golomb = Golomb(4)
-        self.bitstream = BitStream("../out/encoded_park_joy_444_720p50.bin", "wb")
+        self.bitstream = BitStream("../out/encoded_park_joy_444_720p50.bin", "wbs")
         self.written_bits = 0 # TODO: tira isto
         self.codes = []
 
@@ -54,7 +54,8 @@ class IntraFrameEncoder():
         #     self.bitstream.writeBit(bit,1)
 
         self.written_bits += len(code)
-        self.bitstream.writeArray(code)
+        # self.bitstream.writeArray(code)
+        self.bitstream.addNumber(code)
 
 
     def setMatrix(self, new_matrix):
@@ -64,6 +65,7 @@ class IntraFrameEncoder():
         @param new_matrix: new matrix of type Y,U or V.
         """
         self.original_matrix = new_matrix
+        self.codes = []
     
     def encode(self):
         """
@@ -77,21 +79,25 @@ class IntraFrameEncoder():
 
         # matrix size/shape is the same no mather which one
         self.encoded_matrix[0, 0] = int(self.original_matrix[0,0] - self.predictor.predict(0,0,0))
+        # self.codes += self.golomb.encoded_values[self.encoded_matrix[0, 0]]
 
         for col in range(1, self.original_matrix.shape[1]):
             self.encoded_matrix[0, col] = int(self.original_matrix[0, col]) - self.predictor.predict(self.original_matrix[0, col -1], 0, 0)
+            # self.codes += self.golomb.encoded_values[self.encoded_matrix[0, col]]
 
         for line in range(1, self.original_matrix.shape[0]):
             self.encoded_matrix[line, 0] = int(self.original_matrix[line, 0]) - self.predictor.predict(0, self.original_matrix[line - 1, 0], 0)
+            # self.codes += self.golomb.encoded_values[self.encoded_matrix[line, 0]]
 
         for line in range(1, self.original_matrix.shape[0]):
             for col in range(1, self.original_matrix.shape[1]):
                self.encoded_matrix[line, col] = int(self.original_matrix[line, col]) - self.predictor.predict(
                     self.original_matrix[line, col - 1], self.original_matrix[line - 1, col], self.original_matrix[line - 1, col -1])
+               # self.codes += self.golomb.encoded_values[self.encoded_matrix[line, col]]
 
         for line in range(self.encoded_matrix.shape[0]):
             for col in range(self.encoded_matrix.shape[1]):
-                # self.write_code(self.golomb.encoded_values[self.encoded_matrix[line, col]])
+                self.write_code(self.golomb.encoded_values[self.encoded_matrix[line, col]])
                 self.codes += self.golomb.encoded_values[self.encoded_matrix[line, col]]
 
 
@@ -153,8 +159,9 @@ if __name__ == "__main__":
     """
     import datetime
     total = 0
-    codes = []
+    # codes = []
     while True:
+        codes = []
         start = datetime.datetime.now()
         playing = frame.advance()
         if not playing:
@@ -171,7 +178,8 @@ if __name__ == "__main__":
         # encode U matrix
         matrix = frame.getU()
         print("Matrix 'U': {}".format(matrix))
-        ife = IntraFrameEncoder(matrix, predictors.JPEG1) # ife.setMatrix(matrix)
+        # ife = IntraFrameEncoder(matrix, predictors.JPEG1)
+        ife.setMatrix(matrix)
         ife.encode()
         codes.append(ife.codes)
         # print("Encoded Matrix 'U': {}".format(ife.encoded_matrix))
@@ -179,7 +187,8 @@ if __name__ == "__main__":
         # encode V matrix
         matrix = frame.getV()
         print("Matrix 'V': {}".format(matrix))
-        ife = IntraFrameEncoder(matrix, predictors.JPEG1)   # ife.setMatrix(matrix)
+        # ife = IntraFrameEncoder(matrix, predictors.JPEG1)
+        ife.setMatrix(matrix)
         ife.encode()
         codes.append(ife.codes)
         print("Encoded Matrix 'V': {}".format(ife.encoded_matrix))
@@ -244,6 +253,7 @@ if __name__ == "__main__":
     # sys.exit(-1)
     decoded_matrixes = []
     for code in codes:
+        # print("code: ", code)
         decoded = ife.golomb.stream_decoder(code)
         decoded = np.array(decoded, dtype=np.int16).reshape((720,1280))
         print("Decoded: {}".format(decoded))
@@ -252,6 +262,7 @@ if __name__ == "__main__":
         decoded_matrixes.append(ifd.decoded_matrix) # UTILIZA ESTA LISTA COM AS MATRIZES PARA DAR DISPLAY
         print("Original matrix: {}".format(ifd.decoded_matrix))
 
+    # sys.exit(-1)
     Y = decoded_matrixes[0]
     U = decoded_matrixes[1]
     V = decoded_matrixes[2]
