@@ -33,9 +33,18 @@ def shit(lista):
         print("temp_l3 ", "".join(lista[control:]))
     last = last + lista[control:]
     print("----")
+#
+# shit(arr05)
+# shit(arr06)
+# shit(arr07)
+# shit(arr08)
+# shit(arr09)
 
-shit(arr05)
-shit(arr06)
-shit(arr07)
-shit(arr08)
-shit(arr09)
+def predict(a, b, c):
+        if c >= max([a, b]):
+            return min([a, b])
+        elif c <= min([a, b]):
+            return max([a, b])
+        return int(a) + int(b) - int(c)
+
+print(predict(5,10,3))

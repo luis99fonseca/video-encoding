@@ -45,7 +45,7 @@ class JPEG6():
     """
     @staticmethod
     def predict(a, b, c):
-        return int(b) + ((int(a) - int(b)) // 2)
+        return int(b) + ((int(a) - int(c)) // 2)
 
 class JPEG7:
     """

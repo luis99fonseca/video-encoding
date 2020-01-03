@@ -48,7 +48,7 @@ class VideoPlayer:
         else:
             logger.error("File already opened!!")
 
-    def readFrame(self):
+    def visualizeFrame(self):
         """
         This method, as its name suggest, reads one frame from a video and displays it in a window.
         """
@@ -115,8 +115,8 @@ class VideoPlayer:
 if __name__ == "__main__":
     videoPlayer01 = VideoPlayer("../media/park_joy_444_720p50.y4m")
     videoPlayer01.openYUV()
-    print(videoPlayer01)
+    # print(videoPlayer01)
 
     print("for more, see: https://wiki.multimedia.cx/index.php?title=YUV4MPEG2")
-    while (videoPlayer01.readFrame()):
+    while (videoPlayer01.visualizeFrame()):
         pass
