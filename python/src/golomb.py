@@ -247,3 +247,7 @@ class Golomb:
         frequency = sorted(frequency.items(), reverse=True, key=lambda kv: kv[1])
         self.histogram = [(f[0], f[1] / len(text)) for f in frequency]
         return self.histogram
+
+if __name__ == '__main__':
+    g = Golomb()
+    print("> ", g.encoded_values[107.0])
