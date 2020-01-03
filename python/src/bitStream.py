@@ -46,7 +46,7 @@ class BitStream:
         if self.write_byte_idx != 7 and self.mode == "wb":
             # logger.warning("Writing: %s", bin(self.write_byte))
             self.file.write(self.write_byte.to_bytes(1, byteorder="big"))
-        if len(self.write_array_final) and self.mode == "wbs":
+        if (self.write_array_final) and self.mode == "wbs":
             self.file.write(bytearray(self.write_array_final))
 
         self.file.close()

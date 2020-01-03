@@ -15,56 +15,46 @@ c_handler.setFormatter(logging.Formatter('%(name)s | %(levelname)s ->: %(message
 logger.addHandler(c_handler)
 logger.propagate = False  # https://stackoverflow.com/a/19561320
 
-
 if __name__ == '__main__':
 
-    frame = Frame444(720,1280, "../media/park_joy_444_720p50.y4m")
+    frame = Frame444(720, 1280, "../media/park_joy_444_720p50.y4m")
+
+    import datetime
 
     total = 0
-    while True:
-        codes = []
+    firstFrame = True
+    for _ in range(2):
         start = datetime.datetime.now()
-
         playing = frame.advance()
+
+        # movie end
         if not playing:
             break
 
         # encode Y matrix
         matrix = frame.getY()
-        print("Matrix 'Y': {}".format(matrix))
         ife = IntraFrameEncoder(matrix, predictors.JPEG1)
+        if firstFrame:
+            ife.bitstream.writeString("720\t1280")  # hard coded for now
         ife.encode()
-        codes += ife.codes
-        print("Encoded Matrix 'Y': {}".format(ife.encoded_matrix))
-        
+        print(ife.encoded_matrix)
+
         # encode U matrix
         matrix = frame.getU()
-        print("Matrix 'U': {}".format(matrix))
         ife.setMatrix(matrix)
-        # ife = IntraFrameEncoder(matrix, predictors.JPEG1) # ife.setMatrix(matrix)
         ife.encode()
-        codes += ife.codes
-        print("Encoded Matrix 'U': {}".format(ife.encoded_matrix))
 
         # encode V matrix
         matrix = frame.getV()
-        print("Matrix 'V': {}".format(matrix))
-        # ife = IntraFrameEncoder(matrix, predictors.JPEG1)   # ife.setMatrix(matrix)
         ife.setMatrix(matrix)
         ife.encode()
-        codes += ife.codes
-        print("Encoded Matrix 'V': {}".format(ife.encoded_matrix))
-        
-        end = datetime.datetime.now() - start
-        print("Compressed frame in {} s.".format(end.seconds))
-        total += end.seconds
-        # break # com este break só codifica um frame
 
-        start = datetime.datetime.now()
-        ife.bitstream.writeString("\nFRAME")
-        for code in codes:
-            ife.bitstream.writeBit(code, 1)
         end = datetime.datetime.now() - start
+        print("Frame compressed in {} s. Total bits: {}".format(end.seconds, ife.written_bits))
         total += end.seconds
-        print("Writed compressed frame in {} s.".format(end.seconds))
-        codes = []
+
+        firstFrame = False
+        # com este break só codifica um frame
+        # break
+    ife.bitstream.closeFile()
+    print("Compressed frames in {} s.".format(total))
