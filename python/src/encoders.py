@@ -98,7 +98,6 @@ class IntraFrameEncoder():
         for line in range(self.encoded_matrix.shape[0]):
             for col in range(self.encoded_matrix.shape[1]):
                 self.write_code(self.golomb.encoded_values[self.encoded_matrix[line, col]])
-                self.codes += self.golomb.encoded_values[self.encoded_matrix[line, col]]
 
 
 class IntraFrameDecoder():
@@ -252,6 +251,7 @@ if __name__ == "__main__":
 
     # sys.exit(-1)
     decoded_matrixes = []
+    ife.bitstream = BitStream("../out/encoded_park_joy_444_720p50.bin", "rb")
     for code in codes:
         # print("code: ", code)
         decoded = ife.golomb.stream_decoder(code)
