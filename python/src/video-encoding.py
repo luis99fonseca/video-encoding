@@ -22,7 +22,8 @@ if __name__ == '__main__':
 
     import datetime
     total = 0
-    while True:
+    firstFrame = True
+    for _ in range(2):
         start = datetime.datetime.now()
         playing = frame.advance()
         
@@ -33,7 +34,12 @@ if __name__ == '__main__':
         # encode Y matrix
         matrix = frame.getY()
         ife = IntraFrameEncoder(matrix, predictors.JPEG1)
+        if firstFrame:
+            ife.bitstream.writeString("720\t1280") # hard coded for now
         ife.encode()
+        print(ife.encoded_matrix)
+
+        
 
         # encode U matrix
         matrix = frame.getU()
