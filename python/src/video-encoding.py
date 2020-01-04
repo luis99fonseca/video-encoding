@@ -20,7 +20,6 @@ if __name__ == '__main__':
     frame = Frame444(720, 1280, "../media/park_joy_444_720p50.y4m")
 
     import datetime
-
     total = 0
     firstFrame = True
     ife = IntraFrameEncoder(predictors.JPEG1)
