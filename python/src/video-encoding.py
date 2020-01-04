@@ -23,7 +23,8 @@ if __name__ == '__main__':
     total = 0
     firstFrame = True
     ife = IntraFrameEncoder(predictors.JPEG1)
-    for _ in range(2):
+    frames_no = 0
+    while True:
         start = datetime.datetime.now()
         playing = frame.advance()
 
@@ -33,30 +34,26 @@ if __name__ == '__main__':
 
         # encode Y matrix
         matrix = frame.getY()
-        print(matrix)
         ife.setMatrix(matrix)
         if firstFrame:
-            ife.bitstream.writeString("2\t720\t1280")  # hard coded for now
+            ife.bitstream.writeString("500\t720\t1280")  # hard coded for now
         ife.encode()
-        print(ife.encoded_matrix)
 
         # encode U matrix
         matrix = frame.getU()
-        print(matrix)
         ife.setMatrix(matrix)
         ife.encode()
-        print(ife.encoded_matrix)
 
         # encode V matrix
         matrix = frame.getV()
-        print(matrix)
         ife.setMatrix(matrix)
         ife.encode()
-        print(ife.encoded_matrix)
 
         end = datetime.datetime.now() - start
-        print("Frame compressed in {} s. Total bits: {}".format(end.seconds, ife.written_bits))
         total += end.seconds
+        frames_no += 1
+        print("Frame compressed in {} s. Total bits: {}. Frames no. {}".format(end.seconds, ife.written_bits, frames_no))
+        
 
         firstFrame = False
         # com este break só codifica um frame

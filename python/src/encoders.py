@@ -84,22 +84,17 @@ class IntraFrameEncoder():
 
         # matrix size/shape is the same no mather which one
         self.encoded_matrix[0, 0] = int(self.original_matrix[0,0] - self.predictor.predict(0,0,0))
-        # self.codes += self.golomb.encoded_values[self.encoded_matrix[0, 0]]
-        print("[0, 0]: ", self.encoded_matrix[0, 0])
 
         for col in range(1, self.original_matrix.shape[1]):
             self.encoded_matrix[0, col] = int(self.original_matrix[0, col]) - self.predictor.predict(self.original_matrix[0, col -1], 0, 0)
-            # self.codes += self.golomb.encoded_values[self.encoded_matrix[0, col]]
 
         for line in range(1, self.original_matrix.shape[0]):
             self.encoded_matrix[line, 0] = int(self.original_matrix[line, 0]) - self.predictor.predict(0, self.original_matrix[line - 1, 0], 0)
-            # self.codes += self.golomb.encoded_values[self.encoded_matrix[line, 0]]
 
         for line in range(1, self.original_matrix.shape[0]):
             for col in range(1, self.original_matrix.shape[1]):
                self.encoded_matrix[line, col] = int(self.original_matrix[line, col]) - self.predictor.predict(
                     self.original_matrix[line, col - 1], self.original_matrix[line - 1, col], self.original_matrix[line - 1, col -1])
-               # self.codes += self.golomb.encoded_values[self.encoded_matrix[line, col]]
 
         for line in range(self.encoded_matrix.shape[0]):
             for col in range(self.encoded_matrix.shape[1]):
