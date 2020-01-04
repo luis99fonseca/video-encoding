@@ -64,14 +64,10 @@ int main()
     cout << ("THIRD TEST - DECODE STREAM WITH M = 4") << "\n";
     cout << ("------------------------------") << "\n";
     vector<int> stream = {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1};
-    vector<int> decoded = golomb.stream_decoder(stream);
-    for(int i = 0; i < decoded.size(); i++)
-        cout << decoded.at(i) << "\n";
+    vector<int> decoded = golomb.stream_decoder(stream, 16);
     
-    
-    /*
     cout << ("------------------------------") << "\n";
-    cout << ("THIRD TEST - ENCODE WITH M = 5") << "\n";
+    cout << ("FOURTH TEST - ENCODE WITH M = 5") << "\n";
     cout << ("------------------------------") << "\n";
 
     golomb.set_m(5);
@@ -100,11 +96,11 @@ int main()
         unit_encode_test(golomb,code,codes2.at(code));
 
     cout << ("------------------------------") << "\n";
-    cout << ("FOURTH TEST - DECODE WITH M = 5") << "\n";
+    cout << ("FIFTH TEST - DECODE WITH M = 5") << "\n";
     cout << ("------------------------------") << "\n";
 
     for(int code = 0; code < codes2.size(); code++) 
         unit_decode_test(golomb,codes2.at(code),code);
-    */
+    
     
 }
