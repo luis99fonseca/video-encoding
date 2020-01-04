@@ -33,6 +33,7 @@ if __name__ == '__main__':
 
         # encode Y matrix
         matrix = frame.getY()
+        print(matrix)
         ife.setMatrix(matrix)
         if firstFrame:
             ife.bitstream.writeString("720\t1280")  # hard coded for now
@@ -41,13 +42,17 @@ if __name__ == '__main__':
 
         # encode U matrix
         matrix = frame.getU()
+        print(matrix)
         ife.setMatrix(matrix)
         ife.encode()
+        print(ife.encoded_matrix)
 
         # encode V matrix
         matrix = frame.getV()
+        print(matrix)
         ife.setMatrix(matrix)
         ife.encode()
+        print(ife.encoded_matrix)
 
         end = datetime.datetime.now() - start
         print("Frame compressed in {} s. Total bits: {}".format(end.seconds, ife.written_bits))

@@ -104,6 +104,7 @@ class IntraFrameEncoder():
         for line in range(self.encoded_matrix.shape[0]):
             for col in range(self.encoded_matrix.shape[1]):
                 self.write_code(self.golomb.encoded_values[self.encoded_matrix[line, col]])
+                self.codes.append(self.golomb.encoded_values[self.encoded_matrix[line, col]])
 
 
 class IntraFrameDecoder():
@@ -175,7 +176,8 @@ if __name__ == "__main__":
         # encode Y matrix
         matrix = frame.getY()
         print("Matrix 'Y': {}".format(matrix))
-        ife = IntraFrameEncoder(matrix, predictors.JPEG1)
+        ife = IntraFrameEncoder(predictors.JPEG1)
+        ife.setMatrix(matrix)
         ife.encode()
         codes.append(ife.codes)
         print("Encoded Matrix 'Y': {}".format(ife.encoded_matrix))
