@@ -97,14 +97,15 @@ class Golomb:
         # return the truncated golomb code of 'n'
         return sign + unary_code + binary_code
     
-    def stream_decoder(self, bitstream, i=0):
+    def stream_decoder(self, bitstream, total=0):
         """
         This method decodes a bitstream with multiple integers.
         Example: stream_decoder([0,0,0,1,0,0,1,0,0,0,0,0]) -> [1,2,0]
 
         @param bitstream: a list of bits
         """
-        
+        i = 0 # current bit
+
         if not bitstream:
             return []
 
@@ -113,34 +114,37 @@ class Golomb:
 
         # loop until all bits are decoded
         while True:
-            sign = bitstream[i]
-            i+=1
+            try:
+                sign = bitstream[i]
+                i+=1
 
-            if bitstream[i] == 0:   # current code < self.m -1
-                unary_code = [bitstream[i]]
-                i += 1
-                binary_code = bitstream[i:(i + math.ceil(math.sqrt(self.m)))]
-                i += math.ceil(math.sqrt(self.m))
-                decimal = self.decoded_values[''.join(str(bit) for bit in [sign] + unary_code + binary_code)]
-                decoded.append(decimal)
-
-            else:   # currente code >= self.m - 1
-                unary_code = []
-                while True:
-                    bit = bitstream[i]
-                    unary_code.append(bit)
+                if bitstream[i] == 0:   # current code < self.m -1
+                    unary_code = [bitstream[i]]
                     i += 1
-                    if bit == 0:
-                        break
-                binary_code = bitstream[i:i + math.ceil(math.sqrt(self.m))]
-                i += math.ceil(math.sqrt(self.m))
-                decimal = self.decoded_values[''.join(str(bit) for bit in [sign] + unary_code + binary_code)]
-                decoded.append(decimal)
-            
-            if i >= len(bitstream):
-                break
+                    binary_code = bitstream[i:(i + math.ceil(math.sqrt(self.m)))]
+                    i += math.ceil(math.sqrt(self.m))
+                    decimal = self.decoded_values[''.join(str(bit) for bit in [sign] + unary_code + binary_code)]
+                    decoded.append(decimal)
 
-        return decoded
+                else:   # currente code >= self.m - 1
+                    unary_code = []
+                    while True:
+                        bit = bitstream[i]
+                        unary_code.append(bit)
+                        i += 1
+                        if bit == 0:
+                            break
+                    binary_code = bitstream[i:i + math.ceil(math.sqrt(self.m))]
+                    i += math.ceil(math.sqrt(self.m))
+                    decimal = self.decoded_values[''.join(str(bit) for bit in [sign] + unary_code + binary_code)]
+                    decoded.append(decimal)
+                
+                if i >= len(bitstream) or len(decoded) == total:
+                    break
+            except:
+                return decoded, 0
+
+        return decoded, i
 
     def decode(self, bitstream):
         """
@@ -247,3 +251,8 @@ class Golomb:
         frequency = sorted(frequency.items(), reverse=True, key=lambda kv: kv[1])
         self.histogram = [(f[0], f[1] / len(text)) for f in frequency]
         return self.histogram
+
+if __name__ == "__main__":
+    g = Golomb(4)
+    print(g.encoded_values[107])
+    print(g.encoded_values[-4])

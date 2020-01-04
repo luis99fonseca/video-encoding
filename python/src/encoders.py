@@ -26,17 +26,17 @@ class IntraFrameEncoder():
     """
     This class implements a lossless intra-frame encoder, using 7PEG linear predictors.
     """
-    def __init__(self, matrix, predictor):
+    def __init__(self, predictor):
         """
         Default constructor.
 
         @param matrix: initial matrix
         @param predictor: linear predictor
         """
-        self.original_matrix = matrix
+        self.original_matrix = None
         self.predictor = predictor
-        self.encoded_matrix = np.empty(self.original_matrix.shape)  # sighly faster
-        print(">> ", matrix.shape)
+        self.encoded_matrix = None
+
         # Golomb encoder
         self.golomb = Golomb(4)
         self.bitstream = BitStream("../out/encoded_park_joy_444_720p50.bin", "wbs")
@@ -65,6 +65,8 @@ class IntraFrameEncoder():
         @param new_matrix: new matrix of type Y,U or V.
         """
         self.original_matrix = new_matrix
+        if self.encoded_matrix is None:
+            self.encoded_matrix = np.empty(self.original_matrix.shape)  # sighly faster
         self.codes = []
     
     def encode(self):
@@ -72,6 +74,9 @@ class IntraFrameEncoder():
         This method encodes the original matrix in a new one, based on the current predictor.
         It also uses golomb codification for the entropy encoding.
         """
+        if self.original_matrix is None:
+            logger.error("No matrix to encode was given!")
+            return False
 
         # TODO: ver o que é aquele K do stor
         # write header with bitstream
@@ -80,6 +85,7 @@ class IntraFrameEncoder():
         # matrix size/shape is the same no mather which one
         self.encoded_matrix[0, 0] = int(self.original_matrix[0,0] - self.predictor.predict(0,0,0))
         # self.codes += self.golomb.encoded_values[self.encoded_matrix[0, 0]]
+        print("[0, 0]: ", self.encoded_matrix[0, 0])
 
         for col in range(1, self.original_matrix.shape[1]):
             self.encoded_matrix[0, col] = int(self.original_matrix[0, col]) - self.predictor.predict(self.original_matrix[0, col -1], 0, 0)
@@ -98,7 +104,7 @@ class IntraFrameEncoder():
         for line in range(self.encoded_matrix.shape[0]):
             for col in range(self.encoded_matrix.shape[1]):
                 self.write_code(self.golomb.encoded_values[self.encoded_matrix[line, col]])
-                self.codes += self.golomb.encoded_values[self.encoded_matrix[line, col]]
+                self.codes.append(self.golomb.encoded_values[self.encoded_matrix[line, col]])
 
 
 class IntraFrameDecoder():
@@ -170,7 +176,8 @@ if __name__ == "__main__":
         # encode Y matrix
         matrix = frame.getY()
         print("Matrix 'Y': {}".format(matrix))
-        ife = IntraFrameEncoder(matrix, predictors.JPEG1)
+        ife = IntraFrameEncoder(predictors.JPEG1)
+        ife.setMatrix(matrix)
         ife.encode()
         codes.append(ife.codes)
         print("Encoded Matrix 'Y': {}".format(ife.encoded_matrix))
@@ -252,6 +259,7 @@ if __name__ == "__main__":
 
     # sys.exit(-1)
     decoded_matrixes = []
+    ife.bitstream = BitStream("../out/encoded_park_joy_444_720p50.bin", "rb")
     for code in codes:
         # print("code: ", code)
         decoded = ife.golomb.stream_decoder(code)
