@@ -47,6 +47,8 @@ class BitStream:
             # logger.warning("Writing: %s", bin(self.write_byte))
             self.file.write(self.write_byte.to_bytes(1, byteorder="big"))
         if (self.write_array_final) and self.mode == "wbs":
+            if self.write_array_last:
+                self.write_array_final.append( int("".join(self.write_array_last + ["0"]*(8 - len(self.write_array_last))), 2)  )
             self.file.write(bytearray(self.write_array_final))
 
         self.file.close()
