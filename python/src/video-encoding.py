@@ -23,6 +23,7 @@ if __name__ == '__main__':
 
     total = 0
     firstFrame = True
+    ife = IntraFrameEncoder(predictors.JPEG1)
     for _ in range(2):
         start = datetime.datetime.now()
         playing = frame.advance()
@@ -33,7 +34,7 @@ if __name__ == '__main__':
 
         # encode Y matrix
         matrix = frame.getY()
-        ife = IntraFrameEncoder(matrix, predictors.JPEG1)
+        ife.setMatrix(matrix)
         if firstFrame:
             ife.bitstream.writeString("720\t1280")  # hard coded for now
         ife.encode()
