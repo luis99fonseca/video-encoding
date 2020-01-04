@@ -15,7 +15,6 @@ c_handler.setFormatter(logging.Formatter('%(name)s | %(levelname)s ->: %(message
 logger.addHandler(c_handler)
 logger.propagate = False  # https://stackoverflow.com/a/19561320
 
-
 if __name__ == '__main__':
 
     frame = Frame444(720, 1280, "../media/park_joy_444_720p50.y4m")
@@ -23,23 +22,22 @@ if __name__ == '__main__':
     import datetime
     total = 0
     firstFrame = True
+    ife = IntraFrameEncoder(predictors.JPEG1)
     for _ in range(2):
         start = datetime.datetime.now()
         playing = frame.advance()
-        
+
         # movie end
         if not playing:
             break
 
         # encode Y matrix
         matrix = frame.getY()
-        ife = IntraFrameEncoder(matrix, predictors.JPEG1)
+        ife.setMatrix(matrix)
         if firstFrame:
-            ife.bitstream.writeString("720\t1280") # hard coded for now
+            ife.bitstream.writeString("720\t1280")  # hard coded for now
         ife.encode()
         print(ife.encoded_matrix)
-
-        
 
         # encode U matrix
         matrix = frame.getU()
@@ -54,7 +52,8 @@ if __name__ == '__main__':
         end = datetime.datetime.now() - start
         print("Frame compressed in {} s. Total bits: {}".format(end.seconds, ife.written_bits))
         total += end.seconds
-        
+
+        firstFrame = False
         # com este break só codifica um frame
         # break
     ife.bitstream.closeFile()
