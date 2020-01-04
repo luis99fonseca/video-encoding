@@ -141,6 +141,7 @@ if test06:
     t_array04 = [1, 1, 1, 1]
     t_array05 = [1, 1, 1, 1, 1, 1, 1, 1, 1]
     t_array06 = [0, 0, 0, 0, 0, 0, 0]
+    t_array07 = [1, 0, 1]
 
     bitstream06.addNumber(t_array01)
     bitstream06.addNumber(t_array02)
@@ -148,6 +149,7 @@ if test06:
     bitstream06.addNumber(t_array04)
     bitstream06.addNumber(t_array05)
     bitstream06.addNumber(t_array06)
+    bitstream06.addNumber(t_array07)
 
     print(bitstream06.write_array_final)
 
@@ -160,6 +162,9 @@ if test06:
     assert bitstream06.readBit(8) == [1, 1, 1, 1, 1, 1, 1, 1]
     assert bitstream06.readBit(8) == [1, 1, 1, 1, 1, 1, 1, 1]
     assert bitstream06.readBit(8) == [1, 0, 0, 0, 0, 0, 0, 0]
+    assert bitstream06.readBit(8) == [1, 0, 1, 0, 0, 0, 0, 0]
+
+    bitstream06.closeFile()
 
 
 
