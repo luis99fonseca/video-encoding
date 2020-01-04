@@ -13,22 +13,19 @@ if __name__ == '__main__':
     golomb = Golomb(4)
 
     # read header
-    height, width = bitstream.readString().split("\t")
-    height, width = int(height), int(width)
+    no_frames, height, width = bitstream.readString().split("\t")
+    no_frames, height, width = int(no_frames), int(height), int(width)
 
     matrixes = 0
     frames = 0
     decoded_matrixes = []
     stream = []
-    while True:
+    while frames < no_frames:
 
         stream += bitstream.readBit(height*width*8)
         decoded, i = golomb.stream_decoder(stream, height*width)
         stream = stream[i:]
         matrixes += 1
-
-        if len(decoded) < height*width:
-            decoded.append(-3)
 
         decoded = np.array(decoded, dtype=np.int16).reshape((height,width))
         intraFrameDecoder = IntraFrameDecoder(decoded, predictors.JPEG1)

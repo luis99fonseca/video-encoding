@@ -36,7 +36,7 @@ if __name__ == '__main__':
         print(matrix)
         ife.setMatrix(matrix)
         if firstFrame:
-            ife.bitstream.writeString("720\t1280")  # hard coded for now
+            ife.bitstream.writeString("2\t720\t1280")  # hard coded for now
         ife.encode()
         print(ife.encoded_matrix)
 
