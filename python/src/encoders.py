@@ -99,7 +99,6 @@ class IntraFrameEncoder():
         for line in range(self.encoded_matrix.shape[0]):
             for col in range(self.encoded_matrix.shape[1]):
                 self.write_code(self.golomb.encoded_values[self.encoded_matrix[line, col]])
-                self.codes.append(self.golomb.encoded_values[self.encoded_matrix[line, col]])
 
 
 class IntraFrameDecoder():
