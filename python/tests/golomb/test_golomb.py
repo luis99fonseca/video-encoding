@@ -102,7 +102,16 @@ if __name__ == '__main__':
     assert golomb.decode(codes[13]) == 13
     assert golomb.decode(codes[14]) == 14
     assert golomb.decode(codes[15]) == 15
-    assert golomb.decode(codes[16]) == -1
-    assert golomb.decode(codes[17]) == -2
 
     print("Fourth test finished with success!")
+
+    print("\n-------------------------------")
+    print("FIFTH TEST - DECODE WITH M = 4")
+    print("-------------------------------")
+
+    golomb = Golomb(4)
+
+    l = [-3, 0, 1, 15, 7, -6, 5, 10]
+    assert l == golomb.stream_decoder([1,0,1,1,0,0,0,0,0,0,0,1,0,1,1,1,0,1,1,0,1,0,1,1,1,1,0,1,0,0,1,0,0,1,0,1,1,0,1,0], len(l))[0]
+
+    print("Fifth test finished with success!")
