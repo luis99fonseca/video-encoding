@@ -115,8 +115,7 @@ class VideoPlayer:
 if __name__ == "__main__":
     videoPlayer01 = VideoPlayer("../media/park_joy_444_720p50.y4m")
     videoPlayer01.openYUV()
-    # print(videoPlayer01)
-
+    
     print("for more, see: https://wiki.multimedia.cx/index.php?title=YUV4MPEG2")
     while (videoPlayer01.visualizeFrame()):
         pass

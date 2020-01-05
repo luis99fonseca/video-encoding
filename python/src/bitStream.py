@@ -96,7 +96,6 @@ class BitStream:
             temp_bit |= (self.read_byte >> self.read_byte_idx) & 1
             self.read_byte_idx -= 1
             bit_list.append(temp_bit)
-        print("retorning: ", bit_list)
         return bit_list
 
     def addNumber(self, listOfBits):
@@ -106,31 +105,24 @@ class BitStream:
         @param listOfBits: list of bits to convert and register
         """
 
-        # print("Received: ", listOfBits, " ; last: ", self.write_array_last)
         listOfBits = [str(i) for i in listOfBits]
         len_last = len(self.write_array_last)   # will never be bigger than 8
         control_idx = 0
         temp_list = self.write_array_last + listOfBits[control_idx : 8 - len_last]
 
         if len(temp_list) == 8:
-            # print("temp_l ", temp_list)
             self.write_array_final.append(int("".join(temp_list), 2))
             control_idx = 8 - len_last
             self.write_array_last = []
 
-        # print("lenList: ", len(listOfBits), " ; control: ", control_idx)
 
         while len(listOfBits) - control_idx >= 8:
-            # print("temp_l2 ", "".join(listOfBits[control_idx : (control_idx + 8)]))
             self.write_array_final.append(int("".join(listOfBits[control_idx : (control_idx + 8)]), 2))
             control_idx += 8
 
-        # print("Control2: ", control_idx)
         if len(self.write_array_last) == 8: # TODO: acho que nunca chega aqui
-            # print("temp_l3 ", "".join(listOfBits[control_idx:]))
             pass
         self.write_array_last = self.write_array_last + listOfBits[control_idx:]
-        # print("----")
 
     def writeBit(self, number, no_bits=8):
         """
