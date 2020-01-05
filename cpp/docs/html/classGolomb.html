@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Video Codec: Golomb Class Reference</title>
+<title>Video Codec in C++: Golomb Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,9 +21,9 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Video Codec
+   <div id="projectname">Video Codec in C++
    </div>
-   <div id="projectbrief">Video codec project</div>
+   <div id="projectbrief">Video codec project, implemented in C++</div>
   </td>
  </tr>
  </tbody>
@@ -87,8 +87,8 @@ vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>encode
 <tr class="memitem:a6591f253a23651ae961e6cc9e9d26177"><td class="memItemLeft" align="right" valign="top"><a id="a6591f253a23651ae961e6cc9e9d26177"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>decode</b> (vector&lt; int &gt; bitstream)</td></tr>
 <tr class="separator:a6591f253a23651ae961e6cc9e9d26177"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5116ab2ba314226543257204c66ced62"><td class="memItemLeft" align="right" valign="top">vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGolomb.html#a5116ab2ba314226543257204c66ced62">stream_decoder</a> (vector&lt; int &gt; bitstream)</td></tr>
-<tr class="separator:a5116ab2ba314226543257204c66ced62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51abd24de10eae061add3bed1e1a1dca"><td class="memItemLeft" align="right" valign="top">vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGolomb.html#a51abd24de10eae061add3bed1e1a1dca">stream_decoder</a> (vector&lt; int &gt; bitstream, int total=0)</td></tr>
+<tr class="separator:a51abd24de10eae061add3bed1e1a1dca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a789cca4aa2ebfb18e2acd50565099ac9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGolomb.html#a789cca4aa2ebfb18e2acd50565099ac9">base2decoder</a> (vector&lt; int &gt; bitstream)</td></tr>
 <tr class="separator:a789cca4aa2ebfb18e2acd50565099ac9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a395b68ea88abe771d02ba62aff2c559a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGolomb.html#a395b68ea88abe771d02ba62aff2c559a">truncated_decoder</a> (vector&lt; int &gt; bitstream)</td></tr>
@@ -353,8 +353,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>decode</b> (vector&lt;
 
 </div>
 </div>
-<a id="a5116ab2ba314226543257204c66ced62"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5116ab2ba314226543257204c66ced62">&#9670;&nbsp;</a></span>stream_decoder()</h2>
+<a id="a51abd24de10eae061add3bed1e1a1dca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51abd24de10eae061add3bed1e1a1dca">&#9670;&nbsp;</a></span>stream_decoder()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -366,8 +366,18 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>decode</b> (vector&lt;
           <td class="memname">vector&lt;int&gt; Golomb::stream_decoder </td>
           <td>(</td>
           <td class="paramtype">vector&lt; int &gt;&#160;</td>
-          <td class="paramname"><em>bitstream</em></td><td>)</td>
+          <td class="paramname"><em>bitstream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>total</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -480,7 +490,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>decode</b> (vector&lt;
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/golomb.cpp</li>
+<li>src/Golomb.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

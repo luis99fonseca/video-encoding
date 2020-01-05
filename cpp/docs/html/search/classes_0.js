@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['golomb',['Golomb',['../classGolomb.html',1,'']]]
+  ['bitstream',['BitStream',['../classBitStream.html',1,'']]]
 ];

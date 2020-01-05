@@ -11,6 +11,9 @@
 #include "Predictor.cpp"
 #include "Encoders.cpp"
 
+/**
+ * This program encodes 500 frames from the video "park_joy_444_720p50.y4m".
+ */
 int main() {
     IntraFrameEncoder ife;
     Frame444* frame = new Frame444(720, 1280, "../../python/media/park_joy_444_720p50.y4m");

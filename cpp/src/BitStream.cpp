@@ -10,6 +10,9 @@
 
 using namespace std;
 
+/**
+ * Class optimised to read/write bits from/to a file.
+*/
 class BitStream {
     public:
 
@@ -25,9 +28,17 @@ class BitStream {
 
         bool closedF;
 
+        /**
+         * Default constructor. 
+        */
         BitStream();
 
-        // TODO: nao inicializations se desnecessárias
+        /**
+         * Constructor with a given file name and a opening mode.
+         * 
+         * @param fileN: file name.
+         * @param mode: opening mode.
+         */
         BitStream(string fileN, char mode){
             
             std::set<char> allowedModes;
@@ -49,6 +60,10 @@ class BitStream {
 
         };
 
+        /**
+         * Closes the file, such that no further operations can be done.
+         * If there is a incomplete byte to be written, writes it.
+         */
         void closeFile(){
             if (write_byte_idx != 7 && modeF == 'w'){
                 fileF.write(reinterpret_cast<char *> (&write_byte), 1);
@@ -56,6 +71,12 @@ class BitStream {
             fileF.close();
         }
 
+        /**
+         * This method reads a given number of bits from a file.
+         * 
+         * @param no: number of bits to read
+         * @return: list of bits read
+         */
         vector<bool> readBit(int no){
             vector<bool> bit_list{};
 
@@ -100,6 +121,12 @@ class BitStream {
             return bit_list;
         }
 
+        /**
+         * This method writes a given number of bits to a file.
+         * 
+         * :@param number: number to write in the file
+         * :@param no_bits: number fo bits to be written into 
+         */
         bool writeBit(int number, int no_bits = 8){
 
             if (modeF == 'r'){
@@ -133,6 +160,11 @@ class BitStream {
             return true;
         }
 
+        /**
+         * :@param array: array of numbers to write in the file
+         * :@param no_bits: number fo bits to be written into
+         * :@return
+         */
         bool writeArray(vector<int> array){
 
             int no_bits = 1;
@@ -171,6 +203,12 @@ class BitStream {
             return true;
         }
 
+        /**
+         * Writes an entire line enoded in utf-8 format; Line breaker is appended.
+         * 
+         * :@param message: String to write
+         * :@return Whether or not the writing was successful
+        */
         bool writeString(string message){
             try {
                 fileF << message << "\n";
@@ -180,17 +218,25 @@ class BitStream {
             }
         }
 
+        /**
+         * Reads and returns an entire line decoded in utf-8 format.
+         */
         string readString(){
             string temp_string;
             getline(fileF, temp_string);
             return temp_string;
         }
 
-
+        /**
+         * Reads one byte from a file. 
+         */
         vector<bool> readByte(){
             return readBit(8);
         }
 
+        /**
+         * Writes one byto to a file. 
+         */
         bool writeByte(int number){
             return writeBit(number, 8);
         }

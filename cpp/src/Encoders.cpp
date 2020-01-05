@@ -9,6 +9,9 @@
 
 using namespace cv;
 
+/**
+ * This class implements a lossless intra-frame encoder, using 7PEG linear predictors.
+ */
 class IntraFrameEncoder
 {
     private:
@@ -16,12 +19,23 @@ class IntraFrameEncoder
         std::vector<int> encoded_matrix;
 
     public:
-        IntraFrameEncoder() {
+        /**
+         * Default constructor.
+         */
+        IntraFrameEncoder() {}
 
-        }
-
+        /**
+         * This method writes a list of bits on file, using the Bitstream class.
+         * 
+         * @param code: list with bits to encode. 
+        */
         void writeCode(std::vector<int> code){};
 
+        /**
+         * This method sets current matrix of the encoder to 'new_matrix'.
+         * 
+         * @param new_matrix: new matrix of type Y, U or V. 
+        */
         void setMatrix(std::vector<int> matrix)
         {   
             for(int i = 0; i < matrix.size(); i++) {
@@ -30,6 +44,15 @@ class IntraFrameEncoder
             }
         }
 
+        /**
+         * This method encodes the original matrix in a new one, based on the current predictor.
+         * It also uses golomb codification for the entropy encoding.
+         * 
+         * @param frame: frame object to encode.
+         * @param predictor: predictor object to be used.
+         * @param bitstream: bitstream object to write the golomb codes to a file.
+         * @param golomb: golomb object for the entropy encoding.
+         */
         void encode(Frame* frame, Predictor* predictor, BitStream* bitstream, Golomb* golomb) {
             
             int height = frame->getHeight(), width = frame->getWidth();

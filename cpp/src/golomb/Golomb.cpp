@@ -31,6 +31,8 @@ public:
 
     /**
          * Constructor with a given value of 'M'. 
+         * 
+         * @param m: given m value.
          */
     Golomb(double m)
     {
