@@ -5,7 +5,7 @@ using namespace std;
 
 class Predictor {
     public: 
-        int predict(unsigned char a, unsigned char b, unsigned char c){return 0;};
+        virtual int predict(unsigned char a, unsigned char b, unsigned char c) = 0;
 };
 
 class JPEG1 : public Predictor {

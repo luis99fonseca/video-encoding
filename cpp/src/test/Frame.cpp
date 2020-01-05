@@ -131,10 +131,51 @@ public:
             }
 
             return true;
-        }catch(...)
+        }
+        catch(...)
         {
             Frame::file.close();
             return false;
         }
+    }
+
+    int getHeight()
+    {
+        return Frame::getHeight();
+    }
+
+    int getWidth()
+    {
+        return Frame::getWidth();
+    }
+
+    void setY(std::vector<int> matrix)
+    {
+        Frame::setY(matrix);
+    }
+
+    void setU(std::vector<int> matrix)
+    {
+        Frame::setU(matrix);
+    }
+
+    void setV(std::vector<int> matrix)
+    {
+        Frame::setV(matrix);
+    }
+
+    std::vector<int> getY()
+    {
+        return Frame::getY();
+    }
+
+    std::vector<int> getU()
+    {
+        return Frame::getU();
+    }
+
+    std::vector<int> getV()
+    {
+        return Frame::getV();
     }
 };

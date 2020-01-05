@@ -60,8 +60,6 @@ public:
 
     vector<int> encode(int n)
     {
-        assert(n >= 0);
-
         return this->isBase2 ? this->base2encoder(n) : this->truncated_encoder(n);
     }
 
