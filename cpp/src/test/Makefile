@@ -111,44 +111,44 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named DisplayImage
+# Target rules for targets named Encoders
 
 # Build rule for target.
-DisplayImage: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 DisplayImage
-.PHONY : DisplayImage
+Encoders: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Encoders
+.PHONY : Encoders
 
 # fast build rule for target.
-DisplayImage/fast:
-	$(MAKE) -f CMakeFiles/DisplayImage.dir/build.make CMakeFiles/DisplayImage.dir/build
-.PHONY : DisplayImage/fast
+Encoders/fast:
+	$(MAKE) -f CMakeFiles/Encoders.dir/build.make CMakeFiles/Encoders.dir/build
+.PHONY : Encoders/fast
 
-DisplayImage.o: DisplayImage.cpp.o
+Encoders.o: Encoders.cpp.o
 
-.PHONY : DisplayImage.o
+.PHONY : Encoders.o
 
 # target to build an object file
-DisplayImage.cpp.o:
-	$(MAKE) -f CMakeFiles/DisplayImage.dir/build.make CMakeFiles/DisplayImage.dir/DisplayImage.cpp.o
-.PHONY : DisplayImage.cpp.o
+Encoders.cpp.o:
+	$(MAKE) -f CMakeFiles/Encoders.dir/build.make CMakeFiles/Encoders.dir/Encoders.cpp.o
+.PHONY : Encoders.cpp.o
 
-DisplayImage.i: DisplayImage.cpp.i
+Encoders.i: Encoders.cpp.i
 
-.PHONY : DisplayImage.i
+.PHONY : Encoders.i
 
 # target to preprocess a source file
-DisplayImage.cpp.i:
-	$(MAKE) -f CMakeFiles/DisplayImage.dir/build.make CMakeFiles/DisplayImage.dir/DisplayImage.cpp.i
-.PHONY : DisplayImage.cpp.i
+Encoders.cpp.i:
+	$(MAKE) -f CMakeFiles/Encoders.dir/build.make CMakeFiles/Encoders.dir/Encoders.cpp.i
+.PHONY : Encoders.cpp.i
 
-DisplayImage.s: DisplayImage.cpp.s
+Encoders.s: Encoders.cpp.s
 
-.PHONY : DisplayImage.s
+.PHONY : Encoders.s
 
 # target to generate assembly for a file
-DisplayImage.cpp.s:
-	$(MAKE) -f CMakeFiles/DisplayImage.dir/build.make CMakeFiles/DisplayImage.dir/DisplayImage.cpp.s
-.PHONY : DisplayImage.cpp.s
+Encoders.cpp.s:
+	$(MAKE) -f CMakeFiles/Encoders.dir/build.make CMakeFiles/Encoders.dir/Encoders.cpp.s
+.PHONY : Encoders.cpp.s
 
 # Help Target
 help:
@@ -157,11 +157,11 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... DisplayImage"
+	@echo "... Encoders"
 	@echo "... edit_cache"
-	@echo "... DisplayImage.o"
-	@echo "... DisplayImage.i"
-	@echo "... DisplayImage.s"
+	@echo "... Encoders.o"
+	@echo "... Encoders.i"
+	@echo "... Encoders.s"
 .PHONY : help
 
 

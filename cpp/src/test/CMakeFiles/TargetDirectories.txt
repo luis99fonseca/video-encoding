@@ -1,3 +1,3 @@
 /home/tiagocm/Documents/Code/video-encoding/cpp/src/test/CMakeFiles/rebuild_cache.dir
-/home/tiagocm/Documents/Code/video-encoding/cpp/src/test/CMakeFiles/DisplayImage.dir
+/home/tiagocm/Documents/Code/video-encoding/cpp/src/test/CMakeFiles/Encoders.dir
 /home/tiagocm/Documents/Code/video-encoding/cpp/src/test/CMakeFiles/edit_cache.dir

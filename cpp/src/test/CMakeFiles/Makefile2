@@ -60,39 +60,39 @@ CMAKE_SOURCE_DIR = /home/tiagocm/Documents/Code/video-encoding/cpp/src/test
 CMAKE_BINARY_DIR = /home/tiagocm/Documents/Code/video-encoding/cpp/src/test
 
 #=============================================================================
-# Target rules for target CMakeFiles/DisplayImage.dir
+# Target rules for target CMakeFiles/Encoders.dir
 
 # All Build rule for target.
-CMakeFiles/DisplayImage.dir/all:
-	$(MAKE) -f CMakeFiles/DisplayImage.dir/build.make CMakeFiles/DisplayImage.dir/depend
-	$(MAKE) -f CMakeFiles/DisplayImage.dir/build.make CMakeFiles/DisplayImage.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/tiagocm/Documents/Code/video-encoding/cpp/src/test/CMakeFiles --progress-num=1,2 "Built target DisplayImage"
-.PHONY : CMakeFiles/DisplayImage.dir/all
+CMakeFiles/Encoders.dir/all:
+	$(MAKE) -f CMakeFiles/Encoders.dir/build.make CMakeFiles/Encoders.dir/depend
+	$(MAKE) -f CMakeFiles/Encoders.dir/build.make CMakeFiles/Encoders.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/tiagocm/Documents/Code/video-encoding/cpp/src/test/CMakeFiles --progress-num=1,2 "Built target Encoders"
+.PHONY : CMakeFiles/Encoders.dir/all
 
 # Include target in all.
-all: CMakeFiles/DisplayImage.dir/all
+all: CMakeFiles/Encoders.dir/all
 
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/DisplayImage.dir/rule: cmake_check_build_system
+CMakeFiles/Encoders.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/tiagocm/Documents/Code/video-encoding/cpp/src/test/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/DisplayImage.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/Encoders.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/tiagocm/Documents/Code/video-encoding/cpp/src/test/CMakeFiles 0
-.PHONY : CMakeFiles/DisplayImage.dir/rule
+.PHONY : CMakeFiles/Encoders.dir/rule
 
 # Convenience name for target.
-DisplayImage: CMakeFiles/DisplayImage.dir/rule
+Encoders: CMakeFiles/Encoders.dir/rule
 
-.PHONY : DisplayImage
-
-# clean rule for target.
-CMakeFiles/DisplayImage.dir/clean:
-	$(MAKE) -f CMakeFiles/DisplayImage.dir/build.make CMakeFiles/DisplayImage.dir/clean
-.PHONY : CMakeFiles/DisplayImage.dir/clean
+.PHONY : Encoders
 
 # clean rule for target.
-clean: CMakeFiles/DisplayImage.dir/clean
+CMakeFiles/Encoders.dir/clean:
+	$(MAKE) -f CMakeFiles/Encoders.dir/build.make CMakeFiles/Encoders.dir/clean
+.PHONY : CMakeFiles/Encoders.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/Encoders.dir/clean
 
 .PHONY : clean
 

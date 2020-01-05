@@ -130,7 +130,7 @@ CMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy
 CMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=DisplayImage
+CMAKE_PROJECT_NAME:STATIC=Encoders
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -186,6 +186,18 @@ DisplayImage_BINARY_DIR:STATIC=/home/tiagocm/Documents/Code/video-encoding/cpp/s
 
 //Value Computed by CMake
 DisplayImage_SOURCE_DIR:STATIC=/home/tiagocm/Documents/Code/video-encoding/cpp/src/test
+
+//Value Computed by CMake
+Encoders_BINARY_DIR:STATIC=/home/tiagocm/Documents/Code/video-encoding/cpp/src/test
+
+//Value Computed by CMake
+Encoders_SOURCE_DIR:STATIC=/home/tiagocm/Documents/Code/video-encoding/cpp/src/test
+
+//Value Computed by CMake
+Frame_BINARY_DIR:STATIC=/home/tiagocm/Documents/Code/video-encoding/cpp/src/test
+
+//Value Computed by CMake
+Frame_SOURCE_DIR:STATIC=/home/tiagocm/Documents/Code/video-encoding/cpp/src/test
 
 //The directory containing a CMake configuration file for OpenCV.
 OpenCV_DIR:PATH=/usr/local/lib/cmake/opencv4
