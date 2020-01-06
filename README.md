@@ -61,11 +61,55 @@ Todo o código desenvolvido encontra-se disponível no seguinte repositório, na
 ### 3.1. **BitStream**
 
 #### **3.1.1 Python 3**
-![BitStream main](https://i.imgur.com/36CdXQv.png)  
 
 Esta classe é responsável por tratar do _streaming_ de dados entre o programa e o sistema de ficheiros de forma binária. Desta forma, os métodos da mesma envolvem não só funcionalidades mais genéricas como **leitura/escrita de N bits** bem como funcionalidades mais específicas como **escrita/leitura** de strings/linhas.
 
-![BitStream testing](https://i.imgur.com/IgJCDNu.png) 
+```python
+class BitStream:
+    """
+    Class optimised to read/write bits from/to a file
+    """
+    def __init__(self, fileName, mode):
+        # file management
+        assert mode in ["wb", "rb", "wbs"]
+        self.mode = mode
+        self.file = open(fileName, self.mode[:2])
+
+        self.read_byte = None  # buffer
+        self.read_byte_idx = -1
+        self.read_eof = False
+
+        self.write_byte = 0  # buffer
+        self.write_byte_idx = 7
+
+        self.write_array_last = []
+        self.write_array_final = []
+
+        self.closed = False
+```
+
+```python
+# ---------------READING TESTING--------------
+if test01:
+    bitstream01 = BitStream("./out/test01.txt", "rb")
+
+    assert bitstream01.readBit(8) == [1, 1, 0, 0, 1, 0, 0, 0]
+    assert bitstream01.readBit(4) == [0, 1, 1, 1]
+    assert bitstream01.readBit(4) == [1, 0, 0, 0]
+    assert bitstream01.readByte() == [0, 1, 1, 0, 0, 0, 1, 1]
+    assert bitstream01.readBit(8) == []
+    assert bitstream01.readBit(4) == []
+
+    bitstream01.closeFile()
+
+# ---------------WRITING TESTING--------------
+
+if test02:
+    bitstream02 = BitStream("./out/test02.txt", "wb")
+
+    assert not bitstream02.writeBit(256, 1)
+    assert not bitstream02.writeBit(3, 1)
+```
 
 Como recomendado, alguns programas de teste foram criados de forma a garantir o bom funcionamento das classes criadas. Estes mesmos programas tornam-se uteis para entender o funcionamento de cada classe.
 
@@ -92,9 +136,40 @@ Após a realização de todas as operações, é **obrigatório** chamar o méto
 
 A principal diferença entre a implementação em **Python** para a implementação em **C++** desta classe é nos modos de interação com o ficheiro. Em **C++**, apenas existem 2 (o **rb** e o **wb**), uma vez que sendo um linguagem de mais baixo nível, não só não possuí os métodos equivalentes utilizados em **Python**, como apresenta uma maior eficiência.  
 
-![BitStream C++](https://i.imgur.com/RjAGUBM.png)
+```cpp
+/**
+ * Class optimised to read/write bits from/to a file.
+*/
+class BitStream {
+    public:
 
-As restantes diferenças existem devido às diferenças entre as sintaxes das duas linguagens.  
+        char modeF;
+        fstream fileF;
+        
+        unsigned char read_byte;
+        int read_byte_idx;
+        bool read_eof;
+
+        unsigned char write_byte;
+        int write_byte_idx;
+
+        bool closedF;
+
+        /**
+         * Default constructor. 
+        */
+        BitStream();
+
+        /**
+         * Constructor with a given file name and a opening mode.
+         * 
+         * @param fileN: file name.
+         * @param mode: opening mode.
+         */
+        BitStream(string fileN, char mode){
+```
+
+As restantes alterações foram feitas sobretudo devido às diferenças entre as sintaxes das duas linguagens.  
 
 
 ### **3.2. Golomb**
