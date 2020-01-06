@@ -37,8 +37,9 @@ int main() {
         vector<int> Y = frame->getY();
         ife.setMatrix(Y);
         if(firstFrame)
-        {
-            bitstream->writeString("F500\tH720\tW1280");
+        {   
+            // Number of Frames, Height, Width
+            bitstream->writeString("F2\tH720\tW1280\tC444\tS50");
             firstFrame = false;
         }
             
@@ -57,8 +58,11 @@ int main() {
         std::cout << "Frame compressed in " << std::chrono::duration_cast<chrono::seconds>(end - begin).count() << " s;\n";
         
         // Com este break, só um frame é codificado
-        // break;
+        if (total_frames == 2){
+            break;
+        }
     }
+    bitstream->closeFile();
 
     return 0;
 }

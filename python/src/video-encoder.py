@@ -39,7 +39,7 @@ if __name__ == '__main__':
         ife.setMatrix(matrix)
         if firstFrame:
             firstFrame = False
-            ife.bitstream.writeString("F500\tH720\tW1280")  # hard coded for now
+            ife.bitstream.writeString("F500\tH720\tW1280\tC444\tS50")  # has to be concordant with Frame initialization above
         ife.encode()
 
         # encode U matrix

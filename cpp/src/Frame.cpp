@@ -336,3 +336,112 @@ public:
         return Frame::getV();
     }
 };
+
+/**
+ * This class, derived from 'Frame', implements a 4:2:0 frame.
+*/
+class Frame420 : public Frame
+{
+public:
+    Frame420(int height, int width, std::string fname) : Frame(height, width, fname)
+    {
+    }
+
+    bool advance()
+    {
+        try
+        {
+            if (Frame::file.is_open())
+            { //checking whether the file is open
+                std::string frameWord;
+                getline(Frame::file, frameWord);
+                std::cout << frameWord << "\n";
+
+                int height = Frame::getHeight(), width = Frame::getWidth();
+
+                std::vector<int> Y;
+                for (int i = 0; i < height; i++)
+                {
+                    for (int j = 0; j < width; j++)
+                    {
+                        char b;
+                        Frame::file.read(&b, 1);
+                        Y.push_back((int)b);
+                    }
+                }
+                Frame::setY(Y);
+
+                std::vector<int> U;
+                for (int i = 0; i < height / 4; i++)
+                {
+                    for (int j = 0; j < width / 4; j++)
+                    {
+                        char b;
+                        Frame::file.read(&b, 1);
+                        U.push_back((int)b);
+                    }
+                }
+                Frame::setU(U);
+
+                std::vector<int> V;
+                for (int i = 0; i < height / 4; i++)
+                {
+                    for (int j = 0; j < width / 4; j++)
+                    {
+                        char b;
+                        Frame::file.read(&b, 1);
+                        V.push_back((int)b);
+                    }
+                }
+                Frame::setV(V);
+            }
+
+            return true;
+        }
+        catch(...)
+        {
+            Frame::file.close();
+            return false;
+        }
+    }
+
+    int getHeight()
+    {
+        return Frame::getHeight();
+    }
+
+    int getWidth()
+    {
+        return Frame::getWidth();
+    }
+
+    void setY(std::vector<int> matrix)
+    {
+        Frame::setY(matrix);
+    }
+
+    void setU(std::vector<int> matrix)
+    {
+        Frame::setU(matrix);
+    }
+
+    void setV(std::vector<int> matrix)
+    {
+        Frame::setV(matrix);
+    }
+
+    std::vector<int> getY()
+    {
+        return Frame::getY();
+    }
+
+    std::vector<int> getU()
+    {
+        return Frame::getU();
+    }
+
+    std::vector<int> getV()
+    {
+        return Frame::getV();
+    }
+};
