@@ -823,6 +823,6 @@ De um modo geral, este trabalho, apesar de desafiador, foi muito interessante.
 
 ## 7. Bibliografia  
 
-* [Página da UC](https://elearning.ua.pt/course/view.php?id=7133  
+* [Página da UC](https://elearning.ua.pt/course/view.php?id=7133)  
 * [https://numpy.org/](https://numpy.org/)  
 * [https://opencv.org/](https://opencv.org/)  
