@@ -26,7 +26,7 @@ This program decodes a 3 frames video.
 """
 if __name__ == '__main__':
 
-    bitstream = BitStream("../out/encoded_park_joy_444_720p50.bin", "rb")
+    bitstream = BitStream("../out/3_frames_encoded_park_joy_444_720p50.bin", "rb")
     golomb = Golomb(4)
 
     # read header

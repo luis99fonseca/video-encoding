@@ -58,8 +58,7 @@ if __name__ == '__main__':
         print("Frame compressed in {} s. Total bits: {}. Frames no. {}".format(end.seconds, ife.written_bits, frames_no))
         
         # com este break só codifica um frame
-        if frames_no == 3:
-        	break
+        # break
         
     ife.bitstream.closeFile()
     print("Compressed frames in {} s.".format(total))
