@@ -4,10 +4,10 @@
 #include <string>
 #include <vector>
 #include <chrono>
-#include <opencv2/opencv.hpp>
+//#include <opencv2/opencv.hpp>
 
 
-using namespace cv;
+//using namespace cv;
 
 /**
  * This class implements a lossless intra-frame encoder, using 7PEG linear predictors.

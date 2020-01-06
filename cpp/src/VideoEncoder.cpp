@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <chrono>
-#include <opencv2/opencv.hpp>
+//#include <opencv2/opencv.hpp>
 #include "Frame.cpp"
 #include "BitStream.cpp"
 #include "Golomb.cpp"
@@ -38,7 +38,7 @@ int main() {
         ife.setMatrix(Y);
         if(firstFrame)
         {
-            bitstream->writeString("500\t720\t1280");
+            bitstream->writeString("F500\tH720\tW1280");
             firstFrame = false;
         }
             
