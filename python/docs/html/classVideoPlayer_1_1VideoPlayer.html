@@ -74,12 +74,13 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6801c672ee290f96a3c282f05300ae0e"><td class="memItemLeft" align="right" valign="top"><a id="a6801c672ee290f96a3c282f05300ae0e"></a>
-def&#160;</td><td class="memItemRight" valign="bottom"><b>__init__</b> (self, filename)</td></tr>
-<tr class="separator:a6801c672ee290f96a3c282f05300ae0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c638b5a91672d94b8496782cf357dad"><td class="memItemLeft" align="right" valign="top"><a id="a7c638b5a91672d94b8496782cf357dad"></a>
-def&#160;</td><td class="memItemRight" valign="bottom"><b>openYUV</b> (self)</td></tr>
+<tr class="memitem:a79303fbb62fd3587e0a1cd760790e4db"><td class="memItemLeft" align="right" valign="top"><a id="a79303fbb62fd3587e0a1cd760790e4db"></a>
+def&#160;</td><td class="memItemRight" valign="bottom"><b>__init__</b> (self, filename=None, fromFile=True)</td></tr>
+<tr class="separator:a79303fbb62fd3587e0a1cd760790e4db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c638b5a91672d94b8496782cf357dad"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVideoPlayer_1_1VideoPlayer.html#a7c638b5a91672d94b8496782cf357dad">openYUV</a> (self)</td></tr>
 <tr class="separator:a7c638b5a91672d94b8496782cf357dad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69e40633c2d2cf9bb8cc3787f271c41d"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVideoPlayer_1_1VideoPlayer.html#a69e40633c2d2cf9bb8cc3787f271c41d">openInfo</a> (self, info, videoData)</td></tr>
+<tr class="separator:a69e40633c2d2cf9bb8cc3787f271c41d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b90825f8eed835f97f89bd7ca2bc6f4"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVideoPlayer_1_1VideoPlayer.html#a8b90825f8eed835f97f89bd7ca2bc6f4">visualizeFrame</a> (self)</td></tr>
 <tr class="separator:a8b90825f8eed835f97f89bd7ca2bc6f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9097355916b7a6173c8c00075b8b5d73"><td class="memItemLeft" align="right" valign="top"><a id="a9097355916b7a6173c8c00075b8b5d73"></a>
@@ -103,11 +104,81 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:adfc4d7d441f8bf192a9def285b29ccbe"><td class="memItemLeft" align="right" valign="top"><a id="adfc4d7d441f8bf192a9def285b29ccbe"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>frame</b></td></tr>
 <tr class="separator:adfc4d7d441f8bf192a9def285b29ccbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38ff47146de8c5af5cc34690088f604d"><td class="memItemLeft" align="right" valign="top"><a id="a38ff47146de8c5af5cc34690088f604d"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>spf</b></td></tr>
+<tr class="separator:a38ff47146de8c5af5cc34690088f604d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa811d07bfb210a6e1d37ee7d403382c0"><td class="memItemLeft" align="right" valign="top"><a id="aa811d07bfb210a6e1d37ee7d403382c0"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>fromFile</b></td></tr>
+<tr class="separator:aa811d07bfb210a6e1d37ee7d403382c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad26106c50ce8803db830f6bf3ef7e7dc"><td class="memItemLeft" align="right" valign="top"><a id="ad26106c50ce8803db830f6bf3ef7e7dc"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>arrayStream</b></td></tr>
+<tr class="separator:ad26106c50ce8803db830f6bf3ef7e7dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1014ba466c259605003099c7daedcfa8"><td class="memItemLeft" align="right" valign="top"><a id="a1014ba466c259605003099c7daedcfa8"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>videoIndex</b></td></tr>
+<tr class="separator:a1014ba466c259605003099c7daedcfa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><pre class="fragment">Class that implements a video player.
 It reads a file in 'y4m' format and display it on a window, frame by frame.
 </pre> </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a69e40633c2d2cf9bb8cc3787f271c41d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69e40633c2d2cf9bb8cc3787f271c41d">&#9670;&nbsp;</a></span>openInfo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def VideoPlayer.VideoPlayer.openInfo </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>info</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>videoData</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">Function to get the basic video info so it can display
+
+@param info: tuple with data as follow (height, width, formatType, fps), all shall be integer
+@param videoData: array with decoded matrices
+@return:
+</pre> 
+</div>
+</div>
+<a id="a7c638b5a91672d94b8496782cf357dad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c638b5a91672d94b8496782cf357dad">&#9670;&nbsp;</a></span>openYUV()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">def VideoPlayer.VideoPlayer.openYUV </td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>self</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<pre class="fragment">Function used to read the header from a file, to get the basic video info from it
+</pre> 
+</div>
+</div>
 <a id="a8b90825f8eed835f97f89bd7ca2bc6f4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8b90825f8eed835f97f89bd7ca2bc6f4">&#9670;&nbsp;</a></span>visualizeFrame()</h2>
 
