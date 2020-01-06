@@ -20,7 +20,7 @@ Prof. Dr. António José Ribeiro Neves
 
 ## 1. Introdução
 
-O presente documento tem como principal objetivo descrever a solução desenvolvida pelos alunos identificados neste documento no âmbito do terceiro projeto da unidade curricular de [Complementos Sobre Linguagens de Programação](https://www.ua.pt/deti/uc/12830) da [Universidade de Aveiro](https://www.ua.pt/#/). Os principais objetivos deste terceiro projeto eram os seguintes:
+O presente documento tem como principal objetivo descrever detalhadamente a solução desenvolvida pelos alunos identificados em cima no âmbito do terceiro projeto da unidade curricular de [Complementos Sobre Linguagens de Programação](https://www.ua.pt/deti/uc/12830) da [Universidade de Aveiro](https://www.ua.pt/#/). Os principais objetivos deste terceiro projeto eram os seguintes:
 
 * Implementar a classe **BitStream**, capaz de ler e escrever num ficheiro um determinado número de bits.
 
@@ -39,7 +39,7 @@ Uma vez que os pontos referidos são bastante genéricos, é importante salienta
 
 Embora, conceptualmente, a mesma lógica tenha sido pensada e implementada em ambas as linguagens, existem obviamente algumas diferenças importantes entre as mesmas. Desta forma, ao explicar cada direção seguida na realização das tarefas propostas iremos, por questões de simplicidade, dar mais foco à implementação das mesmas em **Python** e, de seguida, de forma mais sucinta em **C++**.
 
-Importante também referir que os videos em questão se encontram no formato YUV, podendo ter diferentes tipos de sub-amostras de cronominancia ([4:4:4], [4:2:2], [4:2:0])
+Importante também referir que os vídeos em questão se encontram no formato YUV, podendo ter diferentes tipos de sub-amostras de cronominância ([4:4:4], [4:2:2], [4:2:0])
 
 ## 2. Repositório  
 
@@ -111,7 +111,7 @@ if test02:
     assert not bitstream02.writeBit(3, 1)
 ```
 
-Como recomendado, alguns programas de teste foram criados de forma a garantir o bom funcionamento das classes criadas. Estes mesmos programas tornam-se uteis para entender o funcionamento de cada classe.
+Como recomendado, alguns programas de teste foram criados de forma a garantir o bom funcionamento das classes criadas. Estes mesmos programas tornam-se úteis para entender o funcionamento de cada classe.
 
 Observando excerto de código presente no ficheiro **test_bitstream.txt**, é possível perceber como a classe funciona:  
 
@@ -119,7 +119,7 @@ Primeiramente, o construtor da mesma recebe o ***nome do ficheiro*** e o ***modo
 Estes _modos_ devem ser um dos seguintes:
 * **rb** (read binary) - que indica que se irá proceder à leitura do ficheiro indicado no 1º argumento.  
 * **wb** (write binary) - que indica que se irá proceder à escrita do ficheiro indicado no 1º argumento.
-* **wbs** (write binary special) - semelhante ao modo anterior, mas com otimizações, de forma a aumentar a eficiência da escrita. Estas otimizações passam pelo uso de funções de alto nível do **Python**, em troca do aumento de utilização da memória. Estas otimizações surgem devido ao facto de que, sendo o Python ser uma linguagem de alto nível, é portanto mais lento, o que é indesejável no contexto deste trabalho.  
+* **wbs** (write binary special) - semelhante ao modo anterior, mas com otimizações, de forma a aumentar a eficiência da escrita. Estas otimizações passam pelo uso de funções de alto nível do **Python**, em troca do aumento de utilização da memória. Estas otimizações surgem devido ao facto de que, sendo o Python uma linguagem de alto nível, é portanto mais lento, o que é indesejável no contexto deste trabalho.  
 
 Após a definição de um novo objeto desta classe, vários métodos podem ser chamados. Contudo, existem algumas restrições relacionadas com os _modos_ definidos. Por exemplo, não é possível utilizar o método de **ler um bit** de um ficheiro quando se definiu, no momento da criação do objeto desta classe, o **modo de escrita**.  
 
@@ -178,7 +178,7 @@ De um modo geral, o principal objetivo desta classe é o de codificar um determi
 
 #### **3.2.1. Python 3**
 
-Começando pela seu construtor (apresentado no seguinte excerto de código do ficheiro **golomb.py**), repare-se que este recebe como argumento um valor inteiro ***m***, que será o divisor de qualquer valor inteiro ***n*** a codificar, atribuindo-o ao atributo **self.m** da classe. 
+Começando pelo seu construtor (apresentado no seguinte excerto de código do ficheiro **golomb.py**), repare-se que este recebe como argumento um valor inteiro ***m***, que será o divisor de qualquer valor inteiro ***n*** a codificar, atribuindo-o ao atributo **self.m** da classe. 
 Neste construtor, é também criado o atributo **self.base2**, que verifica se o valor de **self.m** é ou não uma potência de base 2. É importante referir isto pois, como se verá de seguida, o algoritmo de codificação de um determinado valor inteiro **n** irá variar consoante **m** seja potência de base 2 ou não (aplicando um código binário truncado em caso negativo).  
 
 ```python3
@@ -447,15 +447,17 @@ Relativamente à implementação desta classe em **C++**, apenas há que referir
 
 #### **3.3.1. Python 3**
 
-Classe responsável por **reproduzir o video**, dada a localização do mesmo.  
+Classe responsável por **reproduzir o video**, de dois modos diferentes: 
+* dada a localização do mesmo - para videos _raw_, ou seja, não codificados.  
+* dado um array de matrizes - para videos que foram descodificados (e se encontram, portanto, em memória)
 
 ```python
 class VideoPlayer:
     """
     Class that implements a video player.
-    It reads a file in 'y4m' format and display it on a window, frame by frame.
+    It either reads a file in 'y4m' format or a array of matrixes, and display it on a window, frame by frame.
     """
-    def __init__(self, filename):
+    def __init__(self, filename=None, fromFile=True):
         self.fileName = filename
         # self.filePointer = 0
 
@@ -463,8 +465,14 @@ class VideoPlayer:
         self.height = 0
         self.width = 0
         self.frame = None
+
+        self.spf = 1
+
+        self.fromFile = fromFile
+        self.arrayStream = None
+        self.videoIndex = 0
 ```
-De um modo geral, esta classe carrega um ficheiro de vídeo, abre uma nova janela no ambiente gráfico do sistema operativo e exibe o vídeo. A forma de o reproduzir encontra-se no seguinte excerto de código:  
+**Se fromFile==True**, de um modo geral, a classe carrega um ficheiro de vídeo, abre uma nova janela no ambiente gráfico do sistema operativo e exibe o vídeo. A forma de o reproduzir encontra-se no seguinte excerto de código:  
 
 ```python
 
@@ -477,9 +485,24 @@ if __name__ == "__main__":
         pass
 ```
 
-Ao instanciar um novo objeto da classe **VideoPlayer**, é necessário especificar o caminho até ao ficheiro de vídeo a carregar. Após este passo, é necessário invocar o método **openYUV()**, de forma a ler o cabeçalho do ficheiro consequentemente interpretar o seu conteúdo. Por fim, basta invocar o método **visualizeFrame()** num ciclo, visualizando o vídeo._visualizeFrame()_ em loop, e visualizar o video.
+Ao instanciar um novo objeto da classe **VideoPlayer**, é necessário especificar o caminho até ao ficheiro de vídeo a carregar. Após este passo, é necessário invocar o método **openYUV()**, de forma a ler o cabeçalho do ficheiro e consequentemente interpretar o seu conteúdo. Por fim, basta invocar o método **visualizeFrame()** num ciclo, visualizando o vídeo.
 
-Internamente, para além de se utilizar as matrizes características do módulo **numpy** e do visualizador de imagens do **opencv**, estão são em grande parte encapsuladas na classe **Frame**, como irá ser explicado no próximo ponto.
+**Se  fromFile==False**, o que acontece geralmente após um decode, então a classe irá ler 1 array de matrizes em memória.
+
+```python
+    if True:
+        info = (height, width, formatC1, fps1)
+        videoPlayer01 = VideoPlayer(fromFile=False)
+        videoPlayer01.openInfo(info, decoded_matrixes)
+
+        while (videoPlayer01.visualizeFrame()):
+            pass
+```
+As regras a seguir são idenficas à condição anterior, exceto que a função a ser chamada é **openInfo()** e os argumentos são como se podem observar acima.
+Para um melhor entendimento, este excerto de código encontra-se no ficheiro video-decode.py .
+
+
+Internamente, para além de se utilizar as matrizes características do módulo **numpy** e do visualizador de imagens do **opencv**, estas são em grande parte encapsuladas na classe **Frame**, como irá ser explicado no próximo ponto.
 
 De salientar ainda que este ***player*** de vídeo funciona para ficheiros com informação não comprimida (***raw***), para qualquer um dos três formatos.  
 
@@ -538,7 +561,7 @@ class Frame(ABC):
 
 De forma a abstrair a implementação de cada tipo de formato de cada frame, decidiu-se que esta classe **Frame** seria abstrata. Portanto, cada frame possui atributos relativos à sua **altura**, à sua **largura** e componentes **Y, U e V.**
 
-Relativamente ao método **advance()**, este carrega do ficheiro o ***frame* seguinte**.Além disso, possuí três métodos *getters* que retornam uma matriz homóloga da respetiva componente (Y, U ou V).  
+Relativamente ao método **advance()**, este carrega do ficheiro o ***frame* seguinte**. Além disso, possuí três métodos *getters* que retornam uma matriz homóloga da respetiva componente (Y, U ou V).  
 
 ```python
 @abstractmethod
@@ -579,7 +602,7 @@ Outra grande tarefa proposta no enunciado do trabalho era a implementação de p
 
 Tendo em conta o que foi dito no último parágrafo, de seguida segue-se um excerto de código com os diferentes preditores implementados.
 
-**Nota:** uma vez apenas o método **predict()** é útil, estas classes não necessitam de ser instânciadas, pelo que foram declaradas como estáticas.  
+**Nota:** uma vez que apenas o método **predict()** é útil, estas classes não necessitam de ser instânciadas, pelo que foram declaradas como estáticas.  
 
 ```python
 class JPEG1:...
@@ -696,9 +719,39 @@ def encode(self):
 ```
 
 
-#### **3.6.2 C++**  
+#### **3.6.2. C++**  
 
 Relativamente à implementação da classe **IntraFrameEncoder** em **C++**, de salientar que esta é muito semelhante à implementada em **Python**.  
+
+#### **3.6.3. Nota**
+```pytho    
+if __name__ == '__main__':
+
+    frame = Frame444(720, 1280, "../media/park_joy_444_720p50.y4m")
+
+    total = 0
+    firstFrame = True
+    ife = IntraFrameEncoder(predictors.JPEG1)
+    frames_no = 0
+    while True:
+        start = datetime.datetime.now()
+        playing = frame.advance()
+
+        # movie end
+        if not playing:
+            break
+
+        # encode Y matrix
+        matrix = frame.getY()
+        ife.setMatrix(matrix)
+        if firstFrame:
+            firstFrame = False
+            ife.bitstream.writeString("F500\tH720\tW1280\tC444\tS50")  # has to be concordant with Frame initialization above
+        ife.encode()
+```
+No exemplo ilustrado, repare-se no método _writeString()_ inserido no bloco de _firstFrame_: Este é por defeito o **header** dos ficheiros codificados, e é recomendável que mantenha esta estrutura para o bom funcionamento do código. Este **header** contém a seguinte informação: número de frames, altura, largura, formato e frames por segundo. Este último deve ser conhecido pelo utilizador, e escrito de forma concordante com o vídeo original.
+Salienta-se o comentário que se segue, que indica que este header deve ir ao encontro da classe _Frame_ definida em cima. 
+Isto acontece tanto em Python 3 como em C++.
 
 ## 4. Execução dos programas  
 
@@ -806,6 +859,12 @@ Relativamente ao preditor utilizado, optámos por manter o **JPEG1**, por não s
 ### 5.2. C++
 
 Devido a limitações temporais e às dificuldades inerentas a esta linguagem de baixo nível, não foi possível implementar todas as classes que desejaríamos (em especial o **VideoPlayer** nesta linguagem). No entanto, pensamos que as restantes classes foram implementadas com sucesso, ainda que talvez não na sua máxima eficiência.  
+Ainda assim, por frame conseguimos tempos à volta dos 6 segundos de compressão por frame, o que ilustra bem a diferença entre as duas linguagens.
+
+### 5.3 Compressão de 250 Frames
+
+Em jeito de análise, foram comprimidos **250 frames de vídeo** em Python 3, no formato **4:4:4** e utilizando o preditor JPEG1, como referido anteriormente.
+Este ficheiro codificado ocupa cerca de **461.5Mb**, o que, relativamente ao original no mesmo número de frames (**720 * 1280 * 3 * 250 ~= 691MB**), representa uma taxa de compressão de aproximadamente **33%**, à qual achamos satisfatória.  
 
 
 ## 6. Conclusão  
