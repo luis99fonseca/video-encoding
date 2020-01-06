@@ -6,14 +6,27 @@ from bitStream import BitStream
 from golomb import Golomb
 from frames import *
 from encoders import IntraFrameDecoder
+from VideoPlayer import VideoPlayer
 import cv2
+import sys
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger('root')
+logger.setLevel(logging.ERROR)
+
+c_handler = logging.StreamHandler()
+c_format = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
+c_handler.setFormatter(logging.Formatter('%(name)s | %(levelname)s ->: %(message)s'))
+
+logger.addHandler(c_handler)
+logger.propagate = False  # https://stackoverflow.com/a/19561320
 
 """
 This program decodes a 3 frames video. 
 """
 if __name__ == '__main__':
 
-    bitstream = BitStream("../out/cpp_park_joy_444_720p50.bin", "rb")
+    bitstream = BitStream("../out/encoded_park_joy_444_720p50.bin", "rb")
     golomb = Golomb(4)
 
     # read header
@@ -38,7 +51,6 @@ if __name__ == '__main__':
         intraFrameDecoder = IntraFrameDecoder(decoded, predictors.JPEG1)
         intraFrameDecoder.decode()
         decoded_matrixes.append(intraFrameDecoder.decoded_matrix)
-
         if matrixes % 3 == 0:
             end = datetime.datetime.now() - start
             frames += 1
@@ -50,14 +62,24 @@ if __name__ == '__main__':
             break
 
         # Comment/Uncomment this line
-        # if frames == 3:
-        #     break
+        if frames == 3:
+            break
 
     bitstream.closeFile()
     print("Video decoded with success!")
 
-    # Code bellow, altho very hardcoded, shows the up to 3 frame, so we can check whether things went well or not
+
+
+
     if True:
+        info = (height, width, formatC1, fps1)
+        videoPlayer01 = VideoPlayer(fromFile=False)
+        videoPlayer01.openInfo(info, decoded_matrixes)
+
+        while (videoPlayer01.visualizeFrame()):
+            pass
+    # Code bellow, altho very hardcoded, shows the up to 3 frame, so we can check whether things went well or not
+    if False:
         Y = decoded_matrixes[0]
         U = decoded_matrixes[1]
         V = decoded_matrixes[2]
