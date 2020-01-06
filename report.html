@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>
+        Projeto No. 3 - Video Encoding - HackMD
+    </title>
+    <link rel="icon" type="image/png" href="https://hackmd.io/favicon.png">
+    <link rel="apple-touch-icon" href="https://hackmd.io/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" integrity="sha256-3iu9jgsy9TpTwXKb7bNQzqWekRX7pPK+2OLj3R922fo=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css" integrity="sha256-QiWfLIsCT02Sdwkogf6YMiQlj4NE84MKkzEMkZnMGdg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css" integrity="sha256-vtR0hSWRc3Tb26iuN2oZHt3KRUomwTufNIf5/4oeCyg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/css/basic/emojify.min.css" integrity="sha256-UOrvMOsSDSrW6szVLe8ZDZezBxh5IoIfgTwdNDgTjiU=" crossorigin="anonymous" />
+    <style>
+        @charset "UTF-8";@import url(https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i|Source+Code+Pro:300,400,500|Source+Sans+Pro:300,300i,400,400i,600,600i|Source+Serif+Pro&subset=latin-ext);.hljs{display:block;background:#fff;padding:.5em;color:#333;overflow-x:auto}.hljs-comment,.hljs-meta{color:#969896}.hljs-emphasis,.hljs-quote,.hljs-string,.hljs-strong,.hljs-template-variable,.hljs-variable{color:#df5000}.hljs-keyword,.hljs-selector-tag,.hljs-type{color:#a71d5d}.hljs-attribute,.hljs-bullet,.hljs-literal,.hljs-number,.hljs-symbol{color:#0086b3}.hljs-built_in,.hljs-builtin-name{color:#005cc5}.hljs-name,.hljs-section{color:#63a35c}.hljs-tag{color:#333}.hljs-attr,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-selector-pseudo,.hljs-title{color:#795da3}.hljs-addition{color:#55a532;background-color:#eaffea}.hljs-deletion{color:#bd2c00;background-color:#ffecec}.hljs-link{text-decoration:underline}.markdown-body{font-size:16px;line-height:1.5;word-wrap:break-word}.markdown-body:after,.markdown-body:before{display:table;content:""}.markdown-body:after{clear:both}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .absent{color:#c00}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:none}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-top:0;margin-bottom:16px}.markdown-body hr{height:.25em;padding:0;margin:24px 0;background-color:#e7e7e7;border:0}.markdown-body blockquote{font-size:16px;padding:0 1em;color:#777;border-left:.25em solid #ddd}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body kbd,.popover kbd{display:inline-block;padding:3px 5px;font-size:11px;line-height:10px;color:#555;vertical-align:middle;background-color:#fcfcfc;border:1px solid #ccc;border-bottom-color:#bbb;border-radius:3px;box-shadow:inset 0 -1px 0 #bbb}.markdown-body .loweralpha{list-style-type:lower-alpha}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#000;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1 code,.markdown-body h1 tt,.markdown-body h2 code,.markdown-body h2 tt,.markdown-body h3 code,.markdown-body h3 tt,.markdown-body h4 code,.markdown-body h4 tt,.markdown-body h5 code,.markdown-body h5 tt,.markdown-body h6 code,.markdown-body h6 tt{font-size:inherit}.markdown-body h1{font-size:2em}.markdown-body h1,.markdown-body h2{padding-bottom:.3em;border-bottom:1px solid #eee}.markdown-body h2{font-size:1.5em}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{font-size:.85em;color:#777}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol.no-list,.markdown-body ul.no-list{padding:0;list-style-type:none}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{padding-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}.markdown-body table th{font-weight:700}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #ddd}.markdown-body table tr{background-color:#fff;border-top:1px solid #ccc}.markdown-body table tr:nth-child(2n){background-color:#f8f8f8}.markdown-body img{max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body img[align=right]{padding-left:20px}.markdown-body img[align=left]{padding-right:20px}.markdown-body .emoji{max-width:none;vertical-align:text-top;background-color:transparent}.markdown-body span.frame{display:block;overflow:hidden}.markdown-body span.frame>span{display:block;float:left;width:auto;padding:7px;margin:13px 0 0;overflow:hidden;border:1px solid #ddd}.markdown-body span.frame span img{display:block;float:left}.markdown-body span.frame span span{display:block;padding:5px 0 0;clear:both;color:#333}.markdown-body span.align-center{display:block;overflow:hidden;clear:both}.markdown-body span.align-center>span{display:block;margin:13px auto 0;overflow:hidden;text-align:center}.markdown-body span.align-center span img{margin:0 auto;text-align:center}.markdown-body span.align-right{display:block;overflow:hidden;clear:both}.markdown-body span.align-right>span{display:block;margin:13px 0 0;overflow:hidden;text-align:right}.markdown-body span.align-right span img{margin:0;text-align:right}.markdown-body span.float-left{display:block;float:left;margin-right:13px;overflow:hidden}.markdown-body span.float-left span{margin:13px 0 0}.markdown-body span.float-right{display:block;float:right;margin-left:13px;overflow:hidden}.markdown-body span.float-right>span{display:block;margin:13px auto 0;overflow:hidden;text-align:right}.markdown-body code,.markdown-body tt{padding:0;padding-top:.2em;padding-bottom:.2em;margin:0;font-size:85%;background-color:rgba(0,0,0,.04);border-radius:3px}.markdown-body code:after,.markdown-body code:before,.markdown-body tt:after,.markdown-body tt:before{letter-spacing:-.2em;content:"\00a0"}.markdown-body code br,.markdown-body tt br{display:none}.markdown-body del code{text-decoration:inherit}.markdown-body pre{word-wrap:normal}.markdown-body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:transparent;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7;border-radius:3px}.markdown-body pre code,.markdown-body pre tt{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body pre code:after,.markdown-body pre code:before,.markdown-body pre tt:after,.markdown-body pre tt:before{content:normal}.markdown-body .csv-data td,.markdown-body .csv-data th{padding:5px;overflow:hidden;font-size:12px;line-height:1;text-align:left;white-space:nowrap}.markdown-body .csv-data .blob-line-num{padding:10px 8px 9px;text-align:right;background:#fff;border:0}.markdown-body .csv-data tr{border-top:0}.markdown-body .csv-data th{font-weight:700;background:#f8f8f8;border-top:0}.news .alert .markdown-body blockquote{padding:0 0 0 40px;border:0 none}.activity-tab .news .alert .commits,.activity-tab .news .markdown-body blockquote{padding-left:0}.task-list-item{list-style-type:none}.task-list-item label{font-weight:400}.task-list-item.enabled label{cursor:pointer}.task-list-item+.task-list-item{margin-top:3px}.task-list-item-checkbox{float:left;margin:.31em 0 .2em -1.3em!important;vertical-align:middle;cursor:default!important}.markdown-body{padding-top:40px;padding-bottom:40px;max-width:758px;overflow:visible!important}.markdown-body .emoji{vertical-align:top}.markdown-body pre{border:inherit!important}.markdown-body code{color:inherit!important}.markdown-body pre code .wrapper{display:-moz-inline-flex;display:-ms-inline-flex;display:-o-inline-flex;display:inline-flex}.markdown-body pre code .gutter{float:left;overflow:hidden;-webkit-user-select:none;user-select:none}.markdown-body pre code .gutter.linenumber{text-align:right;position:relative;display:inline-block;cursor:default;z-index:4;padding:0 8px 0 0;min-width:20px;box-sizing:content-box;color:#afafaf!important;border-right:3px solid #6ce26c!important}.markdown-body pre code .gutter.linenumber>span:before{content:attr(data-linenumber)}.markdown-body pre code .code{float:left;margin:0 0 0 16px}.markdown-body .gist .line-numbers{border-left:none;border-top:none;border-bottom:none}.markdown-body .gist .line-data{border:none}.markdown-body .gist table{border-spacing:0;border-collapse:inherit!important}.markdown-body code[data-gist-id]{background:none;padding:0}.markdown-body code[data-gist-id]:after,.markdown-body code[data-gist-id]:before{content:""}.markdown-body code[data-gist-id] .blob-num{border:unset}.markdown-body code[data-gist-id] table{overflow:unset;margin-bottom:unset}.markdown-body code[data-gist-id] table tr{background:unset}.markdown-body[dir=rtl] pre{direction:ltr}.markdown-body[dir=rtl] code{direction:ltr;unicode-bidi:embed}.markdown-body .alert>p{margin-bottom:0}.markdown-body pre.abc,.markdown-body pre.flow-chart,.markdown-body pre.graphviz,.markdown-body pre.mermaid,.markdown-body pre.sequence-diagram{text-align:center;background-color:inherit;border-radius:0;white-space:inherit}.markdown-body pre.abc>code,.markdown-body pre.flow-chart>code,.markdown-body pre.graphviz>code,.markdown-body pre.mermaid>code,.markdown-body pre.sequence-diagram>code{text-align:left}.markdown-body pre.abc>svg,.markdown-body pre.flow-chart>svg,.markdown-body pre.graphviz>svg,.markdown-body pre.mermaid>svg,.markdown-body pre.sequence-diagram>svg{max-width:100%;height:100%}.markdown-body pre>code.wrap{white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;word-wrap:break-word}.markdown-body .alert>p,.markdown-body .alert>ul{margin-bottom:0}.markdown-body summary{display:list-item}.markdown-body summary:focus{outline:none}.markdown-body details summary{cursor:pointer}.markdown-body details:not([open])>:not(summary){display:none}.markdown-body figure{margin:1em 40px}.markdown-body .mark,.markdown-body mark{background-color:#fff1a7}.vimeo,.youtube{cursor:pointer;display:table;text-align:center;background-position:50%;background-repeat:no-repeat;background-size:contain;background-color:#000;overflow:hidden}.vimeo,.youtube{position:relative;width:100%}.youtube{padding-bottom:56.25%}.vimeo img{width:100%;object-fit:contain;z-index:0}.youtube img{object-fit:cover;z-index:0}.vimeo iframe,.youtube iframe,.youtube img{width:100%;height:100%;position:absolute;top:0;left:0}.vimeo iframe,.youtube iframe{vertical-align:middle;z-index:1}.vimeo .icon,.youtube .icon{position:absolute;height:auto;width:auto;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;opacity:.3;transition:opacity .2s;z-index:0}.vimeo:hover .icon,.youtube:hover .icon{opacity:.6;transition:opacity .2s}.slideshare .inner,.speakerdeck .inner{position:relative;width:100%}.slideshare .inner iframe,.speakerdeck .inner iframe{position:absolute;top:0;bottom:0;left:0;right:0;width:100%;height:100%}.MJX_Assistive_MathML{display:none}.ui-infobar{position:relative;z-index:2;max-width:760px;margin:25px auto -25px;padding:0 15px;color:#777}.toc .invisable-node{list-style-type:none}.ui-toc{position:fixed;bottom:20px;z-index:998}.ui-toc-label{opacity:.3;background-color:#ccc;border:none;transition:opacity .2s}.ui-toc .open .ui-toc-label{opacity:1;color:#fff;transition:opacity .2s}.ui-toc-label:focus{opacity:.3;background-color:#ccc;color:#000}.ui-toc-label:hover{opacity:1;background-color:#ccc;transition:opacity .2s}.ui-toc-dropdown{margin-top:23px;margin-bottom:20px;padding-left:10px;padding-right:10px;max-width:45vw;width:25vw;max-height:70vh;overflow:auto;text-align:inherit}.ui-toc-dropdown>.toc{max-height:calc(70vh - 100px);overflow:auto}.ui-toc-dropdown[dir=rtl] .nav{padding-right:0;letter-spacing:.0029em}.ui-toc-dropdown a{overflow:hidden;text-overflow:ellipsis;white-space:pre}.ui-toc-dropdown .nav>li>a{display:block;padding:4px 20px;font-size:13px;font-weight:500;color:#767676}.ui-toc-dropdown .nav>li:first-child:last-child > ul,.ui-toc-dropdown .toc.expand ul{display:block}.ui-toc-dropdown .nav>li>a:focus,.ui-toc-dropdown .nav>li>a:hover{padding-left:19px;color:#000;text-decoration:none;background-color:transparent;border-left:1px solid #000}.ui-toc-dropdown[dir=rtl] .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav>li>a:hover{padding-right:19px;border-left:none;border-right:1px solid #000}.ui-toc-dropdown .nav>.active:focus>a,.ui-toc-dropdown .nav>.active:hover>a,.ui-toc-dropdown .nav>.active>a{padding-left:18px;font-weight:700;color:#000;background-color:transparent;border-left:2px solid #000}.ui-toc-dropdown[dir=rtl] .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav>.active>a{padding-right:18px;border-left:none;border-right:2px solid #000}.ui-toc-dropdown .nav .nav{display:none;padding-bottom:10px}.ui-toc-dropdown .nav>.active>ul{display:block}.ui-toc-dropdown .nav .nav>li>a{padding-top:1px;padding-bottom:1px;padding-left:30px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a{padding-right:30px}.ui-toc-dropdown .nav .nav>li>ul>li>a{padding-top:1px;padding-bottom:1px;padding-left:40px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a{padding-right:40px}.ui-toc-dropdown .nav .nav>li>a:focus,.ui-toc-dropdown .nav .nav>li>a:hover{padding-left:29px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:hover{padding-right:29px}.ui-toc-dropdown .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown .nav .nav>li>ul>li>a:hover{padding-left:39px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:hover{padding-right:39px}.ui-toc-dropdown .nav .nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>a{padding-left:28px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>a{padding-right:28px}.ui-toc-dropdown .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>a{padding-left:38px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active>a{padding-right:38px}.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,sans-serif}html[lang^=ja] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html[lang=zh-tw] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html[lang=zh-cn] .markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}html .markdown-body[lang^=ja]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html .markdown-body[lang=zh-tw]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html .markdown-body[lang=zh-cn]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Helvetica,Roboto,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}html[lang^=ja] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,ＭＳ\ Ｐゴシック,sans-serif}html[lang=zh-tw] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,微軟正黑UI,sans-serif}html[lang=zh-cn] .ui-toc-dropdown{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,微软雅黑UI,sans-serif}html .ui-toc-dropdown[lang^=ja]{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,ＭＳ\ Ｐゴシック,sans-serif}html .ui-toc-dropdown[lang=zh-tw]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,微軟正黑UI,sans-serif}html .ui-toc-dropdown[lang=zh-cn]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,微软雅黑UI,sans-serif}.ui-affix-toc{position:fixed;top:0;max-width:15vw;max-height:70vh;overflow:auto}.back-to-top,.expand-toggle,.go-to-bottom{display:block;padding:4px 10px;margin-top:10px;margin-left:10px;font-size:12px;font-weight:500;color:#999}.back-to-top:focus,.back-to-top:hover,.expand-toggle:focus,.expand-toggle:hover,.go-to-bottom:focus,.go-to-bottom:hover{color:#563d7c;text-decoration:none}.back-to-top,.go-to-bottom{margin-top:0}.ui-user-icon{width:20px;height:20px;display:block;border-radius:3px;margin-top:2px;margin-bottom:2px;margin-right:5px;background-position:50%;background-repeat:no-repeat;background-size:cover}.ui-user-icon.small{width:18px;height:18px;display:inline-block;vertical-align:middle;margin:0 0 .2em}.ui-infobar>small>span{line-height:22px}.ui-infobar>small .dropdown{display:inline-block}.ui-infobar>small .dropdown a:focus,.ui-infobar>small .dropdown a:hover{text-decoration:none}.ui-published-note{color:#337ab7}.ui-published-note .fa{font-size:20px;vertical-align:top}.unselectable{-webkit-user-select:none;-o-user-select:none;user-select:none}@media print{blockquote,div,img,pre,table{page-break-inside:avoid!important}a[href]:after{font-size:12px!important}}.markdown-body.slides{position:relative;z-index:1;color:#222}.markdown-body.slides:before{content:"";display:block;position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;background-color:currentColor;box-shadow:0 0 0 50vw}.markdown-body.slides section[data-markdown]{position:relative;margin-bottom:1.5em;background-color:#fff;text-align:center}.markdown-body.slides section[data-markdown] code{text-align:left}.markdown-body.slides section[data-markdown]:before{content:"";display:block;padding-bottom:56.23%}.markdown-body.slides section[data-markdown]>div:first-child{position:absolute;top:50%;left:1em;right:1em;transform:translateY(-50%);max-height:100%;overflow:hidden}.markdown-body.slides section[data-markdown]>ul{display:inline-block}.markdown-body.slides>section>section+section:after{content:"";position:absolute;top:-1.5em;right:1em;height:1.5em;border:3px solid #777}body{font-smoothing:subpixel-antialiased!important;-webkit-font-smoothing:subpixel-antialiased!important;-moz-osx-font-smoothing:auto!important;text-shadow:0 0 1em transparent,1px 1px 1.2px rgba(0,0,0,.004);-webkit-overflow-scrolling:touch;letter-spacing:.025em}.focus,:focus{outline:none!important}::-moz-focus-inner{border:0!important}body{font-family:Source Sans Pro,Helvetica,Arial,sans-serif}html[lang^=ja] body{font-family:Source Sans Pro,Helvetica,Arial,Hiragino Kaku Gothic Pro,ヒラギノ角ゴ Pro W3,Osaka,Meiryo,メイリオ,MS Gothic,ＭＳ\ ゴシック,sans-serif}html[lang=zh-tw] body{font-family:Source Sans Pro,Helvetica,Arial,PingFang TC,Microsoft JhengHei,微軟正黑,sans-serif}html[lang=zh-cn] body{font-family:Source Sans Pro,Helvetica,Arial,PingFang SC,Microsoft YaHei,微软雅黑,sans-serif}abbr[title]{border-bottom:none;text-decoration:underline;-webkit-text-decoration:underline dotted;text-decoration:underline dotted}abbr[data-original-title],abbr[title]{cursor:help}body.modal-open{overflow-y:auto;padding-right:0!important}
+    </style>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" integrity="sha256-g6iAfvZp+nDQ2TdTR/VVKJf3bGro4ub5fvWSWVRi2NE=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js" integrity="sha256-8E4Is26QH0bD52WoQpcB+R/tcWQtpzlCojrybUd7Mxo=" crossorigin="anonymous"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div id="doc" class="markdown-body container-fluid comment-enabled" data-hard-breaks="true"><h1 id="Projeto-No-3---Video-Encoding"><a class="anchor hidden-xs" href="#Projeto-No-3---Video-Encoding" title="Projeto-No-3---Video-Encoding"><span class="octicon octicon-link"></span></a>Projeto No. 3 - Video Encoding</h1><p><strong>Universidade de Aveiro</strong></p><p><strong>Licenciatura em Engenharia Informática</strong></p><p><em>UC 40532 - Complementos Sobre Linguagens de Programação</em></p><p><strong>Aveiro, 6 de janeiro de 2020</strong></p><h2 id="Autores"><a class="anchor hidden-xs" href="#Autores" title="Autores"><span class="octicon octicon-link"></span></a>Autores</h2><ul>
+<li><strong>89066 - Luís Carlos Duarte Fonseca:</strong> <a href="https://github.com/luis99fonseca" target="_blank" rel="noopener">luis99fonseca</a></li>
+<li><strong>88886 - Tiago Carvalho Mendes:</strong> <a href="https://github.com/tiagocmendes" target="_blank" rel="noopener">tiagocmendes</a></li>
+</ul><h2 id="Docente-orientador"><a class="anchor hidden-xs" href="#Docente-orientador" title="Docente-orientador"><span class="octicon octicon-link"></span></a>Docente orientador</h2><p>Prof. Dr. António José Ribeiro Neves</p><h2 id="1-Introdução"><a class="anchor hidden-xs" href="#1-Introdução" title="1-Introdução"><span class="octicon octicon-link"></span></a>1. Introdução</h2><p>O presente documento tem como principal objetivo descrever detalhadamente a solução desenvolvida pelos alunos identificados em cima no âmbito do terceiro projeto da unidade curricular de <a href="https://www.ua.pt/deti/uc/12830" target="_blank" rel="noopener">Complementos Sobre Linguagens de Programação</a> da <a href="https://www.ua.pt/#/" target="_blank" rel="noopener">Universidade de Aveiro</a>. Os principais objetivos deste terceiro projeto eram os seguintes:</p><ul>
+<li>
+<p>Implementar a classe <strong>BitStream</strong>, capaz de ler e escrever num ficheiro um determinado número de bits.</p>
+</li>
+<li>
+<p>Implementar a classe <strong>Golomb</strong>, capaz de codificar um número inteiro <em><strong>n</strong></em> utilizando códigos de Golomb.</p>
+</li>
+<li>
+<p>Implementar um <strong>leitor de vídeo</strong>.</p>
+</li>
+<li>
+<p>Implementar <strong>(des)codificadores de vídeo</strong>, baseados em codificação intra-frame <strong>sem perdas</strong>, usando 7 JPEG preditores lineares e o preditor não linear JPEG-LS.</p>
+</li>
+<li>
+<p>Implementar todos os objetivos anteriores nas linguagens de programação <strong>Python</strong> e <strong>C++</strong>.</p>
+</li>
+<li>
+<p>Documentar todo o código desenvolvido utilizando o <strong>Doxygen.</strong></p>
+</li>
+</ul><p>Uma vez que os pontos referidos são bastante genéricos, é importante salientar que foram definidos outros sub-objetivos mais simples, necessários à realização das tarefas principais.</p><p>Embora, conceptualmente, a mesma lógica tenha sido pensada e implementada em ambas as linguagens, existem obviamente algumas diferenças importantes entre as mesmas. Desta forma, ao explicar cada direção seguida na realização das tarefas propostas iremos, por questões de simplicidade, dar mais foco à implementação das mesmas em <strong>Python</strong> e, de seguida, de forma mais sucinta em <strong>C++</strong>.</p><p>Importante também referir que os vídeos em questão se encontram no formato YUV, podendo ter diferentes tipos de sub-amostras de cronominância ([4:4:4], [4:2:2], [4:2:0])</p><h2 id="2-Repositório"><a class="anchor hidden-xs" href="#2-Repositório" title="2-Repositório"><span class="octicon octicon-link"></span></a>2. Repositório</h2><p>Todo o código desenvolvido encontra-se disponível no seguinte repositório, na plataforma <strong>GitHub</strong>:  <a href="https://github.com/luis99fonseca/video-encoding" target="_blank" rel="noopener">https://github.com/luis99fonseca/video-encoding</a></p><p><strong>Algumas considerações:</strong></p><ul>
+<li>Na raiz do repositório, encontram-se duas pastas, cada uma com a solução desenvolvida em <strong>C++</strong> e em <strong>Python</strong>, respetivamente.</li>
+<li>Para cada uma das linguagens, foi gerada documentação automática em <strong>HTML</strong> utilizando o <strong>Doxygen</strong>, dentro da pasta <strong>docs</strong>.</li>
+<li>Para cada uma das linguagens, existe uma pasta <strong>src</strong>, com os ficheiros de código desenvolvidos.</li>
+<li>Dentro de cada pasta <strong>src</strong>, existem duas sub-pastas com os testes unitários das classes <strong>BitStream e Golomb</strong>.</li>
+<li>Para cada uma das linguagens, existe uma pasta <strong>out</strong> que irá ser o destino dos ficheiros de vídeo comprimidos.</li>
+<li>Para a linguagem de <strong>C++</strong>, e na pasta <strong>src</strong>, está presente um <strong>Makefile</strong> para compilar o codificador de vídeo <strong>VideoEncoder.cpp</strong>. Este ficheiro foi compilado utilizando o <strong>cmake.</strong> No entanto, também poderá encontrar o ficheiro binário resultante desta compilação (<strong>VideoEncoder</strong>).</li>
+<li><strong>IMPORTANTE:</strong> Para testar o vídeo <strong>park_joy_444_720p50.y4m</strong>, tanto para <strong>C++</strong> como para <strong>Python</strong>, deverá colocá-lo na pasta <strong>python/media</strong>.</li>
+</ul><h2 id="3-Implementação"><a class="anchor hidden-xs" href="#3-Implementação" title="3-Implementação"><span class="octicon octicon-link"></span></a>3. Implementação</h2><h3 id="31-BitStream"><a class="anchor hidden-xs" href="#31-BitStream" title="31-BitStream"><span class="octicon octicon-link"></span></a>3.1. <strong>BitStream</strong></h3><h4 id="311-Python-3"><a class="anchor hidden-xs" href="#311-Python-3" title="311-Python-3"><span class="octicon octicon-link"></span></a><strong>3.1.1 Python 3</strong></h4><p>Esta classe é responsável por tratar do <em>streaming</em> de dados entre o programa e o sistema de ficheiros de forma binária. Desta forma, os métodos da mesma envolvem não só funcionalidades mais genéricas como <strong>leitura/escrita de N bits</strong> bem como funcionalidades mais específicas como <strong>escrita/leitura</strong> de strings/linhas.</p><pre><code class="python hljs"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BitStream</span>:</span>
+    <span class="hljs-string">"""
+    Class optimised to read/write bits from/to a file
+    """</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, fileName, mode)</span>:</span>
+        <span class="hljs-comment"># file management</span>
+        <span class="hljs-keyword">assert</span> mode <span class="hljs-keyword">in</span> [<span class="hljs-string">"wb"</span>, <span class="hljs-string">"rb"</span>, <span class="hljs-string">"wbs"</span>]
+        self.mode = mode
+        self.file = open(fileName, self.mode[:<span class="hljs-number">2</span>])
+
+        self.read_byte = <span class="hljs-keyword">None</span>  <span class="hljs-comment"># buffer</span>
+        self.read_byte_idx = <span class="hljs-number">-1</span>
+        self.read_eof = <span class="hljs-keyword">False</span>
+
+        self.write_byte = <span class="hljs-number">0</span>  <span class="hljs-comment"># buffer</span>
+        self.write_byte_idx = <span class="hljs-number">7</span>
+
+        self.write_array_last = []
+        self.write_array_final = []
+
+        self.closed = <span class="hljs-keyword">False</span>
+</code></pre><pre><code class="python hljs"><span class="hljs-comment"># ---------------READING TESTING--------------</span>
+<span class="hljs-keyword">if</span> test01:
+    bitstream01 = BitStream(<span class="hljs-string">"./out/test01.txt"</span>, <span class="hljs-string">"rb"</span>)
+
+    <span class="hljs-keyword">assert</span> bitstream01.readBit(<span class="hljs-number">8</span>) == [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]
+    <span class="hljs-keyword">assert</span> bitstream01.readBit(<span class="hljs-number">4</span>) == [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>]
+    <span class="hljs-keyword">assert</span> bitstream01.readBit(<span class="hljs-number">4</span>) == [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]
+    <span class="hljs-keyword">assert</span> bitstream01.readByte() == [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>]
+    <span class="hljs-keyword">assert</span> bitstream01.readBit(<span class="hljs-number">8</span>) == []
+    <span class="hljs-keyword">assert</span> bitstream01.readBit(<span class="hljs-number">4</span>) == []
+
+    bitstream01.closeFile()
+
+<span class="hljs-comment"># ---------------WRITING TESTING--------------</span>
+
+<span class="hljs-keyword">if</span> test02:
+    bitstream02 = BitStream(<span class="hljs-string">"./out/test02.txt"</span>, <span class="hljs-string">"wb"</span>)
+
+    <span class="hljs-keyword">assert</span> <span class="hljs-keyword">not</span> bitstream02.writeBit(<span class="hljs-number">256</span>, <span class="hljs-number">1</span>)
+    <span class="hljs-keyword">assert</span> <span class="hljs-keyword">not</span> bitstream02.writeBit(<span class="hljs-number">3</span>, <span class="hljs-number">1</span>)
+</code></pre><p>Como recomendado, alguns programas de teste foram criados de forma a garantir o bom funcionamento das classes criadas. Estes mesmos programas tornam-se úteis para entender o funcionamento de cada classe.</p><p>Observando excerto de código presente no ficheiro <strong>test_bitstream.txt</strong>, é possível perceber como a classe funciona:</p><p>Primeiramente, o construtor da mesma recebe o <em><strong>nome do ficheiro</strong></em> e o <em><strong>modo</strong></em> em que a classe será usada.<br>
+Estes <em>modos</em> devem ser um dos seguintes:</p><ul>
+<li><strong>rb</strong> (read binary) - que indica que se irá proceder à leitura do ficheiro indicado no 1º argumento.</li>
+<li><strong>wb</strong> (write binary) - que indica que se irá proceder à escrita do ficheiro indicado no 1º argumento.</li>
+<li><strong>wbs</strong> (write binary special) - semelhante ao modo anterior, mas com otimizações, de forma a aumentar a eficiência da escrita. Estas otimizações passam pelo uso de funções de alto nível do <strong>Python</strong>, em troca do aumento de utilização da memória. Estas otimizações surgem devido ao facto de que, sendo o Python uma linguagem de alto nível, é portanto mais lento, o que é indesejável no contexto deste trabalho.</li>
+</ul><p>Após a definição de um novo objeto desta classe, vários métodos podem ser chamados. Contudo, existem algumas restrições relacionadas com os <em>modos</em> definidos. Por exemplo, não é possível utilizar o método de <strong>ler um bit</strong> de um ficheiro quando se definiu, no momento da criação do objeto desta classe, o <strong>modo de escrita</strong>.</p><p><strong>Importante:</strong> É de notar que para cada modo de escrita, existem métodos específicos opcionais.</p><ul>
+<li><strong>wb</strong> - <em>writeBit()</em>, <em>writeByte()</em>, <em>writeArray()</em></li>
+<li><strong>wbs</strong> - <em>addNumber()</em></li>
+</ul><p>Relativamente aos nomes dos métodos de <em>leitura</em>, geralmente estes começam com a palavra <strong>“read”</strong>.</p><p>Após a realização de todas as operações, é <strong>obrigatório</strong> chamar o método <em>closeFile()</em> de fecho do ficheiro. Isto deve ser feito, não só por ser uma boa prática de programação, mas também para efetivar todas as alterações ao mesmo.</p><h4 id="312-C"><a class="anchor hidden-xs" href="#312-C" title="312-C"><span class="octicon octicon-link"></span></a><strong>3.1.2 C++</strong></h4><p>A principal diferença entre a implementação em <strong>Python</strong> para a implementação em <strong>C++</strong> desta classe é nos modos de interação com o ficheiro. Em <strong>C++</strong>, apenas existem 2 (o <strong>rb</strong> e o <strong>wb</strong>), uma vez que sendo um linguagem de mais baixo nível, não só não possuí os métodos equivalentes utilizados em <strong>Python</strong>, como apresenta uma maior eficiência.</p><pre><code class="cpp hljs"><span class="token comment">/**
+ * Class optimised to read/write bits from/to a file.
+*/</span>
+<span class="token keyword">class</span> <span class="token class-name">BitStream</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span><span class="token operator">:</span>
+
+        <span class="token keyword">char</span> modeF<span class="token punctuation">;</span>
+        fstream fileF<span class="token punctuation">;</span>
+        
+        <span class="token keyword">unsigned</span> <span class="token keyword">char</span> read_byte<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> read_byte_idx<span class="token punctuation">;</span>
+        <span class="token keyword">bool</span> read_eof<span class="token punctuation">;</span>
+
+        <span class="token keyword">unsigned</span> <span class="token keyword">char</span> write_byte<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> write_byte_idx<span class="token punctuation">;</span>
+
+        <span class="token keyword">bool</span> closedF<span class="token punctuation">;</span>
+
+        <span class="token comment">/**
+         * Default constructor. 
+        */</span>
+        <span class="token function">BitStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">/**
+         * Constructor with a given file name and a opening mode.
+         * 
+         * @param fileN: file name.
+         * @param mode: opening mode.
+         */</span>
+        <span class="token function">BitStream</span><span class="token punctuation">(</span>string fileN<span class="token punctuation">,</span> <span class="token keyword">char</span> mode<span class="token punctuation">)</span><span class="token punctuation">{</span>
+</code></pre><p>As restantes alterações foram feitas sobretudo devido às diferenças entre as sintaxes das duas linguagens.</p><h3 id="32-Golomb"><a class="anchor hidden-xs" href="#32-Golomb" title="32-Golomb"><span class="octicon octicon-link"></span></a><strong>3.2. Golomb</strong></h3><p>De um modo geral, o principal objetivo desta classe é o de codificar um determinado valor inteiro <em><strong>n</strong></em>, utilizando códigos de Golomb. No âmbito deste trabalho, esta classe é usada para codificar os valores das matrizes de predição de cada frame, como será explicado mais à frente. Utilizando esta codificação de Golomb, iremos conseguir comprimir um determinado vídeo, reduzindo o seu tamanho substancialmente.</p><h4 id="321-Python-3"><a class="anchor hidden-xs" href="#321-Python-3" title="321-Python-3"><span class="octicon octicon-link"></span></a><strong>3.2.1. Python 3</strong></h4><p>Começando pelo seu construtor (apresentado no seguinte excerto de código do ficheiro <strong><a href="http://golomb.py" target="_blank" rel="noopener">golomb.py</a></strong>), repare-se que este recebe como argumento um valor inteiro <em><strong>m</strong></em>, que será o divisor de qualquer valor inteiro <em><strong>n</strong></em> a codificar, atribuindo-o ao atributo <strong>self.m</strong> da classe.<br>
+Neste construtor, é também criado o atributo <strong>self.base2</strong>, que verifica se o valor de <strong>self.m</strong> é ou não uma potência de base 2. É importante referir isto pois, como se verá de seguida, o algoritmo de codificação de um determinado valor inteiro <strong>n</strong> irá variar consoante <strong>m</strong> seja potência de base 2 ou não (aplicando um código binário truncado em caso negativo).</p><pre><code class="python3 hljs"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Golomb</span>:</span>
+    <span class="hljs-string">"""
+    The constructor.
+
+    @param m: value of M (default = 2)
+    """</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, m=<span class="hljs-number">2</span>)</span>:</span>
+        <span class="hljs-keyword">assert</span> m &gt; <span class="hljs-number">0</span>
+
+        self.m = m
+
+        <span class="hljs-comment"># Check if M is a power of 2 or not</span>
+        self.base2 = <span class="hljs-keyword">True</span> <span class="hljs-keyword">if</span> math.log2(m).is_integer() <span class="hljs-keyword">else</span> <span class="hljs-keyword">False</span>
+</code></pre><p><strong>Codificação com <em>m</em> sendo potência de base 2</strong></p><p>Para implementar o algoritmo de codificação, e caso <strong>self.m</strong> seja uma potência de base 2, foi criado o método que se apresenta no seguinte excerto de código:</p><pre><code class="python hljs"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">base2encoder</span><span class="hljs-params">(self, n)</span>:</span>
+        
+    <span class="hljs-comment"># check 'n' sign (0 - positive, 1 - negative)</span>
+    sign = [<span class="hljs-number">0</span>]  
+    <span class="hljs-keyword">if</span> n &lt; <span class="hljs-number">0</span>:
+        n = abs(n)
+        sign = [<span class="hljs-number">1</span>] 
+
+    <span class="hljs-comment"># computes values of 'q' and 'r'</span>
+    q = math.floor(n / self.m)
+    r = n % self.m
+
+    <span class="hljs-comment"># computes unary and binary codes of 'q' and 'r', respectively.</span>
+    unary_code = [<span class="hljs-number">1</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(q)] + [<span class="hljs-number">0</span>]
+    binary_code = [int(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> list(bin(r))[<span class="hljs-number">2</span>:]] <span class="hljs-keyword">if</span> r &gt;= <span class="hljs-number">2</span> <span class="hljs-keyword">else</span> [<span class="hljs-number">0</span>] + [int(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> list(bin(r))[<span class="hljs-number">2</span>:]]
+        
+    <span class="hljs-comment"># returns the golomb code of 'n'</span>
+    <span class="hljs-keyword">return</span>  sign + unary_code + binary_code
+</code></pre><p>Primeiramente, começa-se por averiguar se o valor <strong>inteiro <em>n</em></strong>, passado como argumento do método, é positivo. Em caso afirmativo, coloca-se <strong>o primeiro bit</strong> do seu código de Golomb a <strong>0</strong>. Caso <strong>n</strong> seja negativo, este <strong>primeiro bit</strong> terá o valor <strong>1.</strong> Assim, apenas precisamos de nos preocupar em codificar o valor absoluto de <strong>n</strong>.</p><p>Para obter a parte unária e binária do código de Golomb de <strong>n</strong>, é necessário saber os valores de <strong>q</strong> e <strong>r</strong>, respetivamente. No caso de <strong>q</strong>, este obtém-se através do quociente da divisão de <strong>n</strong> por <strong>m</strong> (n // m). No caso de <strong>r</strong>, este é o resto da mesma divisão (n % m).</p><p>Tendo o valor <strong>q</strong>, a parte unária é dada por <strong>q</strong> bits a 1, seguidos de um bit a 0. Por exemplo, caso <strong>q = 4</strong>, a parte unária será <strong>11110</strong>.</p><p>No caso de <strong>r</strong>, a parte binária é simplesmente o valor de <strong>r</strong> em binário.</p><p>Após estes passos, o código de Golomb de <strong>n</strong> é formado pelo sinal, pela parte unária e pela parte binária (nesta ordem), sendo retornado numa lista de <strong>0’s</strong> e <strong>1’s</strong>.</p><p>Para verificar esta implementação, foram realizados os seguintes testes unitários:</p><pre><code class="python hljs">golomb.m = <span class="hljs-number">4</span>
+
+codes = [[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>], [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>], [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>],\
+    [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>], [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>], [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>],\
+    [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>], [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>], [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>],\
+    [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>], [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>], [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>], \
+    [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>], [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>], \
+    [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>], [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]]
+    
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">0</span>) == codes[<span class="hljs-number">0</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">1</span>) == codes[<span class="hljs-number">1</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">2</span>) == codes[<span class="hljs-number">2</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">3</span>) == codes[<span class="hljs-number">3</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">4</span>) == codes[<span class="hljs-number">4</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">5</span>) == codes[<span class="hljs-number">5</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">6</span>) == codes[<span class="hljs-number">6</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">7</span>) == codes[<span class="hljs-number">7</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">8</span>) == codes[<span class="hljs-number">8</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">9</span>) == codes[<span class="hljs-number">9</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">10</span>) == codes[<span class="hljs-number">10</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">11</span>) == codes[<span class="hljs-number">11</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">12</span>) == codes[<span class="hljs-number">12</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">13</span>) == codes[<span class="hljs-number">13</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">14</span>) == codes[<span class="hljs-number">14</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">15</span>) == codes[<span class="hljs-number">15</span>]
+</code></pre><p><strong>Codificação com <em>m</em> NÃO sendo potência de base 2</strong></p><p>Para implementar o algoritmo de codificação, e caso <strong>self.m</strong> não seja uma potência de base 2, foi criado o método que se apresenta no seguinte excerto de código:</p><pre><code class="python hljs"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">truncated_encoder</span><span class="hljs-params">(self, n)</span>:</span>
+    <span class="hljs-comment"># check 'n' sign (0 - positive, 1 - negative)</span>
+    sign = [<span class="hljs-number">0</span>]
+    <span class="hljs-keyword">if</span> n &lt; <span class="hljs-number">0</span>:
+        n = abs(n)
+        sign = [<span class="hljs-number">1</span>]
+
+    b = math.ceil(math.log2(self.m))
+    q = math.floor(n / self.m)
+    r = n % self.m
+    
+    unary_code = [<span class="hljs-number">1</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(q)] + [<span class="hljs-number">0</span>]
+    
+    first_values = <span class="hljs-number">2</span>**b - self.m
+    
+    <span class="hljs-keyword">if</span> r &lt; first_values:
+        binary_code = self.decimal_to_binary(r, b - <span class="hljs-number">1</span>)
+    <span class="hljs-keyword">else</span>:
+        binary_code = self.decimal_to_binary(r + <span class="hljs-number">2</span>**b - self.m, b)
+
+    <span class="hljs-comment"># return the truncated golomb code of 'n'</span>
+    <span class="hljs-keyword">return</span> sign + unary_code + binary_code
+</code></pre><p>A diferença deste método para com o método explicado anteriormente está, unicamente, no cálculo da parte binária do código de Golomb do valor <strong>inteiro <em>n</em></strong>, passado como argumento. Portanto, para encontrar esta parte binária, primeiramente calcula-se o valor de <strong>b</strong>, que é dado por <strong>b = math.ceil(math.log2(self.m))</strong>.</p><p>Tendo o valor de <strong>b</strong>, a parte binária de <strong>n</strong> é dada por:</p><ul>
+<li>Caso <strong>r</strong> seja menor que <strong>2^b - m</strong>, a parte binária é dada por <strong>r</strong> em binário com <strong>b - 1</strong> bits.</li>
+<li>Caso contrário, a parte binária é dada pelo resultado de <strong>r + 2^b - m</strong> em binário, com <strong>b</strong> bits.</li>
+</ul><p>No final, o código de Golomb de <strong>n</strong> é retornado numa lista de <strong>0’s e 1’s</strong>, à semelhança do método anterior. Desta forma, a eficiência da codificação para um valor de <strong>self.m</strong> que não seja uma potência de base 2 aumenta.</p><p>Para verificar esta implementação, foram realizados os seguintes testes unitários:</p><pre><code class="python hljs">golomb.set_m(<span class="hljs-number">5</span>)
+    
+codes = [[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>], [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>], [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>],\
+    [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>], [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>], [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>],\
+    [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>], [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>], [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>],\
+    [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>], [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>], [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>],\
+    [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>], [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>], \
+    [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>], [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]\
+    [<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>], [<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>]]
+
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">0</span>) == codes[<span class="hljs-number">0</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">1</span>) == codes[<span class="hljs-number">1</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">2</span>) == codes[<span class="hljs-number">2</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">3</span>) == codes[<span class="hljs-number">3</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">4</span>) == codes[<span class="hljs-number">4</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">5</span>) == codes[<span class="hljs-number">5</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">6</span>) == codes[<span class="hljs-number">6</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">7</span>) == codes[<span class="hljs-number">7</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">8</span>) == codes[<span class="hljs-number">8</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">9</span>) == codes[<span class="hljs-number">9</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">10</span>) == codes[<span class="hljs-number">10</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">11</span>) == codes[<span class="hljs-number">11</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">12</span>) == codes[<span class="hljs-number">12</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">13</span>) == codes[<span class="hljs-number">13</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">14</span>) == codes[<span class="hljs-number">14</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">15</span>) == codes[<span class="hljs-number">15</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">-1</span>) == codes[<span class="hljs-number">16</span>]
+<span class="hljs-keyword">assert</span> golomb.encode(<span class="hljs-number">-2</span>) == codes[<span class="hljs-number">17</span>]
+</code></pre><p><strong>Descodificação</strong></p><p>Relativamente à descodificação de uma stream de bits, foram implementados dois métodos: um para descodificação sendo <strong>self.m</strong> potência de base 2, e outro em caso negativo, como se ilustra no seguinte excerto de código:</p><pre><code class="python hljs"> <span class="hljs-string">"""
+This method decodes a given list of bits, encoded with Golomb encoding.
+
+@param bitstream: list of bits to decode
+"""</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">base2decoder</span><span class="hljs-params">(self, bitstream)</span>:</span> ...
+        
+    
+<span class="hljs-string">"""
+This method decodes a given list of bits, encoded with truncated Golomb encoding.
+
+@param bitstream: list of bits to decode
+"""</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">truncated_decoder</span><span class="hljs-params">(self, bitstream)</span>:</span> ...
+</code></pre><p>Resumidamente, estes dois métodos recebem uma <strong>lista de bits como argumento</strong> e, implementando o algoritmo inverso da respetiva codificação, retornam o correspondente valor <strong>inteiro n</strong>. De seguida, seguem-se dois exemplos de testes unitários, com <strong>m=4</strong> e <strong>m=5</strong>, respetivamente:</p><pre><code class="python hljs">print(<span class="hljs-string">"\n-------------------------------"</span>)
+print(<span class="hljs-string">"SECOND TEST - DECODE WITH M = 4"</span>)
+print(<span class="hljs-string">"-------------------------------"</span>)
+
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">0</span>]) == <span class="hljs-number">0</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">1</span>]) == <span class="hljs-number">1</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">2</span>]) == <span class="hljs-number">2</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">3</span>]) == <span class="hljs-number">3</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">4</span>]) == <span class="hljs-number">4</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">5</span>]) == <span class="hljs-number">5</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">6</span>]) == <span class="hljs-number">6</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">7</span>]) == <span class="hljs-number">7</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">8</span>]) == <span class="hljs-number">8</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">9</span>]) == <span class="hljs-number">9</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">10</span>]) == <span class="hljs-number">10</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">11</span>]) == <span class="hljs-number">11</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">12</span>]) == <span class="hljs-number">12</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">13</span>]) == <span class="hljs-number">13</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">14</span>]) == <span class="hljs-number">14</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">15</span>]) == <span class="hljs-number">15</span>
+
+print(<span class="hljs-string">"\n-------------------------------"</span>)
+print(<span class="hljs-string">"FOURTH TEST - DECODE WITH M = 5"</span>)
+print(<span class="hljs-string">"-------------------------------"</span>)
+
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">0</span>]) == <span class="hljs-number">0</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">1</span>]) == <span class="hljs-number">1</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">2</span>]) == <span class="hljs-number">2</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">3</span>]) == <span class="hljs-number">3</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">4</span>]) == <span class="hljs-number">4</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">5</span>]) == <span class="hljs-number">5</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">6</span>]) == <span class="hljs-number">6</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">7</span>]) == <span class="hljs-number">7</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">8</span>]) == <span class="hljs-number">8</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">9</span>]) == <span class="hljs-number">9</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">10</span>]) == <span class="hljs-number">10</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">11</span>]) == <span class="hljs-number">11</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">12</span>]) == <span class="hljs-number">12</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">13</span>]) == <span class="hljs-number">13</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">14</span>]) == <span class="hljs-number">14</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">15</span>]) == <span class="hljs-number">15</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">16</span>]) == <span class="hljs-number">-1</span>
+<span class="hljs-keyword">assert</span> golomb.decode(codes[<span class="hljs-number">17</span>]) == <span class="hljs-number">-2</span>
+</code></pre><p><strong>Descodificação de uma enorme cadeia de bits</strong></p><p>Como já foi dito, esta classe <strong>Golomb</strong> é extremamente importante para comprimir um vídeo. No entanto, para que seja possível descomprimí-lo, tivemos a necessidade de adaptar os métodos de descodificação anteriores para conseguirem identificar diferentes <strong>números inteiros</strong> numa enorme cadeia de bits. Por exemplo, lendo de um ficheiro comprimido a seguinte cadeia de bits:</p><ul>
+<li>1,0,1,1,0,0,0,0,0,0,0,1,0,1,1,1,0,1,1</li>
+</ul><p>Deveríamos ser capazes de identificar os números inteiros <strong>-3, 0, 1 e 15</strong>, por esta ordem. Para tal, desenvolvemos o seguinte método na <strong>classe Golomb</strong>:</p><pre><code class="python hljs"><span class="hljs-string">"""
+This method decodes a bitstream with multiple integers.
+Example: stream_decoder([0,0,0,1,0,0,1,0,0,0,0,0]) -&gt; [1,2,0]
+
+@param bitstream: a list of bits
+"""</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">stream_decoder</span><span class="hljs-params">(self, bitstream, total=<span class="hljs-number">1</span>)</span>:</span> ...
+</code></pre><p>Este método, portanto, recebe uma cadeia de bits e um parâmetro <strong>total</strong> como argumento. Esta variável <strong>total</strong> irá ser o número de elementos a identificar e descodificar na cadeia de bits.</p><p>Elaborámos o seguinte teste unitário para este método:</p><pre><code class="python hljs">print(<span class="hljs-string">"\n-------------------------------"</span>)
+print(<span class="hljs-string">"FIFTH TEST - DECODE WITH M = 4"</span>)
+print(<span class="hljs-string">"-------------------------------"</span>)
+
+golomb = Golomb(<span class="hljs-number">4</span>)
+
+l = [<span class="hljs-number">-3</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">15</span>, <span class="hljs-number">7</span>, <span class="hljs-number">-6</span>, <span class="hljs-number">5</span>, <span class="hljs-number">10</span>]
+<span class="hljs-keyword">assert</span> l == golomb.stream_decoder([<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>], len(l))[<span class="hljs-number">0</span>]
+
+print(<span class="hljs-string">"Fifth test finished with success!"</span>)
+</code></pre><h4 id="322-C"><a class="anchor hidden-xs" href="#322-C" title="322-C"><span class="octicon octicon-link"></span></a><strong>3.2.2. C++</strong></h4><p>Relativamente à implementação desta classe em <strong>C++</strong>, apenas há que referir que foram feitos os devidos ajustes tendo em conta as características da linguagem, mas que a lógica explicada até aqui não se alterou. Também os testes unitários utilizados foram os mesmos.</p><h3 id="33-Video-Player"><a class="anchor hidden-xs" href="#33-Video-Player" title="33-Video-Player"><span class="octicon octicon-link"></span></a><strong>3.3. Video Player</strong></h3><h4 id="331-Python-3"><a class="anchor hidden-xs" href="#331-Python-3" title="331-Python-3"><span class="octicon octicon-link"></span></a><strong>3.3.1. Python 3</strong></h4><p>Classe responsável por <strong>reproduzir o video</strong>, de dois modos diferentes:</p><ul>
+<li>dada a localização do mesmo - para videos <em>raw</em>, ou seja, não codificados.</li>
+<li>dado um array de matrizes - para videos que foram descodificados (e se encontram, portanto, em memória)</li>
+</ul><pre><code class="python hljs"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">VideoPlayer</span>:</span>
+    <span class="hljs-string">"""
+    Class that implements a video player.
+    It either reads a file in 'y4m' format or a array of matrixes, and display it on a window, frame by frame.
+    """</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, filename=None, fromFile=True)</span>:</span>
+        self.fileName = filename
+        <span class="hljs-comment"># self.filePointer = 0</span>
+
+        self.mediaFormat = <span class="hljs-keyword">None</span>
+        self.height = <span class="hljs-number">0</span>
+        self.width = <span class="hljs-number">0</span>
+        self.frame = <span class="hljs-keyword">None</span>
+
+        self.spf = <span class="hljs-number">1</span>
+
+        self.fromFile = fromFile
+        self.arrayStream = <span class="hljs-keyword">None</span>
+        self.videoIndex = <span class="hljs-number">0</span>
+</code></pre><p><strong>Se fromFile==True</strong>, de um modo geral, a classe carrega um ficheiro de vídeo, abre uma nova janela no ambiente gráfico do sistema operativo e exibe o vídeo. A forma de o reproduzir encontra-se no seguinte excerto de código:</p><pre><code class="python hljs">
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    videoPlayer01 = VideoPlayer(<span class="hljs-string">"../media/park_joy_444_720p50.y4m"</span>)
+    videoPlayer01.openYUV()
+    
+    print(<span class="hljs-string">"for more, see: https://wiki.multimedia.cx/index.php?title=YUV4MPEG2"</span>)
+    <span class="hljs-keyword">while</span> (videoPlayer01.visualizeFrame()):
+        <span class="hljs-keyword">pass</span>
+</code></pre><p>Ao instanciar um novo objeto da classe <strong>VideoPlayer</strong>, é necessário especificar o caminho até ao ficheiro de vídeo a carregar. Após este passo, é necessário invocar o método <strong>openYUV()</strong>, de forma a ler o cabeçalho do ficheiro e consequentemente interpretar o seu conteúdo. Por fim, basta invocar o método <strong>visualizeFrame()</strong> num ciclo, visualizando o vídeo.</p><p><strong>Se  fromFile==False</strong>, o que acontece geralmente após um decode, então a classe irá ler 1 array de matrizes em memória.</p><pre><code class="python hljs">    <span class="hljs-keyword">if</span> <span class="hljs-keyword">True</span>:
+        info = (height, width, formatC1, fps1)
+        videoPlayer01 = VideoPlayer(fromFile=<span class="hljs-keyword">False</span>)
+        videoPlayer01.openInfo(info, decoded_matrixes)
+
+        <span class="hljs-keyword">while</span> (videoPlayer01.visualizeFrame()):
+            <span class="hljs-keyword">pass</span>
+</code></pre><p>As regras a seguir são idenficas à condição anterior, exceto que a função a ser chamada é <strong>openInfo()</strong> e os argumentos são como se podem observar acima.<br>
+Para um melhor entendimento, este excerto de código encontra-se no ficheiro <a href="http://video-decode.py" target="_blank" rel="noopener">video-decode.py</a> .</p><p>Internamente, para além de se utilizar as matrizes características do módulo <strong>numpy</strong> e do visualizador de imagens do <strong>opencv</strong>, estas são em grande parte encapsuladas na classe <strong>Frame</strong>, como irá ser explicado no próximo ponto.</p><p>De salientar ainda que este <em><strong>player</strong></em> de vídeo funciona para ficheiros com informação não comprimida (<em><strong>raw</strong></em>), para qualquer um dos três formatos.</p><h4 id="332-C"><a class="anchor hidden-xs" href="#332-C" title="332-C"><span class="octicon octicon-link"></span></a><strong>3.3.2 C++</strong></h4><p>Infelizmente, não conseguimos implementar esta classe em <strong>C++</strong>.</p><h3 id="34-Frame"><a class="anchor hidden-xs" href="#34-Frame" title="34-Frame"><span class="octicon octicon-link"></span></a><strong>3.4. Frame</strong></h3><p>Aplicando as boas práticas programação orientada a objetos, esta classe surge no sentido de extrair e manipular da melhor forma os dados lidos do ficheiro de vídeo <strong>y4m.</strong> Em cada momento do vídeo, esta classe contém todas as informações do respetivo <em><strong>frame</strong></em> em reprodução (com as componentes <strong>YUV</strong>).</p><h4 id="341-Python-3"><a class="anchor hidden-xs" href="#341-Python-3" title="341-Python-3"><span class="octicon octicon-link"></span></a><strong>3.4.1. Python 3</strong></h4><pre><code class="python hljs"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Frame</span><span class="hljs-params">(ABC)</span>:</span>
+    <span class="hljs-string">"""
+    Abstract class of a Frame.
+    """</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, height, width, fileName)</span>:</span>
+        self.height = height
+        self.width = width
+
+        self.YComponent = <span class="hljs-keyword">None</span>
+        self.UComponent = <span class="hljs-keyword">None</span>
+        self.VComponent = <span class="hljs-keyword">None</span>
+
+        <span class="hljs-comment"># so that we advance past the header</span>
+        self.file = open(fileName, <span class="hljs-string">"rb"</span>)
+        self.file.readline()
+
+<span class="hljs-meta">    @abstractmethod</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">advance</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-string">"""
+        Advances and consumes the current bunch of data, so that it can refresh the current set of matrices with new
+        ones.
+        :return whether or not the reading (and setting operation was successful)
+        """</span>
+        <span class="hljs-keyword">pass</span>
+
+<span class="hljs-meta">    @abstractmethod</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getY</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">return</span> self.YComponent
+
+<span class="hljs-meta">    @abstractmethod</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getU</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">return</span> self.UComponent
+
+<span class="hljs-meta">    @abstractmethod</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getV</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">return</span> self.VComponent
+
+</code></pre><p>De forma a abstrair a implementação de cada tipo de formato de cada frame, decidiu-se que esta classe <strong>Frame</strong> seria abstrata. Portanto, cada frame possui atributos relativos à sua <strong>altura</strong>, à sua <strong>largura</strong> e componentes <strong>Y, U e V.</strong></p><p>Relativamente ao método <strong>advance()</strong>, este carrega do ficheiro o <strong><em>frame</em> seguinte</strong>. Além disso, possuí três métodos <em>getters</em> que retornam uma matriz homóloga da respetiva componente (Y, U ou V).</p><pre><code class="python hljs"><span class="hljs-meta">@abstractmethod</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">advance</span><span class="hljs-params">(self)</span>:</span>...
+
+<span class="hljs-meta">@abstractmethod</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getY</span><span class="hljs-params">(self)</span>:</span>...
+
+<span class="hljs-meta">@abstractmethod</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getU</span><span class="hljs-params">(self)</span>:</span>...
+
+<span class="hljs-meta">@abstractmethod</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getV</span><span class="hljs-params">(self)</span>:</span>...
+</code></pre><p>Assim sendo, foram implementadas outras três classes, derivadas da classe <strong>Frame</strong>, representando os diferentes tipos de sub-amostras de crominância (respetivamente, formatos <strong>[4:4:4], [4:2:2] e [4:2:0]</strong>):</p><pre><code class="python hljs"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Frame444</span><span class="hljs-params">(Frame)</span>:</span>...
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Frame422</span><span class="hljs-params">(Frame)</span>:</span>...
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Frame420</span><span class="hljs-params">(Frame)</span>:</span>...
+</code></pre><p>O funcionamento de qualquer uma destas classes é muito simples. Após um objeto ser instanciado, apenas será necessário invocar o método <strong>advance()</strong> sempre que se quiser ler um <em>frame</em> do vídeo a partir do ficheiro. Esta classe é fundamental no <strong>Video Player</strong> e no <strong>codificador do vídeo</strong>, que será explicado no próximo ponto.</p><h4 id="342-C"><a class="anchor hidden-xs" href="#342-C" title="342-C"><span class="octicon octicon-link"></span></a><strong>3.4.2. C++</strong></h4><p>Relativamente à implementação destas quatro classes em <strong>C++</strong> (<em>Frame, Frame444, Frame422 e Frame 420</em>), deve-se dizer que é bastante semalhante à implementação em <strong>Python</strong>. A única diferença está na utilização de <strong>vetores de inteiros</strong> para representar cada componente <strong>Y, U, V</strong>, em vez das matrizes do módulo <strong>numpy</strong>.</p><h3 id="35-Preditores"><a class="anchor hidden-xs" href="#35-Preditores" title="35-Preditores"><span class="octicon octicon-link"></span></a><strong>3.5. Preditores</strong></h3><p>Outra grande tarefa proposta no enunciado do trabalho era a implementação de preditores lineares <strong>7JPEG</strong> e do preditor não-linear <strong>JPEG-LS</strong>. Para tal, decidiu-se implementar diversas classes, representando cada um dos diferentes preditores. Resumidamente, a principal função destes preditores é de calcular a diferença de um valor de uma determinada matriz das componentes <strong>Y, U ou V</strong> com um ou vários valores anteriores, de forma a reduzir a quantidade de informação a codificar.</p><h4 id="351-Python-3"><a class="anchor hidden-xs" href="#351-Python-3" title="351-Python-3"><span class="octicon octicon-link"></span></a><strong>3.5.1. Python 3</strong></h4><p>Tendo em conta o que foi dito no último parágrafo, de seguida segue-se um excerto de código com os diferentes preditores implementados.</p><p><strong>Nota:</strong> uma vez que apenas o método <strong>predict()</strong> é útil, estas classes não necessitam de ser instânciadas, pelo que foram declaradas como estáticas.</p><pre><code class="python hljs"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JPEG1</span>:</span>...
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JPEG2</span>:</span>...
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JPEG3</span>:</span>...
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JPEG4</span>:</span>...
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JPEG5</span>:</span>...
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JPEG6</span>:</span>...
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JPEG7</span>:</span>...
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JPEGLS</span>:</span>...
+</code></pre><h4 id="352-C"><a class="anchor hidden-xs" href="#352-C" title="352-C"><span class="octicon octicon-link"></span></a><strong>3.5.2. C++</strong></h4><p>Uma vez que não são permitidas classes estáticas em <strong>C++</strong>, decidimos implementar a mesma lógica com uma classe abstrata e classes derivadas desta, como se apresenta no seguinte excerto:</p><pre><code class="cpp hljs"><span class="token comment">/**
+ * Abstract class predictor;
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">Predictor</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span><span class="token operator">:</span> 
+        <span class="token keyword">virtual</span> <span class="token keyword">int</span> <span class="token function">predict</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">char</span> a<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> b<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> c<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">/**
+ * JPEG1 linear predictor.
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">JPEG1</span> <span class="token operator">:</span> <span class="token keyword">public</span> Predictor <span class="token punctuation">{</span>
+    <span class="token keyword">public</span><span class="token operator">:</span>
+        <span class="token keyword">int</span> <span class="token function">predict</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">char</span> a<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> b<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> c<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">return</span> a<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">/**
+ * JPEG2 linear predictor.
+ */</span>
+<span class="token keyword">class</span> <span class="token class-name">JPEG2</span> <span class="token operator">:</span> <span class="token keyword">public</span> Predictor <span class="token punctuation">{</span>
+    <span class="token keyword">public</span><span class="token operator">:</span>
+        <span class="token keyword">int</span> <span class="token function">predict</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">char</span> a<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> b<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> <span class="token keyword">char</span> c<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">return</span> b<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre><h3 id="36-Intra-Frame-EncoderDecoder"><a class="anchor hidden-xs" href="#36-Intra-Frame-EncoderDecoder" title="36-Intra-Frame-EncoderDecoder"><span class="octicon octicon-link"></span></a><strong>3.6. Intra Frame Encoder/Decoder</strong></h3><p>No seguimento do ponto anterior, surgem duas classes, que implementam um <strong>codificador intra-frame sem perdas de informação</strong> e o respetivo <strong>descodificador</strong>. Para tal, faz-se uso das classes <strong>Frame</strong> e <strong>Predictor</strong>, já explicadas anteriormente.</p><h4 id="361-Python-3"><a class="anchor hidden-xs" href="#361-Python-3" title="361-Python-3"><span class="octicon octicon-link"></span></a><strong>3.6.1 Python 3</strong></h4><pre><code class="python hljs"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">IntraFrameEncoder</span><span class="hljs-params">()</span>:</span>
+    <span class="hljs-string">"""
+    This class implements a lossless intra-frame encoder, using 7PEG linear predictors.
+    """</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, predictor)</span>:</span>...
+    
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">write_code</span><span class="hljs-params">(self, code)</span>:</span>...
+    
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">setMatrix</span><span class="hljs-params">(self, new_matrix)</span>:</span>...
+    
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">encode</span><span class="hljs-params">(self)</span>:</span>...
+    
+    
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">IntraFrameDecoder</span><span class="hljs-params">()</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, matrix, predictor)</span>:</span>...
+    
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">setMatrix</span><span class="hljs-params">(self, new_matrix)</span>:</span>...
+    
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">decode</span><span class="hljs-params">(self)</span>:</span>...
+</code></pre><p>Ao instanciar um novo objeto de cada uma destas classes, estas devem receber uma outra classe do tipo <strong>Preditor</strong>. Assim, e dando uso às boas práticas de programação orientada a objetos, apenas será necessário espeficiar como argumento do construtor destas duas classes, o preditor linear ou não linear a utilizar, não afetando as respetivas implementações internas. Em cada momento, este <strong>codificador</strong> e <strong>descodificador</strong> necessitam de saber qual a matriz da componente <strong>Y, U ou V</strong> de um determinado <em>frame</em> é que devem codificar/descodificar, sendo portando invocado o método <strong>setMatrix()</strong>. Com a utilização deste método, é evitada a constante instanciação de novos objetos destas classes.</p><p><strong>Nota:</strong> De seguida, reforça-se a intenção de procurar escrever código o mais eficiente possível, através da não utilização de <strong>condições <em>ifs</em></strong> desnecessárias.</p><pre><code class="python hljs"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">encode</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-string">"""
+        This method encodes the original matrix in a new one, based on the current predictor.
+        It also uses golomb codification for the entropy encoding.
+        """</span>
+        <span class="hljs-keyword">if</span> self.original_matrix <span class="hljs-keyword">is</span> <span class="hljs-keyword">None</span>:
+            logger.error(<span class="hljs-string">"No matrix to encode was given!"</span>)
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">False</span>
+
+        <span class="hljs-comment"># <span class="hljs-doctag">TODO:</span> ver o que é aquele K do stor</span>
+        <span class="hljs-comment"># write header with bitstream</span>
+        <span class="hljs-comment">#self.bitstream.writeString("{}\t{}".format(self.original_matrix.shape[0],self.original_matrix.shape[1]))</span>
+
+        <span class="hljs-comment"># matrix size/shape is the same no mather which one</span>
+        self.encoded_matrix[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>] = int(self.original_matrix[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>] - self.predictor.predict(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>))
+
+        <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, self.original_matrix.shape[<span class="hljs-number">1</span>]):
+            self.encoded_matrix[<span class="hljs-number">0</span>, col] = int(self.original_matrix[<span class="hljs-number">0</span>, col]) - self.predictor.predict(self.original_matrix[<span class="hljs-number">0</span>, col <span class="hljs-number">-1</span>], <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)
+
+        <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, self.original_matrix.shape[<span class="hljs-number">0</span>]):
+            self.encoded_matrix[line, <span class="hljs-number">0</span>] = int(self.original_matrix[line, <span class="hljs-number">0</span>]) - self.predictor.predict(<span class="hljs-number">0</span>, self.original_matrix[line - <span class="hljs-number">1</span>, <span class="hljs-number">0</span>], <span class="hljs-number">0</span>)
+
+        <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, self.original_matrix.shape[<span class="hljs-number">0</span>]):
+            <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, self.original_matrix.shape[<span class="hljs-number">1</span>]):
+               self.encoded_matrix[line, col] = int(self.original_matrix[line, col]) - self.predictor.predict(
+                    self.original_matrix[line, col - <span class="hljs-number">1</span>], self.original_matrix[line - <span class="hljs-number">1</span>, col], self.original_matrix[line - <span class="hljs-number">1</span>, col <span class="hljs-number">-1</span>])
+</code></pre><h4 id="362-C"><a class="anchor hidden-xs" href="#362-C" title="362-C"><span class="octicon octicon-link"></span></a><strong>3.6.2. C++</strong></h4><p>Relativamente à implementação da classe <strong>IntraFrameEncoder</strong> em <strong>C++</strong>, de salientar que esta é muito semelhante à implementada em <strong>Python</strong>.</p><h4 id="363-Nota"><a class="anchor hidden-xs" href="#363-Nota" title="363-Nota"><span class="octicon octicon-link"></span></a><strong>3.6.3. Nota</strong></h4><pre><code class="pytho hljs"><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">'__main__'</span>:
+
+    frame = Frame444(<span class="hljs-number">720</span>, <span class="hljs-number">1280</span>, <span class="hljs-string">"../media/park_joy_444_720p50.y4m"</span>)
+
+    total = <span class="hljs-number">0</span>
+    firstFrame = <span class="hljs-keyword">True</span>
+    ife = IntraFrameEncoder(predictors.JPEG1)
+    frames_no = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">while</span> <span class="hljs-keyword">True</span>:
+        start = datetime.datetime.now()
+        playing = frame.advance()
+
+        <span class="hljs-comment"># movie end</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> playing:
+            <span class="hljs-keyword">break</span>
+
+        <span class="hljs-comment"># encode Y matrix</span>
+        matrix = frame.getY()
+        ife.setMatrix(matrix)
+        <span class="hljs-keyword">if</span> firstFrame:
+            firstFrame = <span class="hljs-keyword">False</span>
+            ife.bitstream.writeString(<span class="hljs-string">"F500\tH720\tW1280\tC444\tS50"</span>)  <span class="hljs-comment"># has to be concordant with Frame initialization above</span>
+        ife.encode()
+</code></pre><p>No exemplo ilustrado, repare-se no método <em>writeString()</em> inserido no bloco de <em>firstFrame</em>: Este é por defeito o <strong>header</strong> dos ficheiros codificados, e é recomendável que mantenha esta estrutura para o bom funcionamento do código. Este <strong>header</strong> contém a seguinte informação: número de frames, altura, largura, formato e frames por segundo. Este último deve ser conhecido pelo utilizador, e escrito de forma concordante com o vídeo original.<br>
+Salienta-se o comentário que se segue, que indica que este header deve ir ao encontro da classe <em>Frame</em> definida em cima.<br>
+Isto acontece tanto em Python 3 como em C++.</p><h2 id="4-Execução-dos-programas"><a class="anchor hidden-xs" href="#4-Execução-dos-programas" title="4-Execução-dos-programas"><span class="octicon octicon-link"></span></a>4. Execução dos programas</h2><p>Este ponto serve para exemplificar a execução dos nossos programas de teste.</p><h3 id="41-BitStream"><a class="anchor hidden-xs" href="#41-BitStream" title="41-BitStream"><span class="octicon octicon-link"></span></a><strong>4.1. BitStream</strong></h3><h4 id="Python-3"><a class="anchor hidden-xs" href="#Python-3" title="Python-3"><span class="octicon octicon-link"></span></a><strong>Python 3</strong></h4><pre><code class="console hljs"><span class="hljs-meta">$</span><span class="bash"> <span class="hljs-built_in">cd</span> python/src/bitstream</span>
+<span class="hljs-meta">$</span><span class="bash"> python3 test_bitstream.py</span>
+</code></pre><h4 id="C"><a class="anchor hidden-xs" href="#C" title="C"><span class="octicon octicon-link"></span></a><strong>C++</strong></h4><pre><code class="console hljs"><span class="hljs-meta">$</span><span class="bash"> <span class="hljs-built_in">cd</span> cpp/src/bitstream</span>
+<span class="hljs-meta">$</span><span class="bash"> g++ testing_BitStream.cpp -o testing_BitStream</span>
+<span class="hljs-meta">$</span><span class="bash"> ./testing_BitStream</span>
+</code></pre><h3 id="42-Golomb"><a class="anchor hidden-xs" href="#42-Golomb" title="42-Golomb"><span class="octicon octicon-link"></span></a><strong>4.2. Golomb</strong></h3><h4 id="Python-31"><a class="anchor hidden-xs" href="#Python-31" title="Python-31"><span class="octicon octicon-link"></span></a><strong>Python 3</strong></h4><pre><code class="console hljs"><span class="hljs-meta">$</span><span class="bash"> <span class="hljs-built_in">cd</span> python/src/golomb</span>
+<span class="hljs-meta">$</span><span class="bash"> python3 test_golomb.py</span>
+</code></pre><h4 id="C1"><a class="anchor hidden-xs" href="#C1" title="C1"><span class="octicon octicon-link"></span></a><strong>C++</strong></h4><pre><code class="console hljs"><span class="hljs-meta">$</span><span class="bash"> <span class="hljs-built_in">cd</span> cpp/src/golomb</span>
+<span class="hljs-meta">$</span><span class="bash"> g++ test.cpp -o <span class="hljs-built_in">test</span></span>
+<span class="hljs-meta">$</span><span class="bash"> ./<span class="hljs-built_in">test</span></span>
+</code></pre><h3 id="43-Video-Player"><a class="anchor hidden-xs" href="#43-Video-Player" title="43-Video-Player"><span class="octicon octicon-link"></span></a><strong>4.3. Video Player</strong></h3><h4 id="Python-32"><a class="anchor hidden-xs" href="#Python-32" title="Python-32"><span class="octicon octicon-link"></span></a><strong>Python 3</strong></h4><pre><code class="console hljs"><span class="hljs-meta">$</span><span class="bash"> <span class="hljs-built_in">cd</span> python/src/</span>
+<span class="hljs-meta">$</span><span class="bash"> python3 VideoPlayer.py</span>
+</code></pre><p><strong>Nota importate:</strong> Para alterar o vídeo a ser reproduzido, deve primeiro colocá-lo na pasta <strong>python/media</strong>, e de seguida especificar o caminho até ele no ficheiro <strong><a href="http://VideoPlayer.py" target="_blank" rel="noopener">VideoPlayer.py</a>.</strong></p><pre><code class="python3 hljs"><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    videoPlayer01 = VideoPlayer(<span class="hljs-string">"../media/park_joy_444_720p50.y4m"</span>)
+</code></pre><h3 id="44-Codificador-Intra-Frame"><a class="anchor hidden-xs" href="#44-Codificador-Intra-Frame" title="44-Codificador-Intra-Frame"><span class="octicon octicon-link"></span></a>4.4. Codificador Intra-Frame</h3><h4 id="Python-33"><a class="anchor hidden-xs" href="#Python-33" title="Python-33"><span class="octicon octicon-link"></span></a><strong>Python 3</strong></h4><pre><code class="console hljs"><span class="hljs-meta">$</span><span class="bash"> <span class="hljs-built_in">cd</span> python/src</span>
+<span class="hljs-meta">$</span><span class="bash"> python3 video-encoder.py</span>
+</code></pre><h4 id="C2"><a class="anchor hidden-xs" href="#C2" title="C2"><span class="octicon octicon-link"></span></a><strong>C++</strong></h4><pre><code class="console hljs"><span class="hljs-meta">$</span><span class="bash"> <span class="hljs-built_in">cd</span> cpp/src</span>
+<span class="hljs-meta">$</span><span class="bash"> cmake .</span>
+<span class="hljs-meta">$</span><span class="bash"> make</span>
+<span class="hljs-meta">$</span><span class="bash"> ./VideoEncoder</span>
+</code></pre><p>Estes dois programas codificam o vídeo <em><strong>park_joy_444_720p50.y4m</strong></em>, presente na pasta <strong>python/media/</strong> (PARA AMBAS AS LINGUAGENS!), e guardam o resultado na pasta <strong>python/out/</strong> e <strong>cpp/out/</strong>.</p><h3 id="45-Descodificador-Intra-Frame"><a class="anchor hidden-xs" href="#45-Descodificador-Intra-Frame" title="45-Descodificador-Intra-Frame"><span class="octicon octicon-link"></span></a>4.5. Descodificador Intra-Frame</h3><h4 id="Python-34"><a class="anchor hidden-xs" href="#Python-34" title="Python-34"><span class="octicon octicon-link"></span></a><strong>Python 3</strong></h4><pre><code class="console hljs"><span class="hljs-meta">$</span><span class="bash"> <span class="hljs-built_in">cd</span> python/src</span>
+<span class="hljs-meta">$</span><span class="bash"> python3 video-decoder.py</span>
+</code></pre><p>Este programa descodifica o vídeo codificado com apenas 3 frames,  <em><strong>3_frames_encoded_park_joy_444_720p_50.bin</strong></em>, presente na pasta <strong>python/out/</strong>, exibindo-o numa janela do ambiente gráfico do sistema operativo com o auxílio do <strong>VideoPlayer.</strong></p><h2 id="5-Considerações-e-Notas"><a class="anchor hidden-xs" href="#5-Considerações-e-Notas" title="5-Considerações-e-Notas"><span class="octicon octicon-link"></span></a>5. Considerações e Notas</h2><h3 id="51-Compressão-444-em-Python-3"><a class="anchor hidden-xs" href="#51-Compressão-444-em-Python-3" title="51-Compressão-444-em-Python-3"><span class="octicon octicon-link"></span></a>5.1. Compressão 4:4:4 em Python 3</h3><p>Com o intuito de testar o nosso compressor de vídeo, decidimos fazê-lo codificando o vídeo <em><strong>park_joy_444_720p50.y4m</strong></em>, no formato <strong>4:4:4</strong>. No entanto, apenas codificamos metade dos frames presentes no mesmo, para pouparmos tempo.</p><p>Na seguinte imagem mostra-se o <em>output</em> no terminal dessa compressão.</p><p><img src="https://i.imgur.com/JVcg9KR.png" alt="Python3 4:4:4 compressed"></p><p>Como se pode constantar, o tempo de compressão de um frame está dentro do intervalo de 14 a 16 segundos, sendo que são necessários 3680 segundos (aproximadamente <strong>1 hora</strong>). Assumimos que este valor temporal não é ótimo mas que foi, genuinamente, o melhor que conseguimos, face a diversos fatores envolvidos como os conhecimentos de ambos os elementos do grupo, ferramentas utilizadas e tempo disponível.</p><p>Salienta-se ainda que, para testar os restantes formatos, optou-se apenas por comprimir um número reduzido de frames, para comprovar a sua funcionalidade.</p><p>Relativamente ao preditor utilizado, optámos por manter o <strong>JPEG1</strong>, por não se justificar testar a compressão de vídeo exaustivamente com todos os preditores implementados.</p><h3 id="52-C"><a class="anchor hidden-xs" href="#52-C" title="52-C"><span class="octicon octicon-link"></span></a>5.2. C++</h3><p>Devido a limitações temporais e às dificuldades inerentas a esta linguagem de baixo nível, não foi possível implementar todas as classes que desejaríamos (em especial o <strong>VideoPlayer</strong> nesta linguagem). No entanto, pensamos que as restantes classes foram implementadas com sucesso, ainda que talvez não na sua máxima eficiência.<br>
+Ainda assim, por frame conseguimos tempos à volta dos 6 segundos de compressão por frame, o que ilustra bem a diferença entre as duas linguagens.</p><h3 id="53-Compressão-de-250-Frames"><a class="anchor hidden-xs" href="#53-Compressão-de-250-Frames" title="53-Compressão-de-250-Frames"><span class="octicon octicon-link"></span></a>5.3 Compressão de 250 Frames</h3><p>Em jeito de análise, foram comprimidos <strong>250 frames de vídeo</strong> em Python 3, no formato <strong>4:4:4</strong> e utilizando o preditor JPEG1, como referido anteriormente.<br>
+Este ficheiro codificado ocupa cerca de <strong>461.5Mb</strong>, o que, relativamente ao original no mesmo número de frames (<strong>720 * 1280 * 3 * 250 ~= 691MB</strong>), representa uma taxa de compressão de aproximadamente <strong>33%</strong>, à qual achamos satisfatória.</p><h2 id="6-Conclusão"><a class="anchor hidden-xs" href="#6-Conclusão" title="6-Conclusão"><span class="octicon octicon-link"></span></a>6. Conclusão</h2><p>Após a realização deste projeto, destaca-se sobretudo a obtenção de novas competências por parte de ambos os elementos do grupo. Destaca-se o aumento de conhecimentos sobre os seguintes tópidos:</p><ul>
+<li>Paradigma de programação orientada a objetos</li>
+<li>Linguagens de programação <strong>Python</strong> e <strong>C++</strong></li>
+<li>Módulos <strong>Numpy</strong> e <strong>OpenCV</strong></li>
+<li>Processamento de informação de um vídeo</li>
+</ul><p>Ainda que não tivéssemos conseguido implementar todas as tarefas pedidas no enunciado do projeto, salientamos que os objetivos alcançados foram muito importantes no melhoramento das competências enumeradas em cima.</p><p>De um modo geral, este trabalho, apesar de desafiador, foi muito interessante.</p><h2 id="7-Bibliografia"><a class="anchor hidden-xs" href="#7-Bibliografia" title="7-Bibliografia"><span class="octicon octicon-link"></span></a>7. Bibliografia</h2><ul>
+<li>[Página da UC](<a href="https://elearning.ua.pt/course/view.php?id=7133" target="_blank" rel="noopener">https://elearning.ua.pt/course/view.php?id=7133</a></li>
+<li><a href="https://numpy.org/" target="_blank" rel="noopener">https://numpy.org/</a></li>
+<li><a href="https://opencv.org/" target="_blank" rel="noopener">https://opencv.org/</a></li>
+</ul></div>
+    <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
+        <div class="pull-right dropdown">
+            <a id="tocLabel" class="ui-toc-label btn btn-default" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">
+                <i class="fa fa-bars"></i>
+            </a>
+            <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel">
+                <div class="toc"><ul class="nav">
+<li class=""><a href="#Projeto-No-3---Video-Encoding" title="Projeto No. 3 - Video Encoding">Projeto No. 3 - Video Encoding</a><ul class="nav">
+<li class=""><a href="#Autores" title="Autores">Autores</a></li>
+<li class=""><a href="#Docente-orientador" title="Docente orientador">Docente orientador</a></li>
+<li class=""><a href="#1-Introdução" title="1. Introdução">1. Introdução</a></li>
+<li><a href="#2-Repositório" title="2. Repositório">2. Repositório</a></li>
+<li><a href="#3-Implementação" title="3. Implementação">3. Implementação</a><ul class="nav">
+<li><a href="#31-BitStream" title="3.1. BitStream">3.1. BitStream</a></li>
+<li><a href="#32-Golomb" title="3.2. Golomb">3.2. Golomb</a></li>
+<li><a href="#33-Video-Player" title="3.3. Video Player">3.3. Video Player</a></li>
+<li><a href="#34-Frame" title="3.4. Frame">3.4. Frame</a></li>
+<li><a href="#35-Preditores" title="3.5. Preditores">3.5. Preditores</a></li>
+<li><a href="#36-Intra-Frame-EncoderDecoder" title="3.6. Intra Frame Encoder/Decoder">3.6. Intra Frame Encoder/Decoder</a></li>
+</ul>
+</li>
+<li><a href="#4-Execução-dos-programas" title="4. Execução dos programas">4. Execução dos programas</a><ul class="nav">
+<li><a href="#41-BitStream" title="4.1. BitStream">4.1. BitStream</a></li>
+<li><a href="#42-Golomb" title="4.2. Golomb">4.2. Golomb</a></li>
+<li><a href="#43-Video-Player" title="4.3. Video Player">4.3. Video Player</a></li>
+<li><a href="#44-Codificador-Intra-Frame" title="4.4. Codificador Intra-Frame">4.4. Codificador Intra-Frame</a></li>
+<li><a href="#45-Descodificador-Intra-Frame" title="4.5. Descodificador Intra-Frame">4.5. Descodificador Intra-Frame</a></li>
+</ul>
+</li>
+<li><a href="#5-Considerações-e-Notas" title="5. Considerações e Notas">5. Considerações e Notas</a><ul class="nav">
+<li><a href="#51-Compressão-444-em-Python-3" title="5.1. Compressão 4:4:4 em Python 3">5.1. Compressão 4:4:4 em Python 3</a></li>
+<li><a href="#52-C" title="5.2. C++">5.2. C++</a></li>
+<li><a href="#53-Compressão-de-250-Frames" title="5.3 Compressão de 250 Frames">5.3 Compressão de 250 Frames</a></li>
+</ul>
+</li>
+<li><a href="#6-Conclusão" title="6. Conclusão">6. Conclusão</a></li>
+<li><a href="#7-Bibliografia" title="7. Bibliografia">7. Bibliografia</a></li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+            </ul>
+        </div>
+    </div>
+    <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="top:17px;display:none;" null null>
+        <div class="toc"><ul class="nav">
+<li class=""><a href="#Projeto-No-3---Video-Encoding" title="Projeto No. 3 - Video Encoding">Projeto No. 3 - Video Encoding</a><ul class="nav">
+<li class=""><a href="#Autores" title="Autores">Autores</a></li>
+<li class=""><a href="#Docente-orientador" title="Docente orientador">Docente orientador</a></li>
+<li class=""><a href="#1-Introdução" title="1. Introdução">1. Introdução</a></li>
+<li><a href="#2-Repositório" title="2. Repositório">2. Repositório</a></li>
+<li><a href="#3-Implementação" title="3. Implementação">3. Implementação</a><ul class="nav">
+<li><a href="#31-BitStream" title="3.1. BitStream">3.1. BitStream</a></li>
+<li><a href="#32-Golomb" title="3.2. Golomb">3.2. Golomb</a></li>
+<li><a href="#33-Video-Player" title="3.3. Video Player">3.3. Video Player</a></li>
+<li><a href="#34-Frame" title="3.4. Frame">3.4. Frame</a></li>
+<li><a href="#35-Preditores" title="3.5. Preditores">3.5. Preditores</a></li>
+<li><a href="#36-Intra-Frame-EncoderDecoder" title="3.6. Intra Frame Encoder/Decoder">3.6. Intra Frame Encoder/Decoder</a></li>
+</ul>
+</li>
+<li><a href="#4-Execução-dos-programas" title="4. Execução dos programas">4. Execução dos programas</a><ul class="nav">
+<li><a href="#41-BitStream" title="4.1. BitStream">4.1. BitStream</a></li>
+<li><a href="#42-Golomb" title="4.2. Golomb">4.2. Golomb</a></li>
+<li><a href="#43-Video-Player" title="4.3. Video Player">4.3. Video Player</a></li>
+<li><a href="#44-Codificador-Intra-Frame" title="4.4. Codificador Intra-Frame">4.4. Codificador Intra-Frame</a></li>
+<li><a href="#45-Descodificador-Intra-Frame" title="4.5. Descodificador Intra-Frame">4.5. Descodificador Intra-Frame</a></li>
+</ul>
+</li>
+<li><a href="#5-Considerações-e-Notas" title="5. Considerações e Notas">5. Considerações e Notas</a><ul class="nav">
+<li><a href="#51-Compressão-444-em-Python-3" title="5.1. Compressão 4:4:4 em Python 3">5.1. Compressão 4:4:4 em Python 3</a></li>
+<li><a href="#52-C" title="5.2. C++">5.2. C++</a></li>
+<li><a href="#53-Compressão-de-250-Frames" title="5.3 Compressão de 250 Frames">5.3 Compressão de 250 Frames</a></li>
+</ul>
+</li>
+<li><a href="#6-Conclusão" title="6. Conclusão">6. Conclusão</a></li>
+<li><a href="#7-Bibliografia" title="7. Bibliografia">7. Bibliografia</a></li>
+</ul>
+</li>
+</ul>
+</div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.6.0/gist-embed.min.js" integrity="sha256-KyF2D6xPIJUW5sUDSs93vWyZm+1RzIpKCexxElmxl8g=" crossorigin="anonymous" defer></script>
+    <script>
+        var markdown = $(".markdown-body");
+        //smooth all hash trigger scrolling
+        function smoothHashScroll() {
+            var hashElements = $("a[href^='#']").toArray();
+            for (var i = 0; i < hashElements.length; i++) {
+                var element = hashElements[i];
+                var $element = $(element);
+                var hash = element.hash;
+                if (hash) {
+                    $element.on('click', function (e) {
+                        // store hash
+                        var hash = this.hash;
+                        if ($(hash).length <= 0) return;
+                        // prevent default anchor click behavior
+                        e.preventDefault();
+                        // animate
+                        $('body, html').stop(true, true).animate({
+                            scrollTop: $(hash).offset().top
+                        }, 100, "linear", function () {
+                            // when done, add hash to url
+                            // (default click behaviour)
+                            window.location.hash = hash;
+                        });
+                    });
+                }
+            }
+        }
+
+        smoothHashScroll();
+        var toc = $('.ui-toc');
+        var tocAffix = $('.ui-affix-toc');
+        var tocDropdown = $('.ui-toc-dropdown');
+        //toc
+        tocDropdown.click(function (e) {
+            e.stopPropagation();
+        });
+
+        var enoughForAffixToc = true;
+
+        function generateScrollspy() {
+            $(document.body).scrollspy({
+                target: ''
+            });
+            $(document.body).scrollspy('refresh');
+            if (enoughForAffixToc) {
+                toc.hide();
+                tocAffix.show();
+            } else {
+                tocAffix.hide();
+                toc.show();
+            }
+            $(document.body).scroll();
+        }
+
+        function windowResize() {
+            //toc right
+            var paddingRight = parseFloat(markdown.css('padding-right'));
+            var right = ($(window).width() - (markdown.offset().left + markdown.outerWidth() - paddingRight));
+            toc.css('right', right + 'px');
+            //affix toc left
+            var newbool;
+            var rightMargin = (markdown.parent().outerWidth() - markdown.outerWidth()) / 2;
+            //for ipad or wider device
+            if (rightMargin >= 133) {
+                newbool = true;
+                var affixLeftMargin = (tocAffix.outerWidth() - tocAffix.width()) / 2;
+                var left = markdown.offset().left + markdown.outerWidth() - affixLeftMargin;
+                tocAffix.css('left', left + 'px');
+            } else {
+                newbool = false;
+            }
+            if (newbool != enoughForAffixToc) {
+                enoughForAffixToc = newbool;
+                generateScrollspy();
+            }
+        }
+        $(window).resize(function () {
+            windowResize();
+        });
+        $(document).ready(function () {
+            windowResize();
+            generateScrollspy();
+        });
+
+        //remove hash
+        function removeHash() {
+            window.location.hash = '';
+        }
+
+        var backtotop = $('.back-to-top');
+        var gotobottom = $('.go-to-bottom');
+
+        backtotop.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToTop)
+                scrollToTop();
+            removeHash();
+        });
+        gotobottom.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToBottom)
+                scrollToBottom();
+            removeHash();
+        });
+
+        var toggle = $('.expand-toggle');
+        var tocExpand = false;
+
+        checkExpandToggle();
+        toggle.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            tocExpand = !tocExpand;
+            checkExpandToggle();
+        })
+
+        function checkExpandToggle () {
+            var toc = $('.ui-toc-dropdown .toc');
+            var toggle = $('.expand-toggle');
+            if (!tocExpand) {
+                toc.removeClass('expand');
+                toggle.text('Expand all');
+            } else {
+                toc.addClass('expand');
+                toggle.text('Collapse all');
+            }
+        }
+
+        function scrollToTop() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: 0
+            }, 100, "linear");
+        }
+
+        function scrollToBottom() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: $(document.body)[0].scrollHeight
+            }, 100, "linear");
+        }
+    </script>
+</body>
+
+</html>
